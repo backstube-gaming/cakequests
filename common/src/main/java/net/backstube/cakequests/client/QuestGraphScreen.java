@@ -12,11 +12,13 @@ import net.minecraft.network.chat.TextComponent;
 public class QuestGraphScreen extends Screen {
     private static final int TAB_WIDTH = 112;
     private static final int NODE_SIZE = 28;
+    private static final int DETAILS_MARGIN = 10;
     private int selectedTab;
     private QuestNodeDefinition selectedNode;
     private double panX = 80;
     private double panY = 80;
     private double zoom = 1.0D;
+    private boolean draggingGraph;
 
     public QuestGraphScreen() {
         super(new TextComponent("Cake Quests"));
@@ -32,19 +34,25 @@ public class QuestGraphScreen extends Screen {
         renderBackground(poseStack);
         QuestBookDefinition book = ClientQuestGraphStore.activeBook();
         GuiComponent.fill(poseStack, 0, 0, width, height, 0xEE191B22);
-        renderTabs(poseStack, book);
         if (book.tabs().isEmpty()) {
+            renderTabs(poseStack, book);
             drawCenteredString(poseStack, font, "No quest graphs loaded", width / 2, height / 2 - 4, 0xFFE5E7EB);
             super.render(poseStack, mouseX, mouseY, partialTick);
             return;
         }
         QuestTabDefinition tab = book.tabs().get(Math.max(0, Math.min(selectedTab, book.tabs().size() - 1)));
-        renderGraph(poseStack, tab, mouseX, mouseY);
+        QuestNodeDefinition hover = renderGraph(poseStack, tab, mouseX, mouseY);
+        renderTabs(poseStack, book);
         renderDetails(poseStack, tab);
+        if (hover != null && !draggingGraph && !isInsideDetails(mouseX, mouseY)) {
+            renderTooltip(poseStack, hover.title().component(), mouseX, mouseY);
+        }
         super.render(poseStack, mouseX, mouseY, partialTick);
     }
 
     private void renderTabs(PoseStack poseStack, QuestBookDefinition book) {
+        poseStack.pushPose();
+        poseStack.translate(0.0D, 0.0D, 250.0D);
         GuiComponent.fill(poseStack, 0, 0, TAB_WIDTH, height, 0xF0262932);
         font.draw(poseStack, title, 12, 12, 0xFFFFFFFF);
         font.draw(poseStack, ClientQuestGraphStore.fallbackMode() ? "Fallback" : "Server", 12, 25, 0xFF9CA3AF);
@@ -56,9 +64,10 @@ public class QuestGraphScreen extends Screen {
             font.draw(poseStack, tab.title().component(), 16, y + 8, 0xFFFFFFFF);
             y += 28;
         }
+        poseStack.popPose();
     }
 
-    private void renderGraph(PoseStack poseStack, QuestTabDefinition tab, int mouseX, int mouseY) {
+    private QuestNodeDefinition renderGraph(PoseStack poseStack, QuestTabDefinition tab, int mouseX, int mouseY) {
         int left = TAB_WIDTH;
         GuiComponent.fill(poseStack, left, 0, width, height, 0xFF101218);
         poseStack.pushPose();
@@ -74,15 +83,16 @@ public class QuestGraphScreen extends Screen {
         }
         QuestNodeDefinition hover = null;
         for (QuestNodeDefinition node : tab.nodes()) {
-            renderNode(poseStack, tab, node);
+            renderNodeFrame(poseStack, tab, node);
             if (hitNode(mouseX, mouseY, node)) {
                 hover = node;
             }
         }
         poseStack.popPose();
-        if (hover != null) {
-            renderTooltip(poseStack, hover.title().component(), mouseX, mouseY);
+        for (QuestNodeDefinition node : tab.nodes()) {
+            renderNodeIcon(poseStack, tab, node);
         }
+        return hover;
     }
 
     private void drawEdge(PoseStack poseStack, int x1, int y1, int x2, int y2, int color) {
@@ -95,7 +105,7 @@ public class QuestGraphScreen extends Screen {
         }
     }
 
-    private void renderNode(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
+    private void renderNodeFrame(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
         QuestNodeState state = ClientAdvancementBridge.state(tab, node);
         int color = stateColor(state, node.color());
         int x = node.x() - NODE_SIZE / 2;
@@ -110,11 +120,20 @@ public class QuestGraphScreen extends Screen {
             GuiComponent.fill(poseStack, x, y, x + NODE_SIZE, y + NODE_SIZE, color);
         }
         GuiComponent.fill(poseStack, x + 3, y + 3, x + NODE_SIZE - 3, y + NODE_SIZE - 3, 0xFF20242D);
-        minecraft.getItemRenderer().renderAndDecorateItem(node.icon().stack(), x + 6, y + 6);
         if (state == QuestNodeState.COMPLETE) {
             GuiComponent.fill(poseStack, x + 20, y + 20, x + 27, y + 27, 0xFF62D26F);
         } else if (state == QuestNodeState.LOCKED) {
             GuiComponent.fill(poseStack, x + 20, y + 20, x + 27, y + 27, 0xFF6B7280);
+        }
+    }
+
+    private void renderNodeIcon(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
+        QuestNodeState state = ClientAdvancementBridge.state(tab, node);
+        int x = screenX(node.x()) - 8;
+        int y = screenY(node.y()) - 8;
+        minecraft.getItemRenderer().renderAndDecorateItem(node.icon().stack(), x, y);
+        if (state == QuestNodeState.LOCKED) {
+            GuiComponent.fill(poseStack, x, y, x + 16, y + 16, 0x88000000);
         }
     }
 
@@ -130,18 +149,54 @@ public class QuestGraphScreen extends Screen {
         if (selectedNode == null) {
             return;
         }
-        int panelWidth = Math.min(260, width - TAB_WIDTH - 20);
-        int left = width - panelWidth - 10;
-        int top = 10;
-        GuiComponent.fill(poseStack, left, top, width - 10, height - 10, 0xF02A2E38);
-        font.draw(poseStack, selectedNode.title().component(), left + 14, top + 14, 0xFFFFFFFF);
-        font.draw(poseStack, selectedNode.subtitle().component(), left + 14, top + 29, 0xFFB6BCC8);
-        font.draw(poseStack, ClientAdvancementBridge.state(tab, selectedNode).name(), left + 14, top + 48, 0xFF9CA3AF);
-        font.draw(poseStack, selectedNode.advancement().toString(), left + 14, top + 62, 0xFF9CA3AF);
-        int y = top + 86;
+        int panelWidth = detailsWidth();
+        int left = detailsLeft(panelWidth);
+        int top = DETAILS_MARGIN;
+        int right = width - DETAILS_MARGIN;
+        int bottom = height - DETAILS_MARGIN;
+        int textLeft = left + 42;
+        QuestNodeState state = ClientAdvancementBridge.state(tab, selectedNode);
+        poseStack.pushPose();
+        poseStack.translate(0.0D, 0.0D, 300.0D);
+        GuiComponent.fill(poseStack, left, top, right, bottom, 0xF02A2E38);
+        GuiComponent.fill(poseStack, left, top, right, top + 42, 0xF0363B47);
+        GuiComponent.fill(poseStack, width - 30, top + 8, width - 18, top + 20, 0xFF3D4350);
+        drawCenteredString(poseStack, font, "x", width - 24, top + 10, 0xFFFFFFFF);
+        GuiComponent.fill(poseStack, left + 12, top + 10, left + 34, top + 32, stateColor(state, selectedNode.color()));
+        GuiComponent.fill(poseStack, left + 15, top + 13, left + 31, top + 29, 0xFF20242D);
+        minecraft.getItemRenderer().renderAndDecorateItem(selectedNode.icon().stack(), left + 15, top + 13);
+        renderStateIcon(poseStack, state, right - 50, top + 14);
+        font.draw(poseStack, selectedNode.title().component(), textLeft, top + 10, 0xFFFFFFFF);
+        font.draw(poseStack, selectedNode.subtitle().component(), textLeft, top + 24, 0xFFB6BCC8);
+        GuiComponent.fill(poseStack, left + 12, top + 50, right - 12, top + 51, 0xFF454B58);
+        int y = top + 62;
         for (var line : selectedNode.description()) {
-            font.draw(poseStack, line.component(), left + 14, y, 0xFFE5E7EB);
-            y += 12;
+            for (var wrapped : font.split(line.component(), panelWidth - 28)) {
+                font.draw(poseStack, wrapped, left + 14, y, 0xFFE5E7EB);
+                y += 11;
+            }
+            y += 5;
+            if (y > bottom - 14) {
+                break;
+            }
+        }
+        poseStack.popPose();
+    }
+
+    private void renderStateIcon(PoseStack poseStack, QuestNodeState state, int x, int y) {
+        if (state == QuestNodeState.COMPLETE) {
+            GuiComponent.fill(poseStack, x + 1, y + 7, x + 5, y + 11, 0xFF62D26F);
+            GuiComponent.fill(poseStack, x + 5, y + 9, x + 8, y + 12, 0xFF62D26F);
+            GuiComponent.fill(poseStack, x + 8, y + 4, x + 13, y + 8, 0xFF62D26F);
+        } else if (state == QuestNodeState.LOCKED) {
+            GuiComponent.fill(poseStack, x + 3, y + 7, x + 13, y + 15, 0xFFC3C8D0);
+            GuiComponent.fill(poseStack, x + 5, y + 3, x + 11, y + 5, 0xFFC3C8D0);
+            GuiComponent.fill(poseStack, x + 4, y + 5, x + 6, y + 8, 0xFFC3C8D0);
+            GuiComponent.fill(poseStack, x + 10, y + 5, x + 12, y + 8, 0xFFC3C8D0);
+            GuiComponent.fill(poseStack, x + 7, y + 10, x + 9, y + 13, 0xFF2A2E38);
+        } else {
+            GuiComponent.fill(poseStack, x + 4, y + 4, x + 12, y + 12, 0xFFE9C46A);
+            GuiComponent.fill(poseStack, x + 6, y + 6, x + 10, y + 10, 0xFF2A2E38);
         }
     }
 
@@ -156,6 +211,13 @@ public class QuestGraphScreen extends Screen {
                 return true;
             }
         } else if (!book.tabs().isEmpty()) {
+            if (selectedNode != null && isCloseDetails(mouseX, mouseY)) {
+                selectedNode = null;
+                return true;
+            }
+            if (isInsideDetails(mouseX, mouseY)) {
+                return true;
+            }
             QuestTabDefinition tab = book.tabs().get(selectedTab);
             for (QuestNodeDefinition node : tab.nodes()) {
                 if (hitNode(mouseX, mouseY, node)) {
@@ -163,13 +225,15 @@ public class QuestGraphScreen extends Screen {
                     return true;
                 }
             }
+            selectedNode = null;
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (button == 0 && mouseX > TAB_WIDTH) {
+        if (button == 0 && mouseX > TAB_WIDTH && !isInsideDetails(mouseX, mouseY)) {
+            draggingGraph = true;
             panX += dragX;
             panY += dragY;
             return true;
@@ -178,12 +242,29 @@ public class QuestGraphScreen extends Screen {
     }
 
     @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (button == 0) {
+            draggingGraph = false;
+        }
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        if (mouseX > TAB_WIDTH) {
+        if (mouseX > TAB_WIDTH && !isInsideDetails(mouseX, mouseY)) {
             zoom = Math.max(0.5D, Math.min(2.0D, zoom + delta * 0.1D));
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, delta);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (selectedNode != null && keyCode == 256) {
+            selectedNode = null;
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     private boolean hitNode(double mouseX, double mouseY, QuestNodeDefinition node) {
@@ -191,5 +272,35 @@ public class QuestGraphScreen extends Screen {
         double graphY = (mouseY - panY) / zoom;
         return graphX >= node.x() - NODE_SIZE / 2.0D && graphX <= node.x() + NODE_SIZE / 2.0D
                 && graphY >= node.y() - NODE_SIZE / 2.0D && graphY <= node.y() + NODE_SIZE / 2.0D;
+    }
+
+    private int screenX(int graphX) {
+        return (int) Math.round(TAB_WIDTH + panX + graphX * zoom);
+    }
+
+    private int screenY(int graphY) {
+        return (int) Math.round(panY + graphY * zoom);
+    }
+
+    private int detailsWidth() {
+        return Math.max(160, Math.min(260, width - TAB_WIDTH - DETAILS_MARGIN * 2));
+    }
+
+    private int detailsLeft(int panelWidth) {
+        return width - panelWidth - DETAILS_MARGIN;
+    }
+
+    private boolean isInsideDetails(double mouseX, double mouseY) {
+        if (selectedNode == null) {
+            return false;
+        }
+        int panelWidth = detailsWidth();
+        return mouseX >= detailsLeft(panelWidth) && mouseX <= width - DETAILS_MARGIN
+                && mouseY >= DETAILS_MARGIN && mouseY <= height - DETAILS_MARGIN;
+    }
+
+    private boolean isCloseDetails(double mouseX, double mouseY) {
+        return mouseX >= width - 30 && mouseX <= width - 18
+                && mouseY >= DETAILS_MARGIN + 8 && mouseY <= DETAILS_MARGIN + 20;
     }
 }

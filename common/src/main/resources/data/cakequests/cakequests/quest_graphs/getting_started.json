@@ -10,64 +10,506 @@
       "id": "root",
       "advancement": "minecraft:story/root",
       "title": {
-        "text": "Minecraft"
+        "text": "Begin"
+      },
+      "subtitle": {
+        "text": "Open your inventory"
       },
       "description": [
         {
-          "text": "Open your inventory and begin the vanilla progression path.",
-          "color": "gray"
+          "text": "Start a new world and ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "open your inventory",
+              "color": "yellow"
+            },
+            {
+              "text": " to begin vanilla progression.",
+              "color": "gray"
+            }
+          ]
         }
       ],
       "icon": {
         "item": "minecraft:grass_block"
       },
       "x": 40,
-      "y": 40,
+      "y": 80,
       "shape": "circle",
       "color": "#8ABF55",
       "parents": []
     },
     {
-      "id": "stone_age",
-      "advancement": "minecraft:story/mine_stone",
+      "id": "get_wood",
+      "advancement": "minecraft:story/root",
       "title": {
-        "text": "Stone Age"
+        "text": "Get Wood"
+      },
+      "subtitle": {
+        "text": "Punch a tree"
       },
       "description": [
         {
-          "text": "Mine stone with your first pickaxe.",
+          "text": "Break a ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "log",
+              "color": "gold"
+            },
+            {
+              "text": ". Oak is fine, but any overworld log works.",
+              "color": "gray"
+            }
+          ]
+        }
+      ],
+      "icon": {
+        "item": "minecraft:oak_log"
+      },
+      "x": 130,
+      "y": 80,
+      "shape": "circle",
+      "color": "#9B6A3A",
+      "parents": [
+        "root"
+      ]
+    },
+    {
+      "id": "planks",
+      "advancement": "minecraft:story/root",
+      "title": {
+        "text": "Craft Planks"
+      },
+      "subtitle": {
+        "text": "Turn logs into building material"
+      },
+      "description": [
+        {
+          "text": "Convert logs into ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "planks",
+              "color": "gold"
+            },
+            {
+              "text": " so you can make a ",
+              "color": "gray"
+            },
+            {
+              "text": "crafting table",
+              "color": "yellow"
+            },
+            {
+              "text": " and sticks.",
+              "color": "gray"
+            }
+          ]
+        }
+      ],
+      "icon": {
+        "item": "minecraft:oak_planks"
+      },
+      "x": 220,
+      "y": 80,
+      "shape": "square",
+      "color": "#B78248",
+      "parents": [
+        "get_wood"
+      ]
+    },
+    {
+      "id": "crafting_table",
+      "advancement": "minecraft:story/root",
+      "title": {
+        "text": "Crafting Table"
+      },
+      "subtitle": {
+        "text": "Unlock the 3x3 grid"
+      },
+      "description": [
+        {
+          "text": "Craft and place a crafting table for tool recipes.",
           "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "minecraft:crafting_table"
+      },
+      "x": 310,
+      "y": 80,
+      "shape": "square",
+      "color": "#A96F42",
+      "parents": [
+        "planks"
+      ]
+    },
+    {
+      "id": "sticks",
+      "advancement": "minecraft:story/root",
+      "title": {
+        "text": "Make Sticks"
+      },
+      "subtitle": {
+        "text": "Tool handles"
+      },
+      "description": [
+        {
+          "text": "Craft sticks from planks. You will need them for every early tool tier.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "minecraft:stick"
+      },
+      "x": 400,
+      "y": 80,
+      "shape": "circle",
+      "color": "#C79A5A",
+      "parents": [
+        "crafting_table"
+      ]
+    },
+    {
+      "id": "wooden_tools",
+      "advancement": "minecraft:story/root",
+      "title": {
+        "text": "Wooden Tools"
+      },
+      "subtitle": {
+        "text": "Start with a pickaxe"
+      },
+      "description": [
+        {
+          "text": "Craft a ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "wooden pickaxe",
+              "color": "gold"
+            },
+            {
+              "text": ". Other wooden tools are optional, but the pickaxe is the important one.",
+              "color": "gray"
+            }
+          ]
+        }
+      ],
+      "icon": {
+        "item": "minecraft:wooden_pickaxe"
+      },
+      "x": 490,
+      "y": 80,
+      "shape": "diamond",
+      "color": "#D2A05D",
+      "parents": [
+        "sticks"
+      ]
+    },
+    {
+      "id": "get_cobble",
+      "advancement": "minecraft:story/mine_stone",
+      "title": {
+        "text": "Get Cobble"
+      },
+      "subtitle": {
+        "text": "Mine stone"
+      },
+      "description": [
+        {
+          "text": "Use the ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "wooden pickaxe",
+              "color": "gold"
+            },
+            {
+              "text": " on stone to collect ",
+              "color": "gray"
+            },
+            {
+              "text": "cobblestone",
+              "color": "aqua"
+            },
+            {
+              "text": ".",
+              "color": "gray"
+            }
+          ]
         }
       ],
       "icon": {
         "item": "minecraft:cobblestone"
       },
-      "x": 140,
-      "y": 40,
+      "x": 580,
+      "y": 80,
       "shape": "square",
       "color": "#A9ADB5",
-      "parents": ["root"]
+      "parents": [
+        "wooden_tools"
+      ]
     },
     {
-      "id": "iron",
-      "advancement": "minecraft:story/smelt_iron",
+      "id": "cobble_tools",
+      "advancement": "minecraft:story/upgrade_tools",
       "title": {
-        "text": "Acquire Hardware"
+        "text": "Cobble Tools"
+      },
+      "subtitle": {
+        "text": "Upgrade to stone"
       },
       "description": [
         {
-          "text": "Smelt an iron ingot.",
-          "color": "gray"
+          "text": "Craft a ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "stone pickaxe",
+              "color": "aqua"
+            },
+            {
+              "text": " first, then make the other stone tools you want.",
+              "color": "gray"
+            }
+          ]
+        }
+      ],
+      "icon": {
+        "item": "minecraft:stone_pickaxe"
+      },
+      "x": 700,
+      "y": 35,
+      "shape": "diamond",
+      "color": "#8F98A3",
+      "parents": [
+        "get_cobble"
+      ]
+    },
+    {
+      "id": "craft_furnace",
+      "advancement": "minecraft:story/mine_stone",
+      "title": {
+        "text": "Craft Furnace"
+      },
+      "subtitle": {
+        "text": "Spend eight cobble"
+      },
+      "description": [
+        {
+          "text": "Use eight cobblestone to craft a ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "furnace",
+              "color": "yellow"
+            },
+            {
+              "text": ". This ",
+              "color": "gray"
+            },
+            {
+              "text": "branch",
+              "color": "green"
+            },
+            {
+              "text": " rejoins when iron is ready to smelt.",
+              "color": "gray"
+            }
+          ]
+        }
+      ],
+      "icon": {
+        "item": "minecraft:furnace"
+      },
+      "x": 700,
+      "y": 125,
+      "shape": "square",
+      "color": "#777F8B",
+      "parents": [
+        "get_cobble"
+      ]
+    },
+    {
+      "id": "mine_iron",
+      "advancement": "minecraft:story/upgrade_tools",
+      "title": {
+        "text": "Mine Iron Ore"
+      },
+      "subtitle": {
+        "text": "Stone pickaxe required"
+      },
+      "description": [
+        {
+          "text": "Find ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "iron ore",
+              "color": "red"
+            },
+            {
+              "text": " or deepslate iron ore and mine it with the ",
+              "color": "gray"
+            },
+            {
+              "text": "stone pickaxe",
+              "color": "aqua"
+            },
+            {
+              "text": ".",
+              "color": "gray"
+            }
+          ]
+        }
+      ],
+      "icon": {
+        "item": "minecraft:raw_iron"
+      },
+      "x": 820,
+      "y": 35,
+      "shape": "circle",
+      "color": "#B28A73",
+      "parents": [
+        "cobble_tools"
+      ]
+    },
+    {
+      "id": "smelt_iron",
+      "advancement": "minecraft:story/smelt_iron",
+      "title": {
+        "text": "Smelt Iron"
+      },
+      "subtitle": {
+        "text": "Acquire hardware"
+      },
+      "description": [
+        {
+          "text": "Use the ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "furnace",
+              "color": "yellow"
+            },
+            {
+              "text": " and fuel to smelt ",
+              "color": "gray"
+            },
+            {
+              "text": "raw iron",
+              "color": "red"
+            },
+            {
+              "text": " into an ",
+              "color": "gray"
+            },
+            {
+              "text": "iron ingot",
+              "color": "white"
+            },
+            {
+              "text": ".",
+              "color": "gray"
+            }
+          ]
+        },
+        {
+          "text": "This node requires both the ",
+          "color": "dark_gray",
+          "extra": [
+            {
+              "text": "furnace branch",
+              "color": "green"
+            },
+            {
+              "text": " and the ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "iron-mining branch",
+              "color": "red"
+            },
+            {
+              "text": ".",
+              "color": "dark_gray"
+            }
+          ]
         }
       ],
       "icon": {
         "item": "minecraft:iron_ingot"
       },
-      "x": 240,
-      "y": 40,
+      "x": 940,
+      "y": 80,
       "shape": "diamond",
       "color": "#D4D7DD",
-      "parents": ["stone_age"]
+      "parents": [
+        "craft_furnace",
+        "mine_iron"
+      ]
+    },
+    {
+      "id": "iron_pickaxe",
+      "advancement": "minecraft:story/iron_tools",
+      "title": {
+        "text": "Iron Pickaxe"
+      },
+      "subtitle": {
+        "text": "Ready for rarer ores"
+      },
+      "description": [
+        {
+          "text": "Craft an ",
+          "color": "gray",
+          "extra": [
+            {
+              "text": "iron pickaxe",
+              "color": "white"
+            },
+            {
+              "text": " so you can mine ",
+              "color": "gray"
+            },
+            {
+              "text": "gold",
+              "color": "gold"
+            },
+            {
+              "text": ", ",
+              "color": "gray"
+            },
+            {
+              "text": "redstone",
+              "color": "red"
+            },
+            {
+              "text": ", ",
+              "color": "gray"
+            },
+            {
+              "text": "diamond",
+              "color": "aqua"
+            },
+            {
+              "text": ", and other harder blocks.",
+              "color": "gray"
+            }
+          ]
+        }
+      ],
+      "icon": {
+        "item": "minecraft:iron_pickaxe"
+      },
+      "x": 1060,
+      "y": 80,
+      "shape": "diamond",
+      "color": "#C9D0D7",
+      "parents": [
+        "smelt_iron"
+      ]
     }
   ]
 }
