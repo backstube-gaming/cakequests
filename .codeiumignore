@@ -1,0 +1,6 @@
+run/
+run-data/
+gradle/
+build/**
+decompiled-sources/
+examples/
