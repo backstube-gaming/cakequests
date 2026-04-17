@@ -12,7 +12,7 @@ public record QuestNodeDefinition(
         ResourceLocation advancement,
         QuestText title,
         QuestText subtitle,
-        List<QuestText> description,
+        List<QuestDescriptionElement> description,
         QuestIcon icon,
         int x,
         int y,
@@ -25,10 +25,7 @@ public record QuestNodeDefinition(
         ResourceLocation advancement = safeLocation(string(json, "advancement", "minecraft:story/root"));
         QuestText title = QuestText.fromJson(json.get("title"));
         QuestText subtitle = QuestText.fromJson(json.get("subtitle"));
-        List<QuestText> description = new ArrayList<>();
-        if (json.has("description") && json.get("description").isJsonArray()) {
-            json.getAsJsonArray("description").forEach(line -> description.add(QuestText.fromJson(line)));
-        }
+        List<QuestDescriptionElement> description = QuestDescriptionElement.listFromJson(json.get("description"));
         QuestIcon icon = QuestIcon.fromJson(json.has("icon") && json.get("icon").isJsonObject() ? json.getAsJsonObject("icon") : null);
         List<String> parents = stringList(json.has("parents") ? json.getAsJsonArray("parents") : json.has("dependencies") ? json.getAsJsonArray("dependencies") : null);
         return new QuestNodeDefinition(
@@ -87,7 +84,7 @@ public record QuestNodeDefinition(
             json.add("subtitle", subtitle.toJson());
         }
         JsonArray descriptionJson = new JsonArray();
-        description.forEach(line -> descriptionJson.add(line.toJson()));
+        description.forEach(element -> descriptionJson.add(element.toJson()));
         json.add("description", descriptionJson);
         json.add("icon", icon.toJson());
         json.addProperty("x", x);

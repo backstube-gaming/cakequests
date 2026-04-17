@@ -6,13 +6,17 @@ Add lightweight server-authoritative quest progress events that quest nodes can 
 advancements. The first supported event types are:
 
 - item pickup by exact item
-- item pickup by item tag
+- item pickup by item tag through `item: "#namespace:tag"`
 - crafted item by exact item
 
 Each quest node may declare multiple event requirements. Each requirement has its own target count. A node completes
 only
 after all of its event requirements are complete and its parent nodes are complete. This feature is active only when the
 server has Cake Quests installed and has synced the quest graph; client-only fallback mode keeps it disabled.
+
+Quest progress is permanently per-player. Cake Quests should not add parties, teams, shared quest progress, or a future
+progress-owner abstraction for this feature. Every stored count, completion state, admin command, and sync packet should
+target one or more concrete player UUIDs.
 
 ## Confirmed 1.18.2 Hooks
 
@@ -35,50 +39,86 @@ should be considered.
 
 ## Data Format
 
-Extend node JSON with a Cake Quests-specific `events` array. Keep the existing `advancement` field for
-advancement-backed
-nodes. Nodes may use either `advancement`, `events`, or both. If both exist, the node is complete when the advancement
-is
-complete and all event requirements are complete.
+Extend node JSON with a Cake Quests-specific `events` array. Keep the existing `advancement` field for normal
+advancement-backed nodes. Nodes may use either `advancement`, `events`, or both. If both exist, the node is complete
+when the advancement is complete and all event requirements are complete.
+
+Add an `enabled` flag to chapter/tab JSON directly below `id`. It defaults to `true`. If `enabled` is `false`, the
+chapter is treated as nonexistent by the mod: do not validate its nodes, do not index its event requirements, do not
+sync
+it to clients, do not persist new progress for it, and do not show it in the quest book. Existing saved progress for a
+disabled chapter may remain on disk but should be ignored until the chapter is enabled again.
 
 Example:
 
 ```json
 {
   "id": "collect_logs",
+  "enabled": true,
   "title": { "text": "Collect Logs" },
-  "icon": { "item": "minecraft:oak_log" },
-  "x": 120,
-  "y": 80,
-  "events": [
+  "tab_color": "#D49A35",
+  "nodes": [
     {
-      "id": "any_logs",
-      "type": "item_pickup_tag",
-      "tag": "minecraft:logs",
-      "count": 16
-    },
-    {
-      "id": "craft_table",
-      "type": "item_craft",
-      "item": "minecraft:crafting_table",
-      "count": 1
+      "id": "logs",
+      "events": [
+        {
+          "id": "any_logs",
+          "type": "item_pickup",
+          "item": "#minecraft:logs",
+          "count": 16
+        },
+        {
+          "id": "craft_table",
+          "type": "item_craft",
+          "item": "minecraft:crafting_table",
+          "count": 1
+        }
+      ],
+      "title": { "text": "Collect Logs" },
+      "subtitle": { "text": "Gather and craft" },
+      "description": [
+        { "text": "Pick up 16 logs and craft a crafting table.", "color": "gray" }
+      ],
+      "icon": { "item": "minecraft:oak_log" },
+      "x": 120,
+      "y": 80,
+      "shape": "circle",
+      "color": "#A9ADB5",
+      "parents": []
     }
   ]
 }
 ```
 
-Supported fields:
+Supported chapter field:
+
+- chapter `enabled`: Optional boolean immediately after chapter `id`; defaults to `true`. `false` disables the entire
+  chapter as if it did not exist.
+
+Supported event requirement fields:
 
 - `id`: Requirement ID unique within the node. Optional in JSON, but parser should generate a stable ID from index when
   missing. Stable IDs are needed for progress persistence and sync.
-- `type`: `item_pickup`, `item_pickup_tag`, or `item_craft`.
-- `item`: Item registry ID for `item_pickup` and `item_craft`.
-- `tag`: Item tag ID for `item_pickup_tag`.
+- `type`: `item_pickup` or `item_craft`.
+- `item`: Item registry ID for exact matching, or `#namespace:tag` for item tag matching. Tag syntax is only valid for
+  `item_pickup` in the first implementation. This follows the common Minecraft command/datapack convention where a
+  leading `#` means "tag" rather than "single registry entry".
 - `count`: Required item count. Clamp to at least `1`; reject or warn for invalid values.
 
-Do not call these "fake advancements" in code. Use names like `QuestEventRequirement`, `QuestEventType`, and
-`QuestProgressState`. The feature behaves like advancement criteria for authors, but it should not be coupled to
-Minecraft's advancement internals.
+Prefer names like `QuestEventRequirement`, `QuestEventType`, and `QuestProgressState` in Cake Quests code. The feature
+behaves like advancement criteria for authors, but does not need to create real datapack advancements.
+
+It is acceptable to reuse vanilla advancement concepts or implementation pieces if that reduces complexity and stays
+isolated from the real advancement system. Any such reuse must meet these constraints:
+
+- Do not require pack authors to define advancement JSON files for these event requirements.
+- Do not register visible advancements that appear in the vanilla advancements tab.
+- Do not modify, revoke, or grant real server advancements as part of event progress.
+- Do not let malformed Cake Quests event requirements break vanilla advancement loading.
+- Keep failure local to Cake Quests validation and logging.
+
+If those constraints make vanilla advancement reuse awkward, use a small Cake Quests-owned progress model instead. A
+clean custom model is preferred over a fragile partial integration.
 
 ## Runtime Model
 
@@ -87,13 +127,14 @@ Add common data classes:
 - `QuestEventRequirement`
     - `String id`
     - `QuestEventType type`
-    - optional `ResourceLocation item`
-    - optional `ResourceLocation tag`
+  - `QuestItemTarget target`
     - `long count`
 - `QuestEventType`
     - `ITEM_PICKUP`
-    - `ITEM_PICKUP_TAG`
     - `ITEM_CRAFT`
+- `QuestItemTarget`
+    - exact item `ResourceLocation`
+    - or item tag `ResourceLocation`, parsed from a leading `#`
 - `QuestProgressKey`
     - `String tabId`
     - `String nodeId`
@@ -101,10 +142,11 @@ Add common data classes:
 - `QuestPlayerProgress`
     - stores per-player progress counts keyed by `QuestProgressKey`
     - stores completed node IDs for quick dependency checks
-    - persists to server `SavedData`, or to player persistent NBT if the first implementation should stay smaller
+  - persists per player to server `SavedData`, or to player persistent NBT if the first implementation should stay
+    smaller
 
-Prefer server `SavedData` if team/shared progress may be added later. Prefer player persistent NBT only if this feature
-is intentionally per-player and must avoid world-level bookkeeping. Do not introduce teams for this feature.
+Prefer whichever persistence option is simpler and most reliable for per-player state. Do not design storage around
+parties, teams, shared ownership, or future migration to shared progress.
 
 ## Server Index
 
@@ -112,17 +154,16 @@ Build an immutable lookup index when the server graph is loaded or reloaded:
 
 - `Map<Item, List<RequirementBinding>> pickupByItem`
 - `Map<Item, List<RequirementBinding>> craftByItem`
-- `List<TagRequirementBinding> pickupByTag`
 - `Map<String, QuestNodeDefinition> nodesByTabAndId`
 - parent completion/dependency lookup
 
 `RequirementBinding` contains the tab ID, node ID, requirement ID, target count, and type. It should not contain mutable
 player progress.
 
-Tag requirements need special care for performance. Do not scan all quest nodes on every pickup. Two acceptable designs:
+Tag item targets need special care for performance. Do not scan all quest nodes on every pickup. Two acceptable designs:
 
-1. On graph load and datapack tag reload, resolve each configured item tag to current item values and expand it into
-   `pickupByItem`. This makes event handling O(number of bindings for the picked item).
+1. On graph load and datapack tag reload, resolve each `item: "#namespace:tag"` target to current item values and
+   expand it into `pickupByItem`. This makes event handling O(number of bindings for the picked item).
 2. If tag expansion is deferred, maintain `Map<TagKey<Item>, List<RequirementBinding>>` and test only the tags attached
    to the picked stack's item, never every configured tag.
 
@@ -205,7 +246,7 @@ Use the graph hash already present in `GraphSyncPacket` to discard stale progres
 
 Persist counts on the logical server:
 
-- Key by player UUID unless shared party progress is intentionally added later.
+- Key by player UUID only.
 - Include graph hash or graph version with saved progress.
 - On graph reload, keep counts for matching `tabId/nodeId/requirementId` where type and target are compatible.
 - Drop or ignore saved progress for removed requirements.
@@ -216,6 +257,90 @@ Save after progress changes, but avoid excessive disk churn:
 - mark `SavedData` dirty immediately
 - let Minecraft's normal save cadence write it
 - do not force-save on every pickup/craft event
+
+## Admin Commands
+
+Add server commands for operators to repair broken quest book states, test quest flows, and debug support reports. These
+commands must operate on per-player Cake Quests progress only and must not grant, revoke, or reset real Minecraft
+advancements.
+
+Register commands through Forge's server command registration event and require an appropriate permission level, such as
+permission level 2 or higher.
+
+- `/cakequests reset @p`
+    - Reset all Cake Quests progress for the selected player or players.
+    - Clear event counts and completed node state, then send a fresh progress snapshot.
+- `/cakequests grant id @p`
+    - Mark the node or event requirement identified by `id` complete for the selected player or players.
+    - Use a documented ID resolution rule, preferably `tab_id/node_id` for a node and
+      `tab_id/node_id/requirement_id` for one requirement.
+    - Recompute dependent node states and send only the resulting progress/state delta.
+- `/cakequests revoke id @p`
+    - Remove completion for the node or event requirement identified by `id`.
+    - Clamp affected requirement counts to `0` unless the command is explicitly revoking only node completion.
+    - Recompute dependent node states and send only the resulting progress/state delta.
+- `/cakequests grant-to id @p`
+    - Set progress for the identified node or event requirement to its target count without changing unrelated
+      requirements.
+    - This is useful for repairing partially broken state where an admin wants the selected step complete but does not
+      want a broad node grant to hide other missing requirements.
+
+Command output should report exactly what changed: selected player count, resolved ID, old progress, new progress, and
+whether any node state changed. Invalid IDs should fail with a clear message and suggestions when possible.
+
+## Quest Authoring Instructions
+
+Create a dedicated instruction file for other AI tools that need to create Cake Quests chapters with as few mistakes as
+possible. Recommended path: `docs/quest_chapter_authoring_instructions.md`.
+
+The instruction file should define one fixed chapter format and tell authors to follow it exactly:
+
+- Top-level field order:
+    - `id`
+    - `enabled`
+    - `title`
+    - `tab_color`
+    - `nodes`
+- `enabled` must be written explicitly, normally as `true`.
+- Each node should use a fixed field order:
+    - `id`
+    - `advancement` and/or `events`
+    - `title`
+    - `subtitle`
+    - `description`
+    - `icon`
+    - `x`
+    - `y`
+    - `shape`
+    - `color`
+    - `parents`
+- Event requirements should use only `type`, `item`, and `count`, with item tags written as `"#namespace:tag"`.
+- IDs should be short, lowercase, stable, and descriptive. Prefer `snake_case`.
+- Parent references must point to node IDs in the same chapter.
+- Do not invent fields outside the fixed format unless Cake Quests documents them.
+
+The file should include layout guidance so generated quest chapters fit the screen:
+
+- Use a regular grid. Start with 120 to 160 pixels of horizontal spacing and 80 to 120 pixels of vertical spacing.
+- Keep related nodes near each other and keep parent-child edges short.
+- Avoid ultra-long linear graphs that require excessive horizontal or vertical scrolling.
+- Prefer small branches from milestone nodes over one straight chain.
+- For multi-step chains, snake the path around in rows or columns so it uses the visible screen area better.
+- Keep branches readable: avoid crossing edges, avoid placing sibling nodes on top of each other, and leave enough room
+  for hover/selection UI.
+- Use chapter-local sections, such as early game, tools, farming, machines, and exploration, instead of one giant path.
+- If a chain has more than about 6 to 8 nodes, split it into branches or wrap it into a second row.
+- Put the main progression path near the center and optional side objectives above or below it.
+
+The instruction file should also include a minimal valid example chapter and a checklist that AI authors can self-check:
+
+- `enabled` is present and true unless intentionally disabled.
+- Every parent exists.
+- Every node has an icon.
+- Every event requirement has a positive count.
+- Every `#tag` item target starts with exactly one `#`.
+- Coordinates do not place multiple nodes on the same point.
+- The graph has branches or wrapped chains instead of a single long line.
 
 ## Performance Requirements
 
@@ -245,7 +370,8 @@ When connected to a Cake Quests server:
 - The UI reads node state from the new client progress store, not from client-side event detection.
 - Advancement progress can remain a client bridge only for legacy behavior, but mixed advancement/event nodes are
   cleaner
-  if the server sends final node states.
+  if the server sends final node states. If Cake Quests reuses vanilla advancement internals for event evaluation, that
+  reuse should remain server-side and invisible to the client.
 
 In client-only fallback mode:
 
@@ -259,39 +385,56 @@ In client-only fallback mode:
 1. Data model and parser
     - Add event requirement records and enum.
     - Extend `QuestNodeDefinition` JSON parsing/serialization.
-    - Validate IDs, types, item IDs, tag IDs, counts, and requirement limits.
+   - Add chapter/tab `enabled` parsing with default `true`.
+   - Skip disabled chapters before node validation, event indexing, sync, and display.
+   - Validate IDs, types, `item` targets, leading-`#` tag syntax, counts, and requirement limits.
     - Update `docs/quest_graph_format.md`.
 
-2. Server progress index
+2. Quest authoring documentation
+    - Create `docs/quest_chapter_authoring_instructions.md`.
+    - Document the fixed chapter/node/event field order.
+    - Document node spacing, branch-first layout guidance, and snake/wrap guidance for longer chains.
+    - Include a minimal example and self-check checklist for AI-generated chapters.
+
+3. Server progress index
     - Build immutable requirement indexes from the active server book.
     - Rebuild indexes on graph/datapack reload.
     - Add fast empty-index checks.
 
-3. Progress storage
+4. Progress storage
     - Add per-player server progress state.
     - Persist counts and completed node states.
     - Handle login/logout/reload lifecycle.
 
-4. Forge event bridge
+5. Admin commands
+    - Add `/cakequests reset @p`.
+    - Add `/cakequests grant id @p`.
+    - Add `/cakequests revoke id @p`.
+    - Add `/cakequests grant-to id @p`.
+    - Reuse the same progress mutation service as event handling so commands and events produce identical sync deltas.
+
+6. Forge event bridge
     - Listen for `PlayerEvent.ItemPickupEvent`.
     - Listen for `PlayerEvent.ItemCraftedEvent`.
     - Update progress through the indexed server service only.
 
-5. Progress networking
+7. Progress networking
     - Add snapshot and delta packets.
     - Register packet IDs after the existing graph sync packet.
     - Send snapshot after graph sync.
     - Send deltas only after real quest progress/state changes.
 
-6. Client progress UI
+8. Client progress UI
     - Add client-side progress store keyed by graph hash.
     - Update node state lookup to prefer server progress when server graph sync is active.
     - Show counts for selected event requirements.
 
-7. Testing
+9. Testing
     - Add unit tests for parsing, validation, index construction, and progress capping where possible outside Minecraft.
-    - Manually test pickup exact item, pickup tag item, crafting result count, graph reload, login snapshot, and
+   - Test that disabled chapters are absent from validation, indexing, sync, and UI state.
+   - Manually test pickup exact item, pickup `#tag` item, crafting result count, graph reload, login snapshot, and
       fallback mode.
+   - Manually test every admin command against single-player and multiplayer selectors.
 
 ## Recommended Follow-Up Event Types
 
@@ -330,8 +473,7 @@ capability integration, block entities, polling, or UI flows and are outside the
 
 ## Open Decisions
 
-- Per-player progress only, or a future-compatible `QuestProgressOwner` abstraction for later shared progress?
 - Should mixed advancement/event nodes require both sources, or should `events` replace `advancement` when present?
 - Should exact item matching include optional NBT matching later, or stay registry-ID-only for reliability and speed?
-- Should craft-by-tag be supported in the first pass? It is technically easy with the same tag-expanded index, but the
-  requested scope only mentions item pickup by tags.
+- Should `item_craft` also allow `item: "#namespace:tag"` later? The same tag-expanded index can support it, but the
+  first implementation should keep tag matching limited to pickup unless there is a concrete quest author need.

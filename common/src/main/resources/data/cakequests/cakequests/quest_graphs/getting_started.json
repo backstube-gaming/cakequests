@@ -1,5 +1,6 @@
-﻿{
+{
   "id": "getting_started",
+  "enabled": true,
   "title": {
     "text": "Getting Started",
     "color": "gold"
@@ -18,17 +19,22 @@
       "description": [
         {
           "text": "Start a new world and ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "open your inventory",
-              "color": "yellow"
-            },
-            {
-              "text": " to begin vanilla progression.",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "open your inventory",
+          "color": "yellow"
+        },
+        {
+          "text": " to begin vanilla progression.",
+          "color": "gray"
+        },
+        {
+          "image": "cakequests:textures/item/cakequests_book.png"
+        },
+        {
+          "text": "The image above is loaded as a description element and spans the detail pane width.",
+          "color": "dark_gray"
         }
       ],
       "icon": {
@@ -38,8 +44,7 @@
       "y": 80,
       "shape": "circle",
       "color": "#8ABF55",
-      "parents": [
-      ]
+      "parents": []
     },
     {
       "id": "get_wood",
@@ -53,17 +58,15 @@
       "description": [
         {
           "text": "Break a ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "log",
-              "color": "gold"
-            },
-            {
-              "text": ". Oak is fine, but any overworld log works.",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "log",
+          "color": "gold"
+        },
+        {
+          "text": ". Oak is fine, but any overworld log works.",
+          "color": "gray"
         }
       ],
       "icon": {
@@ -89,25 +92,23 @@
       "description": [
         {
           "text": "Convert logs into ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "planks",
-              "color": "gold"
-            },
-            {
-              "text": " so you can make a ",
-              "color": "gray"
-            },
-            {
-              "text": "crafting table",
-              "color": "yellow"
-            },
-            {
-              "text": " and sticks.",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "planks",
+          "color": "gold"
+        },
+        {
+          "text": " so you can make a ",
+          "color": "gray"
+        },
+        {
+          "text": "crafting table",
+          "color": "yellow"
+        },
+        {
+          "text": " and sticks.",
+          "color": "gray"
         }
       ],
       "icon": {
@@ -185,17 +186,15 @@
       "description": [
         {
           "text": "Craft a ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "wooden pickaxe",
-              "color": "gold"
-            },
-            {
-              "text": ". Other wooden tools are optional, but the pickaxe is the important one.",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "wooden pickaxe",
+          "color": "gold"
+        },
+        {
+          "text": ". Other wooden tools are optional, but the pickaxe is the important one.",
+          "color": "gray"
         }
       ],
       "icon": {
@@ -221,25 +220,23 @@
       "description": [
         {
           "text": "Use the ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "wooden pickaxe",
-              "color": "gold"
-            },
-            {
-              "text": " on stone to collect ",
-              "color": "gray"
-            },
-            {
-              "text": "cobblestone",
-              "color": "aqua"
-            },
-            {
-              "text": ".",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "wooden pickaxe",
+          "color": "gold"
+        },
+        {
+          "text": " on stone to collect ",
+          "color": "gray"
+        },
+        {
+          "text": "cobblestone",
+          "color": "aqua"
+        },
+        {
+          "text": ".",
+          "color": "gray"
         }
       ],
       "icon": {
@@ -265,17 +262,15 @@
       "description": [
         {
           "text": "Craft a ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "stone pickaxe",
-              "color": "aqua"
-            },
-            {
-              "text": " first, then make the other stone tools you want.",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "stone pickaxe",
+          "color": "aqua"
+        },
+        {
+          "text": " first, then make the other stone tools you want.",
+          "color": "gray"
         }
       ],
       "icon": {
@@ -301,25 +296,23 @@
       "description": [
         {
           "text": "Use eight cobblestone to craft a ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "furnace",
-              "color": "yellow"
-            },
-            {
-              "text": ". This ",
-              "color": "gray"
-            },
-            {
-              "text": "branch",
-              "color": "green"
-            },
-            {
-              "text": " rejoins when iron is ready to smelt.",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "furnace",
+          "color": "yellow"
+        },
+        {
+          "text": ". This ",
+          "color": "gray"
+        },
+        {
+          "text": "branch",
+          "color": "green"
+        },
+        {
+          "text": " rejoins when iron is ready to smelt.",
+          "color": "gray"
         }
       ],
       "icon": {
@@ -345,25 +338,23 @@
       "description": [
         {
           "text": "Find ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "iron ore",
-              "color": "red"
-            },
-            {
-              "text": " or deepslate iron ore and mine it with the ",
-              "color": "gray"
-            },
-            {
-              "text": "stone pickaxe",
-              "color": "aqua"
-            },
-            {
-              "text": ".",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "iron ore",
+          "color": "red"
+        },
+        {
+          "text": " or deepslate iron ore and mine it with the ",
+          "color": "gray"
+        },
+        {
+          "text": "stone pickaxe",
+          "color": "aqua"
+        },
+        {
+          "text": ".",
+          "color": "gray"
         }
       ],
       "icon": {
@@ -389,55 +380,54 @@
       "description": [
         {
           "text": "Use the ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "furnace",
-              "color": "yellow"
-            },
-            {
-              "text": " and fuel to smelt ",
-              "color": "gray"
-            },
-            {
-              "text": "raw iron",
-              "color": "red"
-            },
-            {
-              "text": " into an ",
-              "color": "gray"
-            },
-            {
-              "text": "iron ingot",
-              "color": "white"
-            },
-            {
-              "text": ".",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "furnace",
+          "color": "yellow"
+        },
+        {
+          "text": " and fuel to smelt ",
+          "color": "gray"
+        },
+        {
+          "text": "raw iron",
+          "color": "red"
+        },
+        {
+          "text": " into an ",
+          "color": "gray"
+        },
+        {
+          "text": "iron ingot",
+          "color": "white"
+        },
+        {
+          "text": ".",
+          "color": "gray"
+        },
+        {
+          "text": "\n\n"
         },
         {
           "text": "This node requires both the ",
-          "color": "dark_gray",
-          "extra": [
-            {
-              "text": "furnace branch",
-              "color": "green"
-            },
-            {
-              "text": " and the ",
-              "color": "dark_gray"
-            },
-            {
-              "text": "iron-mining branch",
-              "color": "red"
-            },
-            {
-              "text": ".",
-              "color": "dark_gray"
-            }
-          ]
+          "color": "dark_gray"
+        },
+        {
+          "text": "furnace branch",
+          "color": "green"
+        },
+        {
+          "text": " and the ",
+          "color": "dark_gray"
+        },
+        {
+          "text": "iron-mining branch",
+          "color": "red"
+        },
+        {
+          "text": ".",
+          "color": "dark_gray"
         }
       ],
       "icon": {
@@ -464,41 +454,42 @@
       "description": [
         {
           "text": "Craft an ",
-          "color": "gray",
-          "extra": [
-            {
-              "text": "iron pickaxe",
-              "color": "white"
-            },
-            {
-              "text": " so you can mine ",
-              "color": "gray"
-            },
-            {
-              "text": "gold",
-              "color": "gold"
-            },
-            {
-              "text": ", ",
-              "color": "gray"
-            },
-            {
-              "text": "redstone",
-              "color": "red"
-            },
-            {
-              "text": ", ",
-              "color": "gray"
-            },
-            {
-              "text": "diamond",
-              "color": "aqua"
-            },
-            {
-              "text": ", and other harder blocks.",
-              "color": "gray"
-            }
-          ]
+          "color": "gray"
+        },
+        {
+          "text": "iron pickaxe",
+          "color": "white"
+        },
+        {
+          "text": " so you can mine ",
+          "color": "gray"
+        },
+        {
+          "image": "cakequests:textures/quest_images/iron_pickaxe.png"
+        },
+        {
+          "text": "gold",
+          "color": "gold"
+        },
+        {
+          "text": ", ",
+          "color": "gray"
+        },
+        {
+          "text": "redstone",
+          "color": "red"
+        },
+        {
+          "text": ", ",
+          "color": "gray"
+        },
+        {
+          "text": "diamond",
+          "color": "aqua"
+        },
+        {
+          "text": ", and other harder blocks.",
+          "color": "gray"
         }
       ],
       "icon": {

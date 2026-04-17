@@ -1,23 +1,30 @@
 package net.backstube.cakequests.client;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.backstube.cakequests.CakeQuests;
-import net.backstube.cakequests.data.QuestBookDefinition;
-import net.backstube.cakequests.data.QuestNodeDefinition;
-import net.backstube.cakequests.data.QuestNodeShape;
-import net.backstube.cakequests.data.QuestTabDefinition;
+import net.backstube.cakequests.data.*;
 import net.backstube.cakequests.quest.QuestNodeState;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QuestGraphScreen extends Screen {
     private static final int TAB_WIDTH = 112;
     private static final int NODE_SIZE = 26;
     private static final int DETAILS_MARGIN = 10;
+    private static final int DETAILS_IMAGE_MAX_HEIGHT = 140;
+    private static final int DETAILS_SCROLL_STEP = 18;
     private static final ResourceLocation GOAL_FRAME_OBTAINED = CakeQuests.id("textures/gui/quest_nodes/goal_frame_obtained.png");
     private static final ResourceLocation GOAL_FRAME_UNOBTAINED = CakeQuests.id("textures/gui/quest_nodes/goal_frame_unobtained.png");
     private static final ResourceLocation TASK_FRAME_OBTAINED = CakeQuests.id("textures/gui/quest_nodes/task_frame_obtained.png");
@@ -27,7 +34,10 @@ public class QuestGraphScreen extends Screen {
     private double panX = 80;
     private double panY = 80;
     private double zoom = 1.0D;
+    private final Map<ResourceLocation, ImageDimensions> imageDimensions = new HashMap<>();
+    private double detailsScroll;
     private boolean draggingGraph;
+    private int detailsContentHeight;
 
     public QuestGraphScreen() {
         super(new TextComponent("Cake Quests"));
@@ -196,7 +206,14 @@ public class QuestGraphScreen extends Screen {
         int right = width - DETAILS_MARGIN;
         int bottom = height - DETAILS_MARGIN;
         int textLeft = left + 42;
+        int contentLeft = left + 14;
+        int contentTop = top + 62;
+        int contentBottom = bottom - 12;
+        int contentWidth = right - left - 28;
+        int viewportHeight = Math.max(0, contentBottom - contentTop);
         QuestNodeState state = ClientAdvancementBridge.state(tab, selectedNode);
+        detailsContentHeight = measureDescriptionHeight(selectedNode, contentWidth);
+        detailsScroll = clampDetailsScroll(detailsScroll, viewportHeight);
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.0D, 300.0D);
         GuiComponent.fill(poseStack, left, top, right, bottom, 0xF02A2E38);
@@ -211,18 +228,121 @@ public class QuestGraphScreen extends Screen {
         font.draw(poseStack, selectedNode.title().component(), textLeft, top + 10, 0xFFFFFFFF);
         font.draw(poseStack, selectedNode.subtitle().component(), textLeft, top + 24, 0xFFB6BCC8);
         GuiComponent.fill(poseStack, left + 12, top + 50, right - 12, top + 51, 0xFF454B58);
-        int y = top + 62;
-        for (var line : selectedNode.description()) {
-            for (var wrapped : font.split(line.component(), panelWidth - 28)) {
-                font.draw(poseStack, wrapped, left + 14, y, 0xFFE5E7EB);
-                y += 11;
-            }
-            y += 5;
-            if (y > bottom - 14) {
-                break;
+        enableScissor(contentLeft, contentTop, contentWidth, viewportHeight);
+        poseStack.pushPose();
+        poseStack.translate(0.0D, -detailsScroll, 0.0D);
+        renderDescription(poseStack, selectedNode, contentLeft, contentTop, contentWidth);
+        poseStack.popPose();
+        RenderSystem.disableScissor();
+        renderDetailsScrollBar(poseStack, right, contentTop, viewportHeight);
+        poseStack.popPose();
+    }
+
+    private int measureDescriptionHeight(QuestNodeDefinition node, int contentWidth) {
+        int height = 0;
+        MutableComponent paragraph = new TextComponent("");
+        boolean hasText = false;
+        for (QuestDescriptionElement element : node.description()) {
+            if (element.kind() == QuestDescriptionElement.Kind.IMAGE) {
+                height = appendMeasuredParagraph(height, paragraph, hasText, contentWidth);
+                paragraph = new TextComponent("");
+                hasText = false;
+                height += imageHeight(element.image(), contentWidth) + 8;
+            } else {
+                paragraph.append(element.text().component());
+                hasText = true;
             }
         }
-        poseStack.popPose();
+        return appendMeasuredParagraph(height, paragraph, hasText, contentWidth);
+    }
+
+    private int appendMeasuredParagraph(int height, MutableComponent paragraph, boolean hasText, int contentWidth) {
+        if (!hasText) {
+            return height;
+        }
+        return height + font.split(paragraph, contentWidth).size() * 11 + 5;
+    }
+
+    private int renderDescription(PoseStack poseStack, QuestNodeDefinition node, int x, int y, int contentWidth) {
+        MutableComponent paragraph = new TextComponent("");
+        boolean hasText = false;
+        int cursorY = y;
+        for (QuestDescriptionElement element : node.description()) {
+            if (element.kind() == QuestDescriptionElement.Kind.IMAGE) {
+                cursorY = renderDescriptionParagraph(poseStack, paragraph, hasText, x, cursorY, contentWidth);
+                paragraph = new TextComponent("");
+                hasText = false;
+                int imageHeight = imageHeight(element.image(), contentWidth);
+                renderDescriptionImage(poseStack, element.image(), x, cursorY, contentWidth, imageHeight);
+                cursorY += imageHeight + 8;
+            } else {
+                paragraph.append(element.text().component());
+                hasText = true;
+            }
+        }
+        return renderDescriptionParagraph(poseStack, paragraph, hasText, x, cursorY, contentWidth);
+    }
+
+    private int renderDescriptionParagraph(PoseStack poseStack, MutableComponent paragraph, boolean hasText, int x, int y, int contentWidth) {
+        if (!hasText) {
+            return y;
+        }
+        for (var wrapped : font.split(paragraph, contentWidth)) {
+            font.draw(poseStack, wrapped, x, y, 0xFFE5E7EB);
+            y += 11;
+        }
+        return y + 5;
+    }
+
+    private void renderDescriptionImage(PoseStack poseStack, ResourceLocation image, int x, int y, int contentWidth, int imageHeight) {
+        ImageDimensions dimensions = imageDimensions(image);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, image);
+        GuiComponent.blit(poseStack, x, y, contentWidth, imageHeight, 0.0F, 0.0F, dimensions.width(), dimensions.height(), dimensions.width(), dimensions.height());
+    }
+
+    private int imageHeight(ResourceLocation image, int contentWidth) {
+        ImageDimensions dimensions = imageDimensions(image);
+        if (dimensions.width() <= 0) {
+            return Math.min(contentWidth, DETAILS_IMAGE_MAX_HEIGHT);
+        }
+        int scaledHeight = Math.max(1, (int) Math.round(contentWidth * (dimensions.height() / (double) dimensions.width())));
+        return Math.min(scaledHeight, DETAILS_IMAGE_MAX_HEIGHT);
+    }
+
+    private ImageDimensions imageDimensions(ResourceLocation image) {
+        return imageDimensions.computeIfAbsent(image, location -> {
+            try (Resource resource = minecraft.getResourceManager().getResource(location);
+                 InputStream stream = resource.getInputStream();
+                 NativeImage nativeImage = NativeImage.read(stream)) {
+                return new ImageDimensions(nativeImage.getWidth(), nativeImage.getHeight());
+            } catch (IOException | RuntimeException ex) {
+                CakeQuests.LOGGER.warn("Unable to read quest description image {}", location, ex);
+                return new ImageDimensions(16, 16);
+            }
+        });
+    }
+
+    private void renderDetailsScrollBar(PoseStack poseStack, int right, int top, int viewportHeight) {
+        if (detailsContentHeight <= viewportHeight || viewportHeight <= 0) {
+            return;
+        }
+        int trackX = right - 8;
+        GuiComponent.fill(poseStack, trackX, top, trackX + 4, top + viewportHeight, 0x803D4350);
+        int thumbHeight = Math.max(18, viewportHeight * viewportHeight / detailsContentHeight);
+        int maxThumbTravel = viewportHeight - thumbHeight;
+        int thumbY = top + (int) Math.round(maxThumbTravel * (detailsScroll / maxDetailsScroll(viewportHeight)));
+        GuiComponent.fill(poseStack, trackX, thumbY, trackX + 4, thumbY + thumbHeight, 0xFF9CA3AF);
+    }
+
+    private void enableScissor(int x, int y, int width, int height) {
+        double scale = minecraft.getWindow().getGuiScale();
+        int scissorX = (int) Math.round(x * scale);
+        int scissorY = (int) Math.round((minecraft.getWindow().getGuiScaledHeight() - y - height) * scale);
+        int scissorWidth = (int) Math.round(width * scale);
+        int scissorHeight = (int) Math.round(height * scale);
+        RenderSystem.enableScissor(scissorX, scissorY, scissorWidth, scissorHeight);
     }
 
     private void renderLockIcon(PoseStack poseStack, int x, int y, int color, int keyholeColor) {
@@ -262,11 +382,13 @@ public class QuestGraphScreen extends Screen {
             if (tab >= 0 && tab < book.tabs().size()) {
                 selectedTab = tab;
                 selectedNode = null;
+                detailsScroll = 0.0D;
                 return true;
             }
         } else if (!book.tabs().isEmpty()) {
             if (selectedNode != null && isCloseDetails(mouseX, mouseY)) {
                 selectedNode = null;
+                detailsScroll = 0.0D;
                 return true;
             }
             if (isInsideDetails(mouseX, mouseY)) {
@@ -276,10 +398,12 @@ public class QuestGraphScreen extends Screen {
             for (QuestNodeDefinition node : tab.nodes()) {
                 if (hitNode(mouseX, mouseY, node)) {
                     selectedNode = node;
+                    detailsScroll = 0.0D;
                     return true;
                 }
             }
             selectedNode = null;
+            detailsScroll = 0.0D;
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
@@ -305,6 +429,13 @@ public class QuestGraphScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (isInsideDetails(mouseX, mouseY)) {
+            int viewportHeight = Math.max(0, height - DETAILS_MARGIN * 2 - 74);
+            if (detailsContentHeight > viewportHeight) {
+                detailsScroll = clampDetailsScroll(detailsScroll - delta * DETAILS_SCROLL_STEP, viewportHeight);
+                return true;
+            }
+        }
         if (mouseX > TAB_WIDTH && !isInsideDetails(mouseX, mouseY)) {
             zoom = Math.max(0.5D, Math.min(2.0D, zoom + delta * 0.1D));
             return true;
@@ -340,6 +471,14 @@ public class QuestGraphScreen extends Screen {
         return Math.max(160, Math.min(260, width - TAB_WIDTH - DETAILS_MARGIN * 2));
     }
 
+    private double clampDetailsScroll(double value, int viewportHeight) {
+        return Math.max(0.0D, Math.min(maxDetailsScroll(viewportHeight), value));
+    }
+
+    private double maxDetailsScroll(int viewportHeight) {
+        return Math.max(0.0D, detailsContentHeight - viewportHeight);
+    }
+
     private int detailsLeft(int panelWidth) {
         return width - panelWidth - DETAILS_MARGIN;
     }
@@ -356,5 +495,8 @@ public class QuestGraphScreen extends Screen {
     private boolean isCloseDetails(double mouseX, double mouseY) {
         return mouseX >= width - 30 && mouseX <= width - 18
                 && mouseY >= DETAILS_MARGIN + 8 && mouseY <= DETAILS_MARGIN + 20;
+    }
+
+    private record ImageDimensions(int width, int height) {
     }
 }
