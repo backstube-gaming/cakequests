@@ -1,0 +1,511 @@
+{
+  "id": "modular_routers",
+  "enabled": true,
+  "title": {
+    "text": "Modular Routers"
+  },
+  "tab_color": "#D99032",
+  "nodes": [
+    {
+      "id": "modular_router",
+      "events": [
+        {
+          "id": "craft_router",
+          "type": "item_craft",
+          "item": "modularrouters:modular_router",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Modular Router"
+      },
+      "subtitle": {
+        "text": "Programmable logistics block"
+      },
+      "description": [
+        {
+          "text": "Craft the core router. Modules installed inside define what it pulls, sends, places, breaks, or activates.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:modular_router"
+      },
+      "x": 80,
+      "y": 120,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": []
+    },
+    {
+      "id": "blank_module",
+      "events": [
+        {
+          "id": "craft_blank_module",
+          "type": "item_craft",
+          "item": "modularrouters:blank_module",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Blank Module"
+      },
+      "subtitle": {
+        "text": "Base for router behavior"
+      },
+      "description": [
+        {
+          "text": "Most router functions begin from blank modules.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:blank_module"
+      },
+      "x": 220,
+      "y": 120,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["modular_router"]
+    },
+    {
+      "id": "sender_module",
+      "events": [
+        {
+          "id": "craft_sender",
+          "type": "item_craft",
+          "item": "modularrouters:sender_module_1",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Sender Module"
+      },
+      "subtitle": {
+        "text": "Send items to inventory targets"
+      },
+      "description": [
+        {
+          "text": "Sender modules push items from the router to configured inventories.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:sender_module_1"
+      },
+      "x": 360,
+      "y": 60,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["blank_module"]
+    },
+    {
+      "id": "puller_module",
+      "events": [
+        {
+          "id": "craft_puller",
+          "type": "item_craft",
+          "item": "modularrouters:puller_module_1",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Puller Module"
+      },
+      "subtitle": {
+        "text": "Pull items into the router"
+      },
+      "description": [
+        {
+          "text": "Puller modules extract items from inventories into the router buffer.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:puller_module_1"
+      },
+      "x": 360,
+      "y": 120,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["blank_module"]
+    },
+    {
+      "id": "distributor_module",
+      "events": [
+        {
+          "id": "craft_distributor",
+          "type": "item_craft",
+          "item": "modularrouters:distributor_module",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Distributor Module"
+      },
+      "subtitle": {
+        "text": "Split outputs"
+      },
+      "description": [
+        {
+          "text": "Distributor modules spread items across multiple configured destinations.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:distributor_module"
+      },
+      "x": 500,
+      "y": 60,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["sender_module"]
+    },
+    {
+      "id": "filtering",
+      "events": [
+        {
+          "id": "craft_bulk_filter",
+          "type": "item_craft",
+          "item": "modularrouters:bulk_item_filter",
+          "count": 1
+        },
+        {
+          "id": "craft_regex_filter",
+          "type": "item_craft",
+          "item": "modularrouters:regex_filter",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Router Filters"
+      },
+      "subtitle": {
+        "text": "Control what moves"
+      },
+      "description": [
+        {
+          "text": "Use filters to keep routers precise instead of moving every matching stack.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:bulk_item_filter"
+      },
+      "x": 500,
+      "y": 120,
+      "shape": "square",
+      "color": "#D99032",
+      "parents": ["puller_module"]
+    },
+    {
+      "id": "placer_module",
+      "events": [
+        {
+          "id": "craft_placer",
+          "type": "item_craft",
+          "item": "modularrouters:placer_module",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Placer Module"
+      },
+      "subtitle": {
+        "text": "Place blocks automatically"
+      },
+      "description": [
+        {
+          "text": "Placer modules turn the router into a configurable block placer.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:placer_module"
+      },
+      "x": 640,
+      "y": 40,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["blank_module"]
+    },
+    {
+      "id": "breaker_module",
+      "events": [
+        {
+          "id": "craft_breaker",
+          "type": "item_craft",
+          "item": "modularrouters:breaker_module",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Breaker Module"
+      },
+      "subtitle": {
+        "text": "Break blocks automatically"
+      },
+      "description": [
+        {
+          "text": "Breaker modules are useful for compact farms and machine loops.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:breaker_module"
+      },
+      "x": 640,
+      "y": 100,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["blank_module"]
+    },
+    {
+      "id": "activator_module",
+      "events": [
+        {
+          "id": "craft_activator",
+          "type": "item_craft",
+          "item": "modularrouters:activator_module",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Activator Module"
+      },
+      "subtitle": {
+        "text": "Use items like a player"
+      },
+      "description": [
+        {
+          "text": "Activator modules can right-click or left-click with configured items.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:activator_module"
+      },
+      "x": 640,
+      "y": 160,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["blank_module"]
+    },
+    {
+      "id": "vacuum_module",
+      "events": [
+        {
+          "id": "craft_vacuum",
+          "type": "item_craft",
+          "item": "modularrouters:vacuum_module",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Vacuum Module"
+      },
+      "subtitle": {
+        "text": "Collect loose items"
+      },
+      "description": [
+        {
+          "text": "Vacuum modules collect nearby item entities into the router.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:vacuum_module"
+      },
+      "x": 780,
+      "y": 60,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["filtering"]
+    },
+    {
+      "id": "fluid_modules",
+      "events": [
+        {
+          "id": "craft_fluid_module",
+          "type": "item_craft",
+          "item": "modularrouters:fluid_module",
+          "count": 1
+        },
+        {
+          "id": "craft_fluid_upgrade",
+          "type": "item_craft",
+          "item": "modularrouters:fluid_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Fluid Modules"
+      },
+      "subtitle": {
+        "text": "Route fluids"
+      },
+      "description": [
+        {
+          "text": "Fluid modules extend routers into compact fluid automation.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:fluid_module"
+      },
+      "x": 780,
+      "y": 120,
+      "shape": "square",
+      "color": "#D99032",
+      "parents": ["filtering"]
+    },
+    {
+      "id": "energy_modules",
+      "events": [
+        {
+          "id": "craft_energy_output",
+          "type": "item_craft",
+          "item": "modularrouters:energy_output_module",
+          "count": 1
+        },
+        {
+          "id": "craft_energy_distributor",
+          "type": "item_craft",
+          "item": "modularrouters:energy_distributor_module",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Energy Modules"
+      },
+      "subtitle": {
+        "text": "Route FE"
+      },
+      "description": [
+        {
+          "text": "Energy modules let routers distribute power through compact setups.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:energy_distributor_module"
+      },
+      "x": 780,
+      "y": 180,
+      "shape": "square",
+      "color": "#D99032",
+      "parents": ["filtering"]
+    },
+    {
+      "id": "speed_stack_upgrades",
+      "events": [
+        {
+          "id": "craft_speed",
+          "type": "item_craft",
+          "item": "modularrouters:speed_upgrade",
+          "count": 1
+        },
+        {
+          "id": "craft_stack",
+          "type": "item_craft",
+          "item": "modularrouters:stack_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Speed and Stack Upgrades"
+      },
+      "subtitle": {
+        "text": "Scale router throughput"
+      },
+      "description": [
+        {
+          "text": "Speed and stack upgrades make routers viable for faster production lines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:speed_upgrade"
+      },
+      "x": 920,
+      "y": 120,
+      "shape": "square",
+      "color": "#D99032",
+      "parents": ["distributor_module", "filtering"]
+    },
+    {
+      "id": "range_upgrades",
+      "events": [
+        {
+          "id": "craft_range_up",
+          "type": "item_craft",
+          "item": "modularrouters:range_upgrade",
+          "count": 1
+        },
+        {
+          "id": "craft_range_down",
+          "type": "item_craft",
+          "item": "modularrouters:rangedown_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Range Upgrades"
+      },
+      "subtitle": {
+        "text": "Reach farther targets"
+      },
+      "description": [
+        {
+          "text": "Range upgrades let modules affect farther inventories and block positions.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:range_upgrade"
+      },
+      "x": 1060,
+      "y": 120,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["speed_stack_upgrades"]
+    },
+    {
+      "id": "security_and_muffling",
+      "events": [
+        {
+          "id": "craft_security",
+          "type": "item_craft",
+          "item": "modularrouters:security_upgrade",
+          "count": 1
+        },
+        {
+          "id": "craft_muffler",
+          "type": "item_craft",
+          "item": "modularrouters:muffler_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Security and Muffling"
+      },
+      "subtitle": {
+        "text": "Polish production routers"
+      },
+      "description": [
+        {
+          "text": "Add security and muffling upgrades before routers become permanent infrastructure.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "modularrouters:security_upgrade"
+      },
+      "x": 1200,
+      "y": 120,
+      "shape": "circle",
+      "color": "#D99032",
+      "parents": ["range_upgrades"]
+    }
+  ]
+}

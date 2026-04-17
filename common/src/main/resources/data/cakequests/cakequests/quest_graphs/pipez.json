@@ -1,0 +1,351 @@
+{
+  "id": "pipez",
+  "enabled": true,
+  "title": {
+    "text": "Pipez"
+  },
+  "tab_color": "#5A5A64",
+  "nodes": [
+    {
+      "id": "pipez_wrench",
+      "events": [
+        {
+          "id": "craft_wrench",
+          "type": "item_craft",
+          "item": "pipez:wrench",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Pipez Wrench"
+      },
+      "subtitle": {
+        "text": "Configure extraction and connections"
+      },
+      "description": [
+        {
+          "text": "Craft the Pipez wrench before building large pipe networks.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:wrench"
+      },
+      "x": 80,
+      "y": 100,
+      "shape": "circle",
+      "color": "#6F7680",
+      "parents": []
+    },
+    {
+      "id": "item_pipe",
+      "events": [
+        {
+          "id": "craft_item_pipe",
+          "type": "item_craft",
+          "item": "pipez:item_pipe",
+          "count": 8
+        }
+      ],
+      "title": {
+        "text": "Item Pipe"
+      },
+      "subtitle": {
+        "text": "Move items"
+      },
+      "description": [
+        {
+          "text": "Item pipes are the basic item transport option.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:item_pipe"
+      },
+      "x": 220,
+      "y": 40,
+      "shape": "circle",
+      "color": "#6F7680",
+      "parents": ["pipez_wrench"]
+    },
+    {
+      "id": "fluid_pipe",
+      "events": [
+        {
+          "id": "craft_fluid_pipe",
+          "type": "item_craft",
+          "item": "pipez:fluid_pipe",
+          "count": 8
+        }
+      ],
+      "title": {
+        "text": "Fluid Pipe"
+      },
+      "subtitle": {
+        "text": "Move liquids"
+      },
+      "description": [
+        {
+          "text": "Fluid pipes handle tanks, machines, and fluid automation.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:fluid_pipe"
+      },
+      "x": 220,
+      "y": 100,
+      "shape": "circle",
+      "color": "#6F7680",
+      "parents": ["pipez_wrench"]
+    },
+    {
+      "id": "energy_pipe",
+      "events": [
+        {
+          "id": "craft_energy_pipe",
+          "type": "item_craft",
+          "item": "pipez:energy_pipe",
+          "count": 8
+        }
+      ],
+      "title": {
+        "text": "Energy Pipe"
+      },
+      "subtitle": {
+        "text": "Move FE/RF"
+      },
+      "description": [
+        {
+          "text": "Energy pipes connect generators, batteries, and machines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:energy_pipe"
+      },
+      "x": 220,
+      "y": 160,
+      "shape": "circle",
+      "color": "#6F7680",
+      "parents": ["pipez_wrench"]
+    },
+    {
+      "id": "gas_pipe",
+      "events": [
+        {
+          "id": "craft_gas_pipe",
+          "type": "item_craft",
+          "item": "pipez:gas_pipe",
+          "count": 8
+        }
+      ],
+      "title": {
+        "text": "Gas Pipe"
+      },
+      "subtitle": {
+        "text": "Mekanism gas transport"
+      },
+      "description": [
+        {
+          "text": "Gas pipes are useful once Mekanism chemical processing enters the base.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:gas_pipe"
+      },
+      "x": 360,
+      "y": 160,
+      "shape": "circle",
+      "color": "#6F7680",
+      "parents": ["energy_pipe"]
+    },
+    {
+      "id": "basic_upgrade",
+      "events": [
+        {
+          "id": "craft_basic_upgrade",
+          "type": "item_craft",
+          "item": "pipez:basic_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Basic Upgrade"
+      },
+      "subtitle": {
+        "text": "Enable extraction"
+      },
+      "description": [
+        {
+          "text": "Pipe upgrades improve transfer rate and filtering. Start with the Basic Upgrade.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:basic_upgrade"
+      },
+      "x": 360,
+      "y": 40,
+      "shape": "square",
+      "color": "#6F7680",
+      "parents": ["item_pipe"]
+    },
+    {
+      "id": "improved_upgrade",
+      "events": [
+        {
+          "id": "craft_improved_upgrade",
+          "type": "item_craft",
+          "item": "pipez:improved_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Improved Upgrade"
+      },
+      "subtitle": {
+        "text": "Faster transfer"
+      },
+      "description": [
+        {
+          "text": "Step up to Improved Upgrades as networks grow.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:improved_upgrade"
+      },
+      "x": 500,
+      "y": 40,
+      "shape": "square",
+      "color": "#6F7680",
+      "parents": ["basic_upgrade"]
+    },
+    {
+      "id": "advanced_upgrade",
+      "events": [
+        {
+          "id": "craft_advanced_upgrade",
+          "type": "item_craft",
+          "item": "pipez:advanced_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Advanced Upgrade"
+      },
+      "subtitle": {
+        "text": "Serious throughput"
+      },
+      "description": [
+        {
+          "text": "Advanced Upgrades are appropriate for higher volume machines and storage systems.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:advanced_upgrade"
+      },
+      "x": 640,
+      "y": 40,
+      "shape": "square",
+      "color": "#6F7680",
+      "parents": ["improved_upgrade"]
+    },
+    {
+      "id": "ultimate_upgrade",
+      "events": [
+        {
+          "id": "craft_ultimate_upgrade",
+          "type": "item_craft",
+          "item": "pipez:ultimate_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Ultimate Upgrade"
+      },
+      "subtitle": {
+        "text": "Top normal upgrade tier"
+      },
+      "description": [
+        {
+          "text": "Ultimate Upgrades are the highest normal Pipez upgrade tier.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:ultimate_upgrade"
+      },
+      "x": 780,
+      "y": 40,
+      "shape": "square",
+      "color": "#6F7680",
+      "parents": ["advanced_upgrade"]
+    },
+    {
+      "id": "universal_pipe",
+      "events": [
+        {
+          "id": "craft_universal_pipe",
+          "type": "item_craft",
+          "item": "pipez:universal_pipe",
+          "count": 8
+        }
+      ],
+      "title": {
+        "text": "Universal Pipe"
+      },
+      "subtitle": {
+        "text": "One pipe for multiple transfer types"
+      },
+      "description": [
+        {
+          "text": "Universal Pipes simplify compact utility runs when multiple transfer types are needed.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:universal_pipe"
+      },
+      "x": 500,
+      "y": 120,
+      "shape": "diamond",
+      "color": "#6F7680",
+      "parents": ["fluid_pipe", "energy_pipe"]
+    },
+    {
+      "id": "filter_destination_tool",
+      "events": [
+        {
+          "id": "craft_filter_tool",
+          "type": "item_craft",
+          "item": "pipez:filter_destination_tool",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Filter Destination Tool"
+      },
+      "subtitle": {
+        "text": "Control where filtered items go"
+      },
+      "description": [
+        {
+          "text": "Use the filter destination tool for more deliberate routing instead of raw extraction only.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "pipez:filter_destination_tool"
+      },
+      "x": 920,
+      "y": 40,
+      "shape": "circle",
+      "color": "#6F7680",
+      "parents": ["ultimate_upgrade"]
+    }
+  ]
+}

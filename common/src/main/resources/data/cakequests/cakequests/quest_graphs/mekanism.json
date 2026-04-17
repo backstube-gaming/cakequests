@@ -1,0 +1,837 @@
+{
+  "id": "mekanism",
+  "enabled": true,
+  "title": {
+    "text": "Mekanism"
+  },
+  "tab_color": "#45A6C8",
+  "nodes": [
+    {
+      "id": "osmium",
+      "events": [
+        {
+          "id": "pickup_osmium",
+          "type": "item_pickup",
+          "item": "mekanism:ingot_osmium",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Osmium"
+      },
+      "subtitle": {
+        "text": "Core Mekanism metal"
+      },
+      "description": [
+        {
+          "text": "Collect osmium to begin Mekanism machine progression.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:ingot_osmium"
+      },
+      "x": 80,
+      "y": 120,
+      "shape": "circle",
+      "color": "#45A6C8",
+      "parents": []
+    },
+    {
+      "id": "metallurgic_infuser",
+      "events": [
+        {
+          "id": "craft_infuser",
+          "type": "item_craft",
+          "item": "mekanism:metallurgic_infuser",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Metallurgic Infuser"
+      },
+      "subtitle": {
+        "text": "Mekanism's first machine"
+      },
+      "description": [
+        {
+          "text": "Craft the Metallurgic Infuser to make alloys, control circuits, and early components.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:metallurgic_infuser"
+      },
+      "x": 220,
+      "y": 120,
+      "shape": "circle",
+      "color": "#45A6C8",
+      "parents": ["osmium"]
+    },
+    {
+      "id": "infused_alloy",
+      "events": [
+        {
+          "id": "pickup_infused_alloy",
+          "type": "item_pickup",
+          "item": "mekanism:alloy_infused",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Infused Alloy"
+      },
+      "subtitle": {
+        "text": "First tier alloy"
+      },
+      "description": [
+        {
+          "text": "Produce Infused Alloy from the Metallurgic Infuser. This alloy appears throughout Mekanism.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:alloy_infused"
+      },
+      "x": 360,
+      "y": 120,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["metallurgic_infuser"]
+    },
+    {
+      "id": "control_circuits",
+      "events": [
+        {
+          "id": "pickup_basic_circuit",
+          "type": "item_pickup",
+          "item": "mekanism:basic_control_circuit",
+          "count": 1
+        },
+        {
+          "id": "pickup_advanced_circuit",
+          "type": "item_pickup",
+          "item": "mekanism:advanced_control_circuit",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Control Circuits"
+      },
+      "subtitle": {
+        "text": "Machine brains"
+      },
+      "description": [
+        {
+          "text": "Make Basic and Advanced Control Circuits for machines and upgrades.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:basic_control_circuit"
+      },
+      "x": 500,
+      "y": 120,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["infused_alloy"]
+    },
+    {
+      "id": "enrichment_chamber",
+      "events": [
+        {
+          "id": "craft_enrichment",
+          "type": "item_craft",
+          "item": "mekanism:enrichment_chamber",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Enrichment Chamber"
+      },
+      "subtitle": {
+        "text": "Improve resource processing"
+      },
+      "description": [
+        {
+          "text": "The Enrichment Chamber doubles ores and prepares enriched infusion materials.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:enrichment_chamber"
+      },
+      "x": 640,
+      "y": 80,
+      "shape": "circle",
+      "color": "#45A6C8",
+      "parents": ["control_circuits"]
+    },
+    {
+      "id": "energized_smelter",
+      "events": [
+        {
+          "id": "craft_smelter",
+          "type": "item_craft",
+          "item": "mekanism:energized_smelter",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Energized Smelter"
+      },
+      "subtitle": {
+        "text": "Powered furnace"
+      },
+      "description": [
+        {
+          "text": "Craft the Energized Smelter as Mekanism's basic powered smelting machine.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:energized_smelter"
+      },
+      "x": 640,
+      "y": 160,
+      "shape": "circle",
+      "color": "#45A6C8",
+      "parents": ["control_circuits"]
+    },
+    {
+      "id": "crusher",
+      "events": [
+        {
+          "id": "craft_crusher",
+          "type": "item_craft",
+          "item": "mekanism:crusher",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Crusher"
+      },
+      "subtitle": {
+        "text": "Dusts and processed materials"
+      },
+      "description": [
+        {
+          "text": "Craft the Crusher for dusts, bio fuel, and recipe chains that need crushed inputs.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:crusher"
+      },
+      "x": 780,
+      "y": 80,
+      "shape": "circle",
+      "color": "#45A6C8",
+      "parents": ["enrichment_chamber"]
+    },
+    {
+      "id": "steel_casing",
+      "events": [
+        {
+          "id": "pickup_steel_casing",
+          "type": "item_pickup",
+          "item": "mekanism:steel_casing",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Steel Casing"
+      },
+      "subtitle": {
+        "text": "Advanced machine component"
+      },
+      "description": [
+        {
+          "text": "Craft Steel Casings for higher tier Mekanism machines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:steel_casing"
+      },
+      "x": 780,
+      "y": 160,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["energized_smelter"]
+    },
+    {
+      "id": "basic_factories",
+      "events": [
+        {
+          "id": "craft_enriching_factory",
+          "type": "item_craft",
+          "item": "mekanism:basic_enriching_factory",
+          "count": 1
+        },
+        {
+          "id": "craft_smelting_factory",
+          "type": "item_craft",
+          "item": "mekanism:basic_smelting_factory",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Basic Factories"
+      },
+      "subtitle": {
+        "text": "Parallelize machine operations"
+      },
+      "description": [
+        {
+          "text": "Factories process multiple items at once and are the backbone of a larger Mekanism base.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:basic_enriching_factory"
+      },
+      "x": 920,
+      "y": 120,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["crusher", "steel_casing"]
+    },
+    {
+      "id": "logistical_transport",
+      "events": [
+        {
+          "id": "craft_transporter",
+          "type": "item_craft",
+          "item": "mekanism:basic_logistical_transporter",
+          "count": 8
+        },
+        {
+          "id": "craft_configurator",
+          "type": "item_craft",
+          "item": "mekanism:configurator",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Logistical Transport"
+      },
+      "subtitle": {
+        "text": "Mekanism item logistics"
+      },
+      "description": [
+        {
+          "text": "Transporters and the Configurator provide Mekanism-native item routing.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:basic_logistical_transporter"
+      },
+      "x": 920,
+      "y": 20,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["basic_factories"]
+    },
+    {
+      "id": "energy_storage",
+      "events": [
+        {
+          "id": "craft_energy_tablet",
+          "type": "item_craft",
+          "item": "mekanism:energy_tablet",
+          "count": 1
+        },
+        {
+          "id": "craft_energy_cube",
+          "type": "item_craft",
+          "item": "mekanism:basic_energy_cube",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Energy Storage"
+      },
+      "subtitle": {
+        "text": "Store power without generating it"
+      },
+      "description": [
+        {
+          "text": "Energy Tablets and Energy Cubes store power. This branch is not the Mekanism Generators unlock.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:basic_energy_cube"
+      },
+      "x": 1060,
+      "y": 20,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["logistical_transport"]
+    },
+    {
+      "id": "pipes_and_tubes",
+      "events": [
+        {
+          "id": "craft_universal_cable",
+          "type": "item_craft",
+          "item": "mekanism:basic_universal_cable",
+          "count": 8
+        },
+        {
+          "id": "craft_mechanical_pipe",
+          "type": "item_craft",
+          "item": "mekanism:basic_mechanical_pipe",
+          "count": 8
+        },
+        {
+          "id": "craft_pressurized_tube",
+          "type": "item_craft",
+          "item": "mekanism:basic_pressurized_tube",
+          "count": 8
+        }
+      ],
+      "title": {
+        "text": "Cables, Pipes, and Tubes"
+      },
+      "subtitle": {
+        "text": "Move power, fluids, and chemicals"
+      },
+      "description": [
+        {
+          "text": "Mekanism's transport blocks connect machines and chemical systems.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:basic_universal_cable"
+      },
+      "x": 1060,
+      "y": 120,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["basic_factories"]
+    },
+    {
+      "id": "ore_processing_two_x",
+      "events": [
+        {
+          "id": "craft_purification",
+          "type": "item_craft",
+          "item": "mekanism:purification_chamber",
+          "count": 1
+        },
+        {
+          "id": "craft_injection",
+          "type": "item_craft",
+          "item": "mekanism:chemical_injection_chamber",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Ore Processing Upgrades"
+      },
+      "subtitle": {
+        "text": "Chemical-assisted processing"
+      },
+      "description": [
+        {
+          "text": "Move beyond simple enrichment with purification and injection processing.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:purification_chamber"
+      },
+      "x": 1200,
+      "y": 120,
+      "shape": "circle",
+      "color": "#45A6C8",
+      "parents": ["pipes_and_tubes"]
+    },
+    {
+      "id": "chemical_chain",
+      "events": [
+        {
+          "id": "craft_separator",
+          "type": "item_craft",
+          "item": "mekanism:electrolytic_separator",
+          "count": 1
+        },
+        {
+          "id": "craft_infuser",
+          "type": "item_craft",
+          "item": "mekanism:chemical_infuser",
+          "count": 1
+        },
+        {
+          "id": "craft_oxidizer",
+          "type": "item_craft",
+          "item": "mekanism:chemical_oxidizer",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Chemical Chain"
+      },
+      "subtitle": {
+        "text": "Hydrogen, oxygen, and advanced chemicals"
+      },
+      "description": [
+        {
+          "text": "Chemical machines unlock higher ore processing, fuels, and late-game materials.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:chemical_infuser"
+      },
+      "x": 1340,
+      "y": 120,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["ore_processing_two_x"]
+    },
+    {
+      "id": "thermal_evaporation",
+      "events": [
+        {
+          "id": "craft_evaporation",
+          "type": "item_craft",
+          "item": "mekanism:thermal_evaporation_controller",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Thermal Evaporation"
+      },
+      "subtitle": {
+        "text": "Brine and lithium"
+      },
+      "description": [
+        {
+          "text": "Build Thermal Evaporation towers for brine and downstream chemical progression.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:thermal_evaporation_controller"
+      },
+      "x": 1480,
+      "y": 120,
+      "shape": "circle",
+      "color": "#45A6C8",
+      "parents": ["chemical_chain"]
+    },
+    {
+      "id": "advanced_alloys",
+      "events": [
+        {
+          "id": "pickup_reinforced_alloy",
+          "type": "item_pickup",
+          "item": "mekanism:alloy_reinforced",
+          "count": 1
+        },
+        {
+          "id": "pickup_atomic_alloy",
+          "type": "item_pickup",
+          "item": "mekanism:alloy_atomic",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Advanced Alloys"
+      },
+      "subtitle": {
+        "text": "Reinforced and atomic alloys"
+      },
+      "description": [
+        {
+          "text": "Upgrade alloy production into reinforced and atomic tiers for advanced machines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:alloy_atomic"
+      },
+      "x": 1620,
+      "y": 120,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["thermal_evaporation"]
+    },
+    {
+      "id": "digital_miner",
+      "events": [
+        {
+          "id": "craft_digital_miner",
+          "type": "item_craft",
+          "item": "mekanism:digital_miner",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Digital Miner"
+      },
+      "subtitle": {
+        "text": "Configurable resource extraction"
+      },
+      "description": [
+        {
+          "text": "Craft the Digital Miner after the advanced component chain is established.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanism:digital_miner"
+      },
+      "x": 1760,
+      "y": 120,
+      "shape": "diamond",
+      "color": "#45A6C8",
+      "parents": ["advanced_alloys"]
+    },
+    {
+      "id": "unlock_mekanism_generators",
+      "events": [
+        {
+          "id": "craft_generator_unlock_marker",
+          "type": "item_craft",
+          "item": "mekanism:basic_energy_cube",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Unlock Mekanism Generators"
+      },
+      "subtitle": {
+        "text": "Special modpack unlock"
+      },
+      "description": [
+        {
+          "text": "This gate separates all Mekanism power-producing generator content from the rest of the Mekanism chapter.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanismgenerators:heat_generator"
+      },
+      "x": 1200,
+      "y": 260,
+      "shape": "diamond",
+      "color": "#45A6C8",
+      "parents": ["energy_storage"]
+    },
+    {
+      "id": "basic_generators",
+      "events": [
+        {
+          "id": "craft_heat_generator",
+          "type": "item_craft",
+          "item": "mekanismgenerators:heat_generator",
+          "count": 1
+        },
+        {
+          "id": "craft_solar_generator",
+          "type": "item_craft",
+          "item": "mekanismgenerators:solar_generator",
+          "count": 1
+        },
+        {
+          "id": "craft_wind_generator",
+          "type": "item_craft",
+          "item": "mekanismgenerators:wind_generator",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Basic Generators"
+      },
+      "subtitle": {
+        "text": "Heat, solar, and wind"
+      },
+      "description": [
+        {
+          "text": "After the generator unlock, craft the first Mekanism Generators power sources.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanismgenerators:heat_generator"
+      },
+      "x": 1340,
+      "y": 260,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["unlock_mekanism_generators"]
+    },
+    {
+      "id": "bio_and_gas_generators",
+      "events": [
+        {
+          "id": "craft_bio_generator",
+          "type": "item_craft",
+          "item": "mekanismgenerators:bio_generator",
+          "count": 1
+        },
+        {
+          "id": "craft_gas_burning",
+          "type": "item_craft",
+          "item": "mekanismgenerators:gas_burning_generator",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Bio and Gas Generators"
+      },
+      "subtitle": {
+        "text": "Fuel-based power"
+      },
+      "description": [
+        {
+          "text": "Bio and Gas-Burning Generators connect Mekanism chemistry to power production.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanismgenerators:gas_burning_generator"
+      },
+      "x": 1480,
+      "y": 260,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["basic_generators", "chemical_chain"]
+    },
+    {
+      "id": "fission_reactor",
+      "events": [
+        {
+          "id": "craft_fission_casing",
+          "type": "item_craft",
+          "item": "mekanismgenerators:fission_reactor_casing",
+          "count": 16
+        },
+        {
+          "id": "craft_fission_port",
+          "type": "item_craft",
+          "item": "mekanismgenerators:fission_reactor_port",
+          "count": 1
+        },
+        {
+          "id": "craft_fuel_assembly",
+          "type": "item_craft",
+          "item": "mekanismgenerators:fission_fuel_assembly",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Fission Reactor"
+      },
+      "subtitle": {
+        "text": "Large-scale nuclear power"
+      },
+      "description": [
+        {
+          "text": "Fission reactor components remain behind the Mekanism Generators unlock.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanismgenerators:fission_reactor_casing"
+      },
+      "x": 1620,
+      "y": 260,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["bio_and_gas_generators"]
+    },
+    {
+      "id": "industrial_turbine",
+      "events": [
+        {
+          "id": "craft_turbine_casing",
+          "type": "item_craft",
+          "item": "mekanismgenerators:turbine_casing",
+          "count": 16
+        },
+        {
+          "id": "craft_rotor",
+          "type": "item_craft",
+          "item": "mekanismgenerators:turbine_rotor",
+          "count": 1
+        },
+        {
+          "id": "craft_coil",
+          "type": "item_craft",
+          "item": "mekanismgenerators:electromagnetic_coil",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Industrial Turbine"
+      },
+      "subtitle": {
+        "text": "Convert steam to power"
+      },
+      "description": [
+        {
+          "text": "Industrial Turbines pair with reactor steam and are gated as generator infrastructure.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanismgenerators:turbine_casing"
+      },
+      "x": 1760,
+      "y": 260,
+      "shape": "square",
+      "color": "#45A6C8",
+      "parents": ["fission_reactor"]
+    },
+    {
+      "id": "fusion_reactor",
+      "events": [
+        {
+          "id": "craft_fusion_controller",
+          "type": "item_craft",
+          "item": "mekanismgenerators:fusion_reactor_controller",
+          "count": 1
+        },
+        {
+          "id": "craft_fusion_frame",
+          "type": "item_craft",
+          "item": "mekanismgenerators:fusion_reactor_frame",
+          "count": 16
+        },
+        {
+          "id": "craft_hohlraum",
+          "type": "item_craft",
+          "item": "mekanismgenerators:hohlraum",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Fusion Reactor"
+      },
+      "subtitle": {
+        "text": "Endgame Mekanism power"
+      },
+      "description": [
+        {
+          "text": "Fusion reactor progression is the late Mekanism generator branch.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "mekanismgenerators:fusion_reactor_controller"
+      },
+      "x": 1900,
+      "y": 260,
+      "shape": "diamond",
+      "color": "#45A6C8",
+      "parents": ["industrial_turbine"]
+    }
+  ]
+}

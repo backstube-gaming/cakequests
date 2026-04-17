@@ -1,0 +1,721 @@
+{
+  "id": "botania",
+  "enabled": true,
+  "title": {
+    "text": "Botania"
+  },
+  "tab_color": "#3FAE58",
+  "nodes": [
+    {
+      "id": "lexica_botania",
+      "events": [
+        {
+          "id": "craft_lexicon",
+          "type": "item_craft",
+          "item": "botania:lexicon",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Lexica Botania"
+      },
+      "subtitle": {
+        "text": "Start with the in-game guide"
+      },
+      "description": [
+        {
+          "text": "Craft the Lexica Botania and use it as the reference for flower, mana, rune, and Alfheim progression.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:lexicon"
+      },
+      "x": 80,
+      "y": 120,
+      "shape": "circle",
+      "color": "#3FAE58",
+      "parents": []
+    },
+    {
+      "id": "mystical_flowers",
+      "events": [
+        {
+          "id": "pickup_flower",
+          "type": "item_pickup",
+          "item": "botania:white_mystical_flower",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Mystical Flowers"
+      },
+      "subtitle": {
+        "text": "Gather petals for early Botania"
+      },
+      "description": [
+        {
+          "text": "Find mystical flowers. Any color is useful, but this quest tracks white flowers as the first Botania pickup.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:white_mystical_flower"
+      },
+      "x": 220,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["lexica_botania"]
+    },
+    {
+      "id": "petal_apothecary",
+      "events": [
+        {
+          "id": "craft_apothecary",
+          "type": "item_craft",
+          "item": "botania:apothecary_default",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Petal Apothecary"
+      },
+      "subtitle": {
+        "text": "Flower crafting station"
+      },
+      "description": [
+        {
+          "text": "The Petal Apothecary crafts functional and generating flowers from petals, seeds, and water.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:apothecary_default"
+      },
+      "x": 360,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["mystical_flowers"]
+    },
+    {
+      "id": "pure_daisy",
+      "events": [
+        {
+          "id": "craft_pure_daisy",
+          "type": "item_pickup",
+          "item": "botania:pure_daisy",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Pure Daisy"
+      },
+      "subtitle": {
+        "text": "Transform stone and logs"
+      },
+      "description": [
+        {
+          "text": "Create a Pure Daisy to convert vanilla materials into livingrock and livingwood.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:pure_daisy"
+      },
+      "x": 500,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["petal_apothecary"]
+    },
+    {
+      "id": "living_materials",
+      "events": [
+        {
+          "id": "pickup_livingrock",
+          "type": "item_pickup",
+          "item": "botania:livingrock",
+          "count": 16
+        },
+        {
+          "id": "pickup_livingwood",
+          "type": "item_pickup",
+          "item": "botania:livingwood_log",
+          "count": 16
+        }
+      ],
+      "title": {
+        "text": "Living Materials"
+      },
+      "subtitle": {
+        "text": "Botania's base blocks"
+      },
+      "description": [
+        {
+          "text": "Use the Pure Daisy to make livingrock and livingwood for the first mana network.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:livingrock"
+      },
+      "x": 640,
+      "y": 120,
+      "shape": "square",
+      "color": "#66C56F",
+      "parents": ["pure_daisy"]
+    },
+    {
+      "id": "wand_of_the_forest",
+      "events": [
+        {
+          "id": "craft_twig_wand",
+          "type": "item_craft",
+          "item": "botania:twig_wand",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Wand of the Forest"
+      },
+      "subtitle": {
+        "text": "Bind spreaders and pools"
+      },
+      "description": [
+        {
+          "text": "Craft the wand used to link mana spreaders, inspect mana blocks, and configure Botania devices.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:twig_wand"
+      },
+      "x": 640,
+      "y": 20,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["living_materials"]
+    },
+    {
+      "id": "mana_spreader",
+      "events": [
+        {
+          "id": "craft_spreader",
+          "type": "item_craft",
+          "item": "botania:mana_spreader",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Mana Spreader"
+      },
+      "subtitle": {
+        "text": "Move mana between blocks"
+      },
+      "description": [
+        {
+          "text": "Craft a Mana Spreader so generating flowers can send mana into pools and other Botania blocks.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:mana_spreader"
+      },
+      "x": 780,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["living_materials"]
+    },
+    {
+      "id": "mana_pool",
+      "events": [
+        {
+          "id": "craft_pool",
+          "type": "item_craft",
+          "item": "botania:mana_pool",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Mana Pool"
+      },
+      "subtitle": {
+        "text": "Store and infuse mana"
+      },
+      "description": [
+        {
+          "text": "Craft a Mana Pool. It stores mana and converts common resources into mana materials.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:mana_pool"
+      },
+      "x": 920,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["mana_spreader"]
+    },
+    {
+      "id": "endoflame",
+      "events": [
+        {
+          "id": "pickup_endoflame",
+          "type": "item_pickup",
+          "item": "botania:endoflame",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Endoflame"
+      },
+      "subtitle": {
+        "text": "Reliable early mana"
+      },
+      "description": [
+        {
+          "text": "Endoflames consume burnable items on the ground and are a practical first mana source.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:endoflame"
+      },
+      "x": 920,
+      "y": 20,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["mana_pool"]
+    },
+    {
+      "id": "mana_resources",
+      "events": [
+        {
+          "id": "pickup_manasteel",
+          "type": "item_pickup",
+          "item": "botania:manasteel_ingot",
+          "count": 1
+        },
+        {
+          "id": "pickup_mana_pearl",
+          "type": "item_pickup",
+          "item": "botania:mana_pearl",
+          "count": 1
+        },
+        {
+          "id": "pickup_mana_diamond",
+          "type": "item_pickup",
+          "item": "botania:mana_diamond",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Mana Resources"
+      },
+      "subtitle": {
+        "text": "Infuse iron, pearls, and diamonds"
+      },
+      "description": [
+        {
+          "text": "Use mana infusion to make manasteel, mana pearls, and mana diamonds.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:manasteel_ingot"
+      },
+      "x": 1060,
+      "y": 120,
+      "shape": "square",
+      "color": "#66C56F",
+      "parents": ["mana_pool"]
+    },
+    {
+      "id": "runic_altar",
+      "events": [
+        {
+          "id": "craft_runic_altar",
+          "type": "item_craft",
+          "item": "botania:runic_altar",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Runic Altar"
+      },
+      "subtitle": {
+        "text": "Craft elemental runes"
+      },
+      "description": [
+        {
+          "text": "Craft the Runic Altar to start making elemental and seasonal runes.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:runic_altar"
+      },
+      "x": 1200,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["mana_resources"]
+    },
+    {
+      "id": "elemental_runes",
+      "events": [
+        {
+          "id": "pickup_rune_water",
+          "type": "item_pickup",
+          "item": "botania:rune_water",
+          "count": 1
+        },
+        {
+          "id": "pickup_rune_fire",
+          "type": "item_pickup",
+          "item": "botania:rune_fire",
+          "count": 1
+        },
+        {
+          "id": "pickup_rune_earth",
+          "type": "item_pickup",
+          "item": "botania:rune_earth",
+          "count": 1
+        },
+        {
+          "id": "pickup_rune_air",
+          "type": "item_pickup",
+          "item": "botania:rune_air",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Elemental Runes"
+      },
+      "subtitle": {
+        "text": "Water, fire, earth, and air"
+      },
+      "description": [
+        {
+          "text": "Make the four basic elemental runes. Many later flowers and devices build from these.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:rune_water"
+      },
+      "x": 1340,
+      "y": 120,
+      "shape": "square",
+      "color": "#66C56F",
+      "parents": ["runic_altar"]
+    },
+    {
+      "id": "alchemy_catalyst",
+      "events": [
+        {
+          "id": "craft_alchemy_catalyst",
+          "type": "item_craft",
+          "item": "botania:alchemy_catalyst",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Alchemy Catalyst"
+      },
+      "subtitle": {
+        "text": "Expand mana pool conversions"
+      },
+      "description": [
+        {
+          "text": "Place an Alchemy Catalyst under a Mana Pool to unlock additional mana transformations.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:alchemy_catalyst"
+      },
+      "x": 1200,
+      "y": 220,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["mana_resources"]
+    },
+    {
+      "id": "terra_plate",
+      "events": [
+        {
+          "id": "craft_terra_plate",
+          "type": "item_craft",
+          "item": "botania:terra_plate",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Terrestrial Agglomeration"
+      },
+      "subtitle": {
+        "text": "Prepare for Terrasteel"
+      },
+      "description": [
+        {
+          "text": "Craft the Terrestrial Agglomeration Plate and supply it with sparks and a lot of mana.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:terra_plate"
+      },
+      "x": 1480,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["elemental_runes"]
+    },
+    {
+      "id": "terrasteel",
+      "events": [
+        {
+          "id": "pickup_terrasteel",
+          "type": "item_pickup",
+          "item": "botania:terrasteel_ingot",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Terrasteel"
+      },
+      "subtitle": {
+        "text": "Mana steel, pearl, and diamond combined"
+      },
+      "description": [
+        {
+          "text": "Create Terrasteel on the Terrestrial Agglomeration Plate.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:terrasteel_ingot"
+      },
+      "x": 1620,
+      "y": 120,
+      "shape": "square",
+      "color": "#66C56F",
+      "parents": ["terra_plate"]
+    },
+    {
+      "id": "alfheim_portal",
+      "events": [
+        {
+          "id": "craft_alfheim_portal",
+          "type": "item_craft",
+          "item": "botania:alfheim_portal",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Alfheim Portal"
+      },
+      "subtitle": {
+        "text": "Trade for elven materials"
+      },
+      "description": [
+        {
+          "text": "Build the Alfheim Portal structure and open elven material progression.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:alfheim_portal"
+      },
+      "x": 1760,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["terrasteel"]
+    },
+    {
+      "id": "elven_materials",
+      "events": [
+        {
+          "id": "pickup_elementium",
+          "type": "item_pickup",
+          "item": "botania:elementium_ingot",
+          "count": 1
+        },
+        {
+          "id": "pickup_pixie_dust",
+          "type": "item_pickup",
+          "item": "botania:pixie_dust",
+          "count": 1
+        },
+        {
+          "id": "pickup_dragonstone",
+          "type": "item_pickup",
+          "item": "botania:dragonstone",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Elven Materials"
+      },
+      "subtitle": {
+        "text": "Elementium, Pixie Dust, and Dragonstone"
+      },
+      "description": [
+        {
+          "text": "Trade through the Alfheim Portal for the materials used in late Botania equipment and devices.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:elementium_ingot"
+      },
+      "x": 1900,
+      "y": 120,
+      "shape": "square",
+      "color": "#66C56F",
+      "parents": ["alfheim_portal"]
+    },
+    {
+      "id": "spark_network",
+      "events": [
+        {
+          "id": "craft_spark",
+          "type": "item_craft",
+          "item": "botania:spark",
+          "count": 1
+        },
+        {
+          "id": "craft_dominant",
+          "type": "item_craft",
+          "item": "botania:spark_upgrade_dominant",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Spark Network"
+      },
+      "subtitle": {
+        "text": "Move large amounts of mana"
+      },
+      "description": [
+        {
+          "text": "Use sparks and spark augments for higher throughput mana setups.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:spark"
+      },
+      "x": 1480,
+      "y": 20,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["elemental_runes"]
+    },
+    {
+      "id": "botania_flux_field_unlock",
+      "events": [
+        {
+          "id": "craft_fluxfield",
+          "type": "item_craft",
+          "item": "botania:mana_fluxfield",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Unlcock Botania Flux Field"
+      },
+      "subtitle": {
+        "text": "Mana to RF side objective"
+      },
+      "description": [
+        {
+          "text": "Craft the Mana Fluxfield, which converts mana into RF. This unlock is intentionally a side node and does not gate the rest of Botania.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:mana_fluxfield"
+      },
+      "x": 1060,
+      "y": 260,
+      "shape": "diamond",
+      "color": "#7AC943",
+      "parents": ["mana_resources"]
+    },
+    {
+      "id": "gaia_preparation",
+      "events": [
+        {
+          "id": "craft_gaia_pylon",
+          "type": "item_craft",
+          "item": "botania:gaia_pylon",
+          "count": 4
+        },
+        {
+          "id": "pickup_terra_armor",
+          "type": "item_pickup",
+          "item": "botania:terrasteel_helmet",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Gaia Preparation"
+      },
+      "subtitle": {
+        "text": "Prepare the ritual arena"
+      },
+      "description": [
+        {
+          "text": "Prepare Gaia pylons and Terrasteel gear before challenging the Guardian of Gaia.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:gaia_pylon"
+      },
+      "x": 2040,
+      "y": 120,
+      "shape": "circle",
+      "color": "#66C56F",
+      "parents": ["elven_materials"]
+    },
+    {
+      "id": "gaia_spirit",
+      "events": [
+        {
+          "id": "pickup_gaia_ingot",
+          "type": "item_pickup",
+          "item": "botania:gaia_ingot",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Gaia Spirit"
+      },
+      "subtitle": {
+        "text": "Late Botania material"
+      },
+      "description": [
+        {
+          "text": "Defeat the Guardian of Gaia and collect Gaia Spirits for endgame Botania crafts.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "botania:gaia_ingot"
+      },
+      "x": 2180,
+      "y": 120,
+      "shape": "square",
+      "color": "#66C56F",
+      "parents": ["gaia_preparation"]
+    }
+  ]
+}

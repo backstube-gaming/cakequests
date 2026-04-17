@@ -1,0 +1,868 @@
+{
+  "id": "applied_energistics_2",
+  "enabled": true,
+  "title": {
+    "text": "Applied Energistics 2"
+  },
+  "tab_color": "#6C8FC7",
+  "nodes": [
+    {
+      "id": "certus_quartz",
+      "events": [
+        {
+          "id": "pickup_certus",
+          "type": "item_pickup",
+          "item": "ae2:certus_quartz_crystal",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Certus Quartz"
+      },
+      "subtitle": {
+        "text": "AE2 base crystal"
+      },
+      "description": [
+        {
+          "text": "Collect Certus Quartz for the AE2 11.7.6 progression chain.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:certus_quartz_crystal"
+      },
+      "x": 80,
+      "y": 120,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": []
+    },
+    {
+      "id": "charger",
+      "events": [
+        {
+          "id": "craft_charger",
+          "type": "item_craft",
+          "item": "ae2:charger",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Charger"
+      },
+      "subtitle": {
+        "text": "Charge Certus Quartz"
+      },
+      "description": [
+        {
+          "text": "Craft a Charger to produce Charged Certus Quartz.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:charger"
+      },
+      "x": 220,
+      "y": 120,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["certus_quartz"]
+    },
+    {
+      "id": "charged_certus",
+      "events": [
+        {
+          "id": "pickup_charged",
+          "type": "item_pickup",
+          "item": "ae2:charged_certus_quartz_crystal",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Charged Certus"
+      },
+      "subtitle": {
+        "text": "Needed for Fluix"
+      },
+      "description": [
+        {
+          "text": "Charge Certus Quartz and prepare for Fluix crystal production.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:charged_certus_quartz_crystal"
+      },
+      "x": 360,
+      "y": 120,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["charger"]
+    },
+    {
+      "id": "fluix_crystal",
+      "events": [
+        {
+          "id": "pickup_fluix",
+          "type": "item_pickup",
+          "item": "ae2:fluix_crystal",
+          "count": 2
+        }
+      ],
+      "title": {
+        "text": "Fluix Crystal"
+      },
+      "subtitle": {
+        "text": "Quartz, redstone, and water"
+      },
+      "description": [
+        {
+          "text": "Create Fluix Crystals for cables, energy acceptors, and core network blocks.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:fluix_crystal"
+      },
+      "x": 500,
+      "y": 120,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["charged_certus"]
+    },
+    {
+      "id": "meteorite_presses",
+      "events": [
+        {
+          "id": "pickup_logic_press",
+          "type": "item_pickup",
+          "item": "ae2:logic_processor_press",
+          "count": 1
+        },
+        {
+          "id": "pickup_calc_press",
+          "type": "item_pickup",
+          "item": "ae2:calculation_processor_press",
+          "count": 1
+        },
+        {
+          "id": "pickup_eng_press",
+          "type": "item_pickup",
+          "item": "ae2:engineering_processor_press",
+          "count": 1
+        },
+        {
+          "id": "pickup_silicon_press",
+          "type": "item_pickup",
+          "item": "ae2:silicon_press",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Meteorite Presses"
+      },
+      "subtitle": {
+        "text": "Find the four processor presses"
+      },
+      "description": [
+        {
+          "text": "Find presses in meteorites or through the target pack's configured path.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:logic_processor_press"
+      },
+      "x": 500,
+      "y": 20,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["certus_quartz"]
+    },
+    {
+      "id": "inscriber",
+      "events": [
+        {
+          "id": "craft_inscriber",
+          "type": "item_craft",
+          "item": "ae2:inscriber",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Inscriber"
+      },
+      "subtitle": {
+        "text": "Make printed circuits"
+      },
+      "description": [
+        {
+          "text": "Craft the Inscriber to turn presses and materials into processors.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:inscriber"
+      },
+      "x": 640,
+      "y": 120,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["fluix_crystal", "meteorite_presses"]
+    },
+    {
+      "id": "processors",
+      "events": [
+        {
+          "id": "pickup_logic_processor",
+          "type": "item_pickup",
+          "item": "ae2:logic_processor",
+          "count": 1
+        },
+        {
+          "id": "pickup_calc_processor",
+          "type": "item_pickup",
+          "item": "ae2:calculation_processor",
+          "count": 1
+        },
+        {
+          "id": "pickup_eng_processor",
+          "type": "item_pickup",
+          "item": "ae2:engineering_processor",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Processors"
+      },
+      "subtitle": {
+        "text": "Logic, Calculation, Engineering"
+      },
+      "description": [
+        {
+          "text": "AE2 processors are required for storage, terminals, controller blocks, and automation.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:logic_processor"
+      },
+      "x": 780,
+      "y": 120,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["inscriber"]
+    },
+    {
+      "id": "energy_acceptor",
+      "events": [
+        {
+          "id": "craft_energy_acceptor",
+          "type": "item_craft",
+          "item": "ae2:energy_acceptor",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Energy Acceptor"
+      },
+      "subtitle": {
+        "text": "Feed FE into AE2"
+      },
+      "description": [
+        {
+          "text": "Craft an Energy Acceptor so the network can convert external power into AE energy.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:energy_acceptor"
+      },
+      "x": 920,
+      "y": 80,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["processors"]
+    },
+    {
+      "id": "fluix_cable",
+      "events": [
+        {
+          "id": "craft_cable",
+          "type": "item_craft",
+          "item": "ae2:fluix_glass_cable",
+          "count": 4
+        }
+      ],
+      "title": {
+        "text": "Fluix Cable"
+      },
+      "subtitle": {
+        "text": "Network connection"
+      },
+      "description": [
+        {
+          "text": "Fluix cables connect terminals, drives, controllers, and automation devices.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:fluix_glass_cable"
+      },
+      "x": 920,
+      "y": 160,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["processors"]
+    },
+    {
+      "id": "terminal",
+      "events": [
+        {
+          "id": "craft_terminal",
+          "type": "item_craft",
+          "item": "ae2:terminal",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "ME Terminal"
+      },
+      "subtitle": {
+        "text": "Inspect network storage"
+      },
+      "description": [
+        {
+          "text": "The ME Terminal is the first direct interface into your AE2 network.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:terminal"
+      },
+      "x": 1060,
+      "y": 160,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["fluix_cable"]
+    },
+    {
+      "id": "crafting_terminal",
+      "events": [
+        {
+          "id": "craft_crafting_terminal",
+          "type": "item_craft",
+          "item": "ae2:crafting_terminal",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Crafting Terminal"
+      },
+      "subtitle": {
+        "text": "Craft from network contents"
+      },
+      "description": [
+        {
+          "text": "Upgrade to a Crafting Terminal for the everyday AE2 storage interface.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:crafting_terminal"
+      },
+      "x": 1200,
+      "y": 160,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["terminal"]
+    },
+    {
+      "id": "me_drive",
+      "events": [
+        {
+          "id": "craft_drive",
+          "type": "item_craft",
+          "item": "ae2:drive",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "ME Drive"
+      },
+      "subtitle": {
+        "text": "Hold storage cells"
+      },
+      "description": [
+        {
+          "text": "Craft an ME Drive to house item and fluid storage cells.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:drive"
+      },
+      "x": 1060,
+      "y": 240,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["fluix_cable"]
+    },
+    {
+      "id": "storage_components",
+      "events": [
+        {
+          "id": "craft_1k_component",
+          "type": "item_craft",
+          "item": "ae2:cell_component_1k",
+          "count": 1
+        },
+        {
+          "id": "craft_4k_component",
+          "type": "item_craft",
+          "item": "ae2:cell_component_4k",
+          "count": 1
+        },
+        {
+          "id": "craft_16k_component",
+          "type": "item_craft",
+          "item": "ae2:cell_component_16k",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Storage Components"
+      },
+      "subtitle": {
+        "text": "Build storage capacity"
+      },
+      "description": [
+        {
+          "text": "Storage components define the capacity of AE2 storage cells.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:cell_component_4k"
+      },
+      "x": 1200,
+      "y": 240,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["me_drive"]
+    },
+    {
+      "id": "storage_cells",
+      "events": [
+        {
+          "id": "craft_1k_cell",
+          "type": "item_craft",
+          "item": "ae2:item_storage_cell_1k",
+          "count": 1
+        },
+        {
+          "id": "craft_4k_cell",
+          "type": "item_craft",
+          "item": "ae2:item_storage_cell_4k",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Item Storage Cells"
+      },
+      "subtitle": {
+        "text": "Store items in the network"
+      },
+      "description": [
+        {
+          "text": "Craft item storage cells and insert them into the ME Drive.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:item_storage_cell_1k"
+      },
+      "x": 1340,
+      "y": 240,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["storage_components"]
+    },
+    {
+      "id": "controller",
+      "events": [
+        {
+          "id": "craft_controller",
+          "type": "item_craft",
+          "item": "ae2:controller",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "ME Controller"
+      },
+      "subtitle": {
+        "text": "Scale beyond simple channels"
+      },
+      "description": [
+        {
+          "text": "Craft the ME Controller to expand network scale and channel management.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:controller"
+      },
+      "x": 1060,
+      "y": 80,
+      "shape": "diamond",
+      "color": "#6C8FC7",
+      "parents": ["energy_acceptor", "fluix_cable"]
+    },
+    {
+      "id": "smart_cables",
+      "events": [
+        {
+          "id": "craft_smart_cable",
+          "type": "item_craft",
+          "item": "ae2:fluix_smart_cable",
+          "count": 4
+        },
+        {
+          "id": "craft_dense_smart_cable",
+          "type": "item_craft",
+          "item": "ae2:fluix_smart_dense_cable",
+          "count": 4
+        }
+      ],
+      "title": {
+        "text": "Smart Cables"
+      },
+      "subtitle": {
+        "text": "Read and scale channels"
+      },
+      "description": [
+        {
+          "text": "Smart and dense smart cables make channel planning visible.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:fluix_smart_cable"
+      },
+      "x": 1200,
+      "y": 80,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["controller"]
+    },
+    {
+      "id": "import_export_buses",
+      "events": [
+        {
+          "id": "craft_import_bus",
+          "type": "item_craft",
+          "item": "ae2:import_bus",
+          "count": 1
+        },
+        {
+          "id": "craft_export_bus",
+          "type": "item_craft",
+          "item": "ae2:export_bus",
+          "count": 1
+        },
+        {
+          "id": "craft_storage_bus",
+          "type": "item_craft",
+          "item": "ae2:storage_bus",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Buses"
+      },
+      "subtitle": {
+        "text": "Interface with inventories"
+      },
+      "description": [
+        {
+          "text": "Import, export, and storage buses connect inventories and machines to AE2 automation.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:import_bus"
+      },
+      "x": 1340,
+      "y": 80,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["smart_cables"]
+    },
+    {
+      "id": "interfaces",
+      "events": [
+        {
+          "id": "craft_interface",
+          "type": "item_craft",
+          "item": "ae2:interface",
+          "count": 1
+        },
+        {
+          "id": "craft_pattern_provider",
+          "type": "item_craft",
+          "item": "ae2:pattern_provider",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Interfaces and Pattern Providers"
+      },
+      "subtitle": {
+        "text": "Machine crafting bridge"
+      },
+      "description": [
+        {
+          "text": "Use interfaces and pattern providers to connect AE2 crafting to external inventories and machines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:pattern_provider"
+      },
+      "x": 1480,
+      "y": 80,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["import_export_buses"]
+    },
+    {
+      "id": "patterns",
+      "events": [
+        {
+          "id": "craft_blank_pattern",
+          "type": "item_craft",
+          "item": "ae2:blank_pattern",
+          "count": 4
+        },
+        {
+          "id": "craft_pattern_terminal",
+          "type": "item_craft",
+          "item": "ae2:pattern_encoding_terminal",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Patterns"
+      },
+      "subtitle": {
+        "text": "Encode recipes"
+      },
+      "description": [
+        {
+          "text": "Encode crafting and processing recipes for AE2 autocrafting.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:pattern_encoding_terminal"
+      },
+      "x": 1620,
+      "y": 80,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["interfaces"]
+    },
+    {
+      "id": "molecular_assembler",
+      "events": [
+        {
+          "id": "craft_assembler",
+          "type": "item_craft",
+          "item": "ae2:molecular_assembler",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Molecular Assembler"
+      },
+      "subtitle": {
+        "text": "Crafting automation block"
+      },
+      "description": [
+        {
+          "text": "Molecular Assemblers execute encoded crafting patterns.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:molecular_assembler"
+      },
+      "x": 1760,
+      "y": 80,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["patterns"]
+    },
+    {
+      "id": "crafting_cpu",
+      "events": [
+        {
+          "id": "craft_crafting_unit",
+          "type": "item_craft",
+          "item": "ae2:crafting_unit",
+          "count": 1
+        },
+        {
+          "id": "craft_1k_storage",
+          "type": "item_craft",
+          "item": "ae2:1k_crafting_storage",
+          "count": 1
+        },
+        {
+          "id": "craft_accelerator",
+          "type": "item_craft",
+          "item": "ae2:crafting_accelerator",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Crafting CPU"
+      },
+      "subtitle": {
+        "text": "Schedule autocrafting jobs"
+      },
+      "description": [
+        {
+          "text": "Build crafting CPU blocks for larger and faster autocrafting jobs.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:crafting_unit"
+      },
+      "x": 1900,
+      "y": 80,
+      "shape": "square",
+      "color": "#6C8FC7",
+      "parents": ["molecular_assembler"]
+    },
+    {
+      "id": "wireless",
+      "events": [
+        {
+          "id": "craft_wireless_access",
+          "type": "item_craft",
+          "item": "ae2:wireless_access_point",
+          "count": 1
+        },
+        {
+          "id": "craft_wireless_terminal",
+          "type": "item_craft",
+          "item": "ae2:wireless_terminal",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Wireless Access"
+      },
+      "subtitle": {
+        "text": "Remote terminal access"
+      },
+      "description": [
+        {
+          "text": "Craft AE2 wireless access using base AE2 11.7.6 wireless items only.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:wireless_terminal"
+      },
+      "x": 1480,
+      "y": 240,
+      "shape": "diamond",
+      "color": "#6C8FC7",
+      "parents": ["storage_cells", "crafting_terminal"]
+    },
+    {
+      "id": "quantum_bridge",
+      "events": [
+        {
+          "id": "craft_quantum_ring",
+          "type": "item_craft",
+          "item": "ae2:quantum_ring",
+          "count": 4
+        },
+        {
+          "id": "craft_quantum_link",
+          "type": "item_craft",
+          "item": "ae2:quantum_link",
+          "count": 1
+        },
+        {
+          "id": "pickup_entangled",
+          "type": "item_pickup",
+          "item": "ae2:quantum_entangled_singularity",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Quantum Bridge"
+      },
+      "subtitle": {
+        "text": "Remote network linking"
+      },
+      "description": [
+        {
+          "text": "Quantum bridges link AE2 networks across distance and dimensions.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:quantum_link"
+      },
+      "x": 2040,
+      "y": 80,
+      "shape": "diamond",
+      "color": "#6C8FC7",
+      "parents": ["crafting_cpu"]
+    },
+    {
+      "id": "spatial_storage",
+      "events": [
+        {
+          "id": "craft_spatial_io",
+          "type": "item_craft",
+          "item": "ae2:spatial_io_port",
+          "count": 1
+        },
+        {
+          "id": "craft_spatial_cell",
+          "type": "item_craft",
+          "item": "ae2:spatial_storage_cell_2",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Spatial Storage"
+      },
+      "subtitle": {
+        "text": "Store spaces, not just items"
+      },
+      "description": [
+        {
+          "text": "Spatial Storage is optional advanced AE2 content available in this target AE2 version.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "ae2:spatial_io_port"
+      },
+      "x": 1900,
+      "y": 180,
+      "shape": "circle",
+      "color": "#6C8FC7",
+      "parents": ["crafting_cpu"]
+    }
+  ]
+}

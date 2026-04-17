@@ -1,0 +1,932 @@
+{
+  "id": "create",
+  "enabled": true,
+  "title": {
+    "text": "Create"
+  },
+  "tab_color": "#A67C52",
+  "nodes": [
+    {
+      "id": "andesite_alloy",
+      "events": [
+        {
+          "id": "pickup_andesite_alloy",
+          "type": "item_pickup",
+          "item": "create:andesite_alloy",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Andesite Alloy"
+      },
+      "subtitle": {
+        "text": "Create's starter component"
+      },
+      "description": [
+        {
+          "text": "Make Andesite Alloy to begin Create kinetics.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:andesite_alloy"
+      },
+      "x": 80,
+      "y": 120,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": []
+    },
+    {
+      "id": "wrench",
+      "events": [
+        {
+          "id": "craft_wrench",
+          "type": "item_craft",
+          "item": "create:wrench",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Wrench"
+      },
+      "subtitle": {
+        "text": "Configure Create blocks"
+      },
+      "description": [
+        {
+          "text": "Craft a wrench to rotate, configure, and safely remove Create components.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:wrench"
+      },
+      "x": 220,
+      "y": 40,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["andesite_alloy"]
+    },
+    {
+      "id": "shafts",
+      "events": [
+        {
+          "id": "craft_shaft",
+          "type": "item_craft",
+          "item": "create:shaft",
+          "count": 8
+        }
+      ],
+      "title": {
+        "text": "Shafts"
+      },
+      "subtitle": {
+        "text": "Move rotation"
+      },
+      "description": [
+        {
+          "text": "Shafts are the basic mechanical connection between Create components.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:shaft"
+      },
+      "x": 220,
+      "y": 120,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["andesite_alloy"]
+    },
+    {
+      "id": "cogwheels",
+      "events": [
+        {
+          "id": "craft_cogwheel",
+          "type": "item_craft",
+          "item": "create:cogwheel",
+          "count": 4
+        },
+        {
+          "id": "craft_large_cogwheel",
+          "type": "item_craft",
+          "item": "create:large_cogwheel",
+          "count": 4
+        }
+      ],
+      "title": {
+        "text": "Cogwheels"
+      },
+      "subtitle": {
+        "text": "Transfer and change rotation"
+      },
+      "description": [
+        {
+          "text": "Cogwheels transfer rotation and allow direction and speed changes.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:cogwheel"
+      },
+      "x": 360,
+      "y": 120,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["shafts"]
+    },
+    {
+      "id": "water_wheel",
+      "events": [
+        {
+          "id": "craft_water_wheel",
+          "type": "item_craft",
+          "item": "create:water_wheel",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Water Wheel"
+      },
+      "subtitle": {
+        "text": "Early stress source"
+      },
+      "description": [
+        {
+          "text": "Create your first continuous rotational power source with a Water Wheel.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:water_wheel"
+      },
+      "x": 500,
+      "y": 120,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["cogwheels"]
+    },
+    {
+      "id": "gearbox",
+      "events": [
+        {
+          "id": "craft_gearbox",
+          "type": "item_craft",
+          "item": "create:gearbox",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Gearbox"
+      },
+      "subtitle": {
+        "text": "Redirect rotation"
+      },
+      "description": [
+        {
+          "text": "Gearboxes make compact mechanical routing much easier.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:gearbox"
+      },
+      "x": 640,
+      "y": 80,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["water_wheel"]
+    },
+    {
+      "id": "clutch_and_gearshift",
+      "events": [
+        {
+          "id": "craft_clutch",
+          "type": "item_craft",
+          "item": "create:clutch",
+          "count": 1
+        },
+        {
+          "id": "craft_gearshift",
+          "type": "item_craft",
+          "item": "create:gearshift",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Clutch and Gearshift"
+      },
+      "subtitle": {
+        "text": "Redstone control"
+      },
+      "description": [
+        {
+          "text": "Use clutches and gearshifts to stop or reverse rotation with redstone.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:gearshift"
+      },
+      "x": 780,
+      "y": 80,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["gearbox"]
+    },
+    {
+      "id": "encased_fan",
+      "events": [
+        {
+          "id": "craft_fan",
+          "type": "item_craft",
+          "item": "create:encased_fan",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Encased Fan"
+      },
+      "subtitle": {
+        "text": "Bulk washing, haunting, smoking, and blasting"
+      },
+      "description": [
+        {
+          "text": "Encased Fans enable bulk processing when paired with the right block or fluid.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:encased_fan"
+      },
+      "x": 640,
+      "y": 160,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["water_wheel"]
+    },
+    {
+      "id": "mechanical_press",
+      "events": [
+        {
+          "id": "craft_press",
+          "type": "item_craft",
+          "item": "create:mechanical_press",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Mechanical Press"
+      },
+      "subtitle": {
+        "text": "Press plates and shaped recipes"
+      },
+      "description": [
+        {
+          "text": "The Mechanical Press handles pressing recipes and is a common early automation block.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:mechanical_press"
+      },
+      "x": 780,
+      "y": 160,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["encased_fan"]
+    },
+    {
+      "id": "mixer_and_basin",
+      "events": [
+        {
+          "id": "craft_mixer",
+          "type": "item_craft",
+          "item": "create:mechanical_mixer",
+          "count": 1
+        },
+        {
+          "id": "craft_basin",
+          "type": "item_craft",
+          "item": "create:basin",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Mixer and Basin"
+      },
+      "subtitle": {
+        "text": "Mixing recipes"
+      },
+      "description": [
+        {
+          "text": "Mechanical Mixers and Basins unlock mixing, compacting, and heated processing.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:mechanical_mixer"
+      },
+      "x": 920,
+      "y": 160,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["mechanical_press"]
+    },
+    {
+      "id": "depot",
+      "events": [
+        {
+          "id": "craft_depot",
+          "type": "item_craft",
+          "item": "create:depot",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Depot"
+      },
+      "subtitle": {
+        "text": "Place items for processing"
+      },
+      "description": [
+        {
+          "text": "Depots hold items for presses, deployers, spouts, and other Create processing blocks.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:depot"
+      },
+      "x": 920,
+      "y": 40,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["mechanical_press"]
+    },
+    {
+      "id": "belts",
+      "events": [
+        {
+          "id": "craft_belt",
+          "type": "item_craft",
+          "item": "create:belt_connector",
+          "count": 6
+        }
+      ],
+      "title": {
+        "text": "Mechanical Belts"
+      },
+      "subtitle": {
+        "text": "Move items through contraptions"
+      },
+      "description": [
+        {
+          "text": "Belts are the basic item transport system for Create factories.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:belt_connector"
+      },
+      "x": 1060,
+      "y": 40,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["depot"]
+    },
+    {
+      "id": "funnels_and_tunnels",
+      "events": [
+        {
+          "id": "craft_andesite_funnel",
+          "type": "item_craft",
+          "item": "create:andesite_funnel",
+          "count": 1
+        },
+        {
+          "id": "craft_andesite_tunnel",
+          "type": "item_craft",
+          "item": "create:andesite_tunnel",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Funnels and Tunnels"
+      },
+      "subtitle": {
+        "text": "Control item flow"
+      },
+      "description": [
+        {
+          "text": "Funnels and tunnels control how items enter, leave, split, and merge on belts.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:andesite_funnel"
+      },
+      "x": 1200,
+      "y": 40,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["belts"]
+    },
+    {
+      "id": "mechanical_drill_and_saw",
+      "events": [
+        {
+          "id": "craft_drill",
+          "type": "item_craft",
+          "item": "create:mechanical_drill",
+          "count": 1
+        },
+        {
+          "id": "craft_saw",
+          "type": "item_craft",
+          "item": "create:mechanical_saw",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Drill and Saw"
+      },
+      "subtitle": {
+        "text": "Break blocks in contraptions"
+      },
+      "description": [
+        {
+          "text": "Mechanical drills and saws are core blocks for farms, miners, and processing lines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:mechanical_drill"
+      },
+      "x": 1060,
+      "y": 160,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["mixer_and_basin"]
+    },
+    {
+      "id": "deployer",
+      "events": [
+        {
+          "id": "craft_deployer",
+          "type": "item_craft",
+          "item": "create:deployer",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Deployer"
+      },
+      "subtitle": {
+        "text": "Automate right-click actions"
+      },
+      "description": [
+        {
+          "text": "Deployers simulate player use and are essential for many Create automation patterns.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:deployer"
+      },
+      "x": 1200,
+      "y": 160,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["mechanical_drill_and_saw"]
+    },
+    {
+      "id": "portable_storage_interface",
+      "events": [
+        {
+          "id": "craft_psi",
+          "type": "item_craft",
+          "item": "create:portable_storage_interface",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Portable Storage Interface"
+      },
+      "subtitle": {
+        "text": "Transfer items from moving contraptions"
+      },
+      "description": [
+        {
+          "text": "Use Portable Storage Interfaces to unload moving contraptions without stopping them.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:portable_storage_interface"
+      },
+      "x": 1340,
+      "y": 160,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["deployer"]
+    },
+    {
+      "id": "chassis_and_super_glue",
+      "events": [
+        {
+          "id": "craft_linear_chassis",
+          "type": "item_craft",
+          "item": "create:linear_chassis",
+          "count": 1
+        },
+        {
+          "id": "craft_super_glue",
+          "type": "item_craft",
+          "item": "create:super_glue",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Chassis and Super Glue"
+      },
+      "subtitle": {
+        "text": "Build moving contraptions"
+      },
+      "description": [
+        {
+          "text": "Chassis and Super Glue define which blocks move as part of a contraption.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:linear_chassis"
+      },
+      "x": 1480,
+      "y": 160,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["portable_storage_interface"]
+    },
+    {
+      "id": "windmill",
+      "events": [
+        {
+          "id": "craft_sail",
+          "type": "item_craft",
+          "item": "create:white_sail",
+          "count": 8
+        },
+        {
+          "id": "craft_mechanical_bearing",
+          "type": "item_craft",
+          "item": "create:mechanical_bearing",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Windmill"
+      },
+      "subtitle": {
+        "text": "Larger rotational power"
+      },
+      "description": [
+        {
+          "text": "Use sails and a mechanical bearing to build a stronger rotational source.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:white_sail"
+      },
+      "x": 640,
+      "y": 260,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["water_wheel"]
+    },
+    {
+      "id": "brass",
+      "events": [
+        {
+          "id": "pickup_brass",
+          "type": "item_pickup",
+          "item": "create:brass_ingot",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Brass"
+      },
+      "subtitle": {
+        "text": "Advanced logistics material"
+      },
+      "description": [
+        {
+          "text": "Make Brass to unlock advanced funnels, tunnels, arms, and precise item routing.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:brass_ingot"
+      },
+      "x": 1340,
+      "y": 40,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["funnels_and_tunnels", "mixer_and_basin"]
+    },
+    {
+      "id": "brass_logistics",
+      "events": [
+        {
+          "id": "craft_brass_funnel",
+          "type": "item_craft",
+          "item": "create:brass_funnel",
+          "count": 1
+        },
+        {
+          "id": "craft_brass_tunnel",
+          "type": "item_craft",
+          "item": "create:brass_tunnel",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Brass Logistics"
+      },
+      "subtitle": {
+        "text": "Precise filtering and routing"
+      },
+      "description": [
+        {
+          "text": "Brass funnels and tunnels add filtering and stronger belt logistics.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:brass_funnel"
+      },
+      "x": 1480,
+      "y": 40,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["brass"]
+    },
+    {
+      "id": "precision_mechanism",
+      "events": [
+        {
+          "id": "pickup_precision",
+          "type": "item_pickup",
+          "item": "create:precision_mechanism",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Precision Mechanism"
+      },
+      "subtitle": {
+        "text": "Sequenced assembly milestone"
+      },
+      "description": [
+        {
+          "text": "Automate Precision Mechanisms for more advanced Create machines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:precision_mechanism"
+      },
+      "x": 1620,
+      "y": 40,
+      "shape": "diamond",
+      "color": "#A67C52",
+      "parents": ["brass_logistics"]
+    },
+    {
+      "id": "mechanical_arm",
+      "events": [
+        {
+          "id": "craft_arm",
+          "type": "item_craft",
+          "item": "create:mechanical_arm",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Mechanical Arm"
+      },
+      "subtitle": {
+        "text": "Route items between many points"
+      },
+      "description": [
+        {
+          "text": "Mechanical Arms move items between many depots, belts, and inventories with explicit targets.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:mechanical_arm"
+      },
+      "x": 1760,
+      "y": 40,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["precision_mechanism"]
+    },
+    {
+      "id": "blaze_burner",
+      "events": [
+        {
+          "id": "craft_blaze_burner",
+          "type": "item_craft",
+          "item": "create:blaze_burner",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Blaze Burner"
+      },
+      "subtitle": {
+        "text": "Heat mixers and basins"
+      },
+      "description": [
+        {
+          "text": "Capture a Blaze Burner for heated mixing and higher tier recipes.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:blaze_burner"
+      },
+      "x": 1060,
+      "y": 260,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["mixer_and_basin"]
+    },
+    {
+      "id": "blaze_cake",
+      "events": [
+        {
+          "id": "craft_blaze_cake",
+          "type": "item_craft",
+          "item": "create:blaze_cake",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Blaze Cake"
+      },
+      "subtitle": {
+        "text": "Superheated recipes"
+      },
+      "description": [
+        {
+          "text": "Blaze Cakes superheat Blaze Burners for recipes that require more than normal heat.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:blaze_cake"
+      },
+      "x": 1200,
+      "y": 260,
+      "shape": "diamond",
+      "color": "#A67C52",
+      "parents": ["blaze_burner"]
+    },
+    {
+      "id": "spout",
+      "events": [
+        {
+          "id": "craft_spout",
+          "type": "item_craft",
+          "item": "create:spout",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Spout"
+      },
+      "subtitle": {
+        "text": "Apply fluids to items"
+      },
+      "description": [
+        {
+          "text": "Spouts apply fluids to items on depots and belts.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:spout"
+      },
+      "x": 1340,
+      "y": 260,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["blaze_burner"]
+    },
+    {
+      "id": "hose_pulley",
+      "events": [
+        {
+          "id": "craft_hose_pulley",
+          "type": "item_craft",
+          "item": "create:hose_pulley",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Hose Pulley"
+      },
+      "subtitle": {
+        "text": "Large-scale fluid movement"
+      },
+      "description": [
+        {
+          "text": "Hose Pulleys move fluids between the world and tanks or pipe systems.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:hose_pulley"
+      },
+      "x": 1480,
+      "y": 260,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["spout"]
+    },
+    {
+      "id": "mechanical_crafter",
+      "events": [
+        {
+          "id": "craft_mechanical_crafter",
+          "type": "item_craft",
+          "item": "create:mechanical_crafter",
+          "count": 9
+        }
+      ],
+      "title": {
+        "text": "Mechanical Crafters"
+      },
+      "subtitle": {
+        "text": "Large and sequenced crafts"
+      },
+      "description": [
+        {
+          "text": "Mechanical Crafters handle larger recipes and late Create automation patterns.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:mechanical_crafter"
+      },
+      "x": 1760,
+      "y": 160,
+      "shape": "square",
+      "color": "#A67C52",
+      "parents": ["chassis_and_super_glue", "precision_mechanism"]
+    },
+    {
+      "id": "schematics",
+      "events": [
+        {
+          "id": "craft_schematic_table",
+          "type": "item_craft",
+          "item": "create:schematic_table",
+          "count": 1
+        },
+        {
+          "id": "craft_schematicannon",
+          "type": "item_craft",
+          "item": "create:schematicannon",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Schematics"
+      },
+      "subtitle": {
+        "text": "Copy and build structures"
+      },
+      "description": [
+        {
+          "text": "Use the Schematic Table and Schematicannon to copy and deploy Create builds.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "create:schematicannon"
+      },
+      "x": 1900,
+      "y": 160,
+      "shape": "circle",
+      "color": "#A67C52",
+      "parents": ["mechanical_crafter"]
+    }
+  ]
+}

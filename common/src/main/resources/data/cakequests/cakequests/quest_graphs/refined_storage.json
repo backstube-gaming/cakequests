@@ -1,0 +1,653 @@
+{
+  "id": "refined_storage",
+  "enabled": true,
+  "title": {
+    "text": "Refined Storage"
+  },
+  "tab_color": "#3A6EA5",
+  "nodes": [
+    {
+      "id": "quartz_enriched_iron",
+      "events": [
+        {
+          "id": "pickup_qei",
+          "type": "item_pickup",
+          "item": "refinedstorage:quartz_enriched_iron",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Quartz Enriched Iron"
+      },
+      "subtitle": {
+        "text": "Base Refined Storage material"
+      },
+      "description": [
+        {
+          "text": "Craft Quartz Enriched Iron for Refined Storage machines and components.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:quartz_enriched_iron"
+      },
+      "x": 80,
+      "y": 120,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": []
+    },
+    {
+      "id": "processors",
+      "events": [
+        {
+          "id": "pickup_basic_processor",
+          "type": "item_pickup",
+          "item": "refinedstorage:basic_processor",
+          "count": 1
+        },
+        {
+          "id": "pickup_improved_processor",
+          "type": "item_pickup",
+          "item": "refinedstorage:improved_processor",
+          "count": 1
+        },
+        {
+          "id": "pickup_advanced_processor",
+          "type": "item_pickup",
+          "item": "refinedstorage:advanced_processor",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Processors"
+      },
+      "subtitle": {
+        "text": "Basic, Improved, Advanced"
+      },
+      "description": [
+        {
+          "text": "Processors are the main Refined Storage component chain.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:advanced_processor"
+      },
+      "x": 220,
+      "y": 120,
+      "shape": "square",
+      "color": "#3A6EA5",
+      "parents": ["quartz_enriched_iron"]
+    },
+    {
+      "id": "machine_casing",
+      "events": [
+        {
+          "id": "craft_casing",
+          "type": "item_craft",
+          "item": "refinedstorage:machine_casing",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Machine Casing"
+      },
+      "subtitle": {
+        "text": "Main block component"
+      },
+      "description": [
+        {
+          "text": "Craft Machine Casings before building your network core.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:machine_casing"
+      },
+      "x": 360,
+      "y": 120,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["processors"]
+    },
+    {
+      "id": "controller",
+      "events": [
+        {
+          "id": "craft_controller",
+          "type": "item_craft",
+          "item": "refinedstorage:controller",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Controller"
+      },
+      "subtitle": {
+        "text": "Network power input"
+      },
+      "description": [
+        {
+          "text": "The Controller powers and anchors a Refined Storage network.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:controller"
+      },
+      "x": 500,
+      "y": 120,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["machine_casing"]
+    },
+    {
+      "id": "cable",
+      "events": [
+        {
+          "id": "craft_cable",
+          "type": "item_craft",
+          "item": "refinedstorage:cable",
+          "count": 8
+        }
+      ],
+      "title": {
+        "text": "Cable"
+      },
+      "subtitle": {
+        "text": "Connect network blocks"
+      },
+      "description": [
+        {
+          "text": "Craft cables to connect grids, drives, interfaces, and other network blocks.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:cable"
+      },
+      "x": 640,
+      "y": 120,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["controller"]
+    },
+    {
+      "id": "grid",
+      "events": [
+        {
+          "id": "craft_grid",
+          "type": "item_craft",
+          "item": "refinedstorage:grid",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Grid"
+      },
+      "subtitle": {
+        "text": "View network storage"
+      },
+      "description": [
+        {
+          "text": "The Grid is the first practical interface for network item storage.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:grid"
+      },
+      "x": 780,
+      "y": 80,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["cable"]
+    },
+    {
+      "id": "crafting_grid",
+      "events": [
+        {
+          "id": "craft_crafting_grid",
+          "type": "item_craft",
+          "item": "refinedstorage:crafting_grid",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Crafting Grid"
+      },
+      "subtitle": {
+        "text": "Craft from network contents"
+      },
+      "description": [
+        {
+          "text": "Upgrade into a Crafting Grid for a complete storage terminal.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:crafting_grid"
+      },
+      "x": 920,
+      "y": 80,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["grid"]
+    },
+    {
+      "id": "disk_drive",
+      "events": [
+        {
+          "id": "craft_drive",
+          "type": "item_craft",
+          "item": "refinedstorage:disk_drive",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Disk Drive"
+      },
+      "subtitle": {
+        "text": "Hold storage disks"
+      },
+      "description": [
+        {
+          "text": "Craft a Disk Drive to insert storage disks into the network.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:disk_drive"
+      },
+      "x": 780,
+      "y": 160,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["cable"]
+    },
+    {
+      "id": "storage_parts",
+      "events": [
+        {
+          "id": "craft_1k_part",
+          "type": "item_craft",
+          "item": "refinedstorage:1k_storage_part",
+          "count": 1
+        },
+        {
+          "id": "craft_4k_part",
+          "type": "item_craft",
+          "item": "refinedstorage:4k_storage_part",
+          "count": 1
+        },
+        {
+          "id": "craft_16k_part",
+          "type": "item_craft",
+          "item": "refinedstorage:16k_storage_part",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Storage Parts"
+      },
+      "subtitle": {
+        "text": "Build disk capacity"
+      },
+      "description": [
+        {
+          "text": "Storage parts scale disk size from starter disks into larger network storage.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:4k_storage_part"
+      },
+      "x": 920,
+      "y": 160,
+      "shape": "square",
+      "color": "#3A6EA5",
+      "parents": ["disk_drive"]
+    },
+    {
+      "id": "storage_disks",
+      "events": [
+        {
+          "id": "craft_1k_disk",
+          "type": "item_craft",
+          "item": "refinedstorage:1k_storage_disk",
+          "count": 1
+        },
+        {
+          "id": "craft_4k_disk",
+          "type": "item_craft",
+          "item": "refinedstorage:4k_storage_disk",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Storage Disks"
+      },
+      "subtitle": {
+        "text": "Insert into Disk Drives"
+      },
+      "description": [
+        {
+          "text": "Craft storage disks and insert them into a Disk Drive.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:1k_storage_disk"
+      },
+      "x": 1060,
+      "y": 160,
+      "shape": "square",
+      "color": "#3A6EA5",
+      "parents": ["storage_parts"]
+    },
+    {
+      "id": "external_storage",
+      "events": [
+        {
+          "id": "craft_external_storage",
+          "type": "item_craft",
+          "item": "refinedstorage:external_storage",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "External Storage"
+      },
+      "subtitle": {
+        "text": "Attach inventories"
+      },
+      "description": [
+        {
+          "text": "External Storage connects drawers, chests, and other inventories to the network.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:external_storage"
+      },
+      "x": 1060,
+      "y": 240,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["cable"]
+    },
+    {
+      "id": "import_export",
+      "events": [
+        {
+          "id": "craft_importer",
+          "type": "item_craft",
+          "item": "refinedstorage:importer",
+          "count": 1
+        },
+        {
+          "id": "craft_exporter",
+          "type": "item_craft",
+          "item": "refinedstorage:exporter",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Importers and Exporters"
+      },
+      "subtitle": {
+        "text": "Move items in and out"
+      },
+      "description": [
+        {
+          "text": "Use importers and exporters to automate inventory movement through the network.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:importer"
+      },
+      "x": 1200,
+      "y": 240,
+      "shape": "square",
+      "color": "#3A6EA5",
+      "parents": ["external_storage"]
+    },
+    {
+      "id": "constructor_destructor",
+      "events": [
+        {
+          "id": "craft_constructor",
+          "type": "item_craft",
+          "item": "refinedstorage:constructor",
+          "count": 1
+        },
+        {
+          "id": "craft_destructor",
+          "type": "item_craft",
+          "item": "refinedstorage:destructor",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Constructor and Destructor"
+      },
+      "subtitle": {
+        "text": "Interact with the world"
+      },
+      "description": [
+        {
+          "text": "Constructors place items into the world; destructors pull matching blocks or fluids back into storage.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:constructor"
+      },
+      "x": 1340,
+      "y": 240,
+      "shape": "square",
+      "color": "#3A6EA5",
+      "parents": ["import_export"]
+    },
+    {
+      "id": "pattern_grid",
+      "events": [
+        {
+          "id": "craft_pattern_grid",
+          "type": "item_craft",
+          "item": "refinedstorage:pattern_grid",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Pattern Grid"
+      },
+      "subtitle": {
+        "text": "Encode autocrafting patterns"
+      },
+      "description": [
+        {
+          "text": "The Pattern Grid creates patterns for autocrafting.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:pattern_grid"
+      },
+      "x": 1060,
+      "y": 80,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["crafting_grid"]
+    },
+    {
+      "id": "patterns",
+      "events": [
+        {
+          "id": "craft_pattern",
+          "type": "item_craft",
+          "item": "refinedstorage:pattern",
+          "count": 4
+        }
+      ],
+      "title": {
+        "text": "Patterns"
+      },
+      "subtitle": {
+        "text": "Autocrafting recipes"
+      },
+      "description": [
+        {
+          "text": "Blank patterns store recipes encoded in the Pattern Grid.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:pattern"
+      },
+      "x": 1200,
+      "y": 80,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["pattern_grid"]
+    },
+    {
+      "id": "crafter",
+      "events": [
+        {
+          "id": "craft_crafter",
+          "type": "item_craft",
+          "item": "refinedstorage:crafter",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Crafter"
+      },
+      "subtitle": {
+        "text": "Execute patterns"
+      },
+      "description": [
+        {
+          "text": "Crafters hold patterns and execute requested crafts.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:crafter"
+      },
+      "x": 1340,
+      "y": 80,
+      "shape": "square",
+      "color": "#3A6EA5",
+      "parents": ["patterns"]
+    },
+    {
+      "id": "crafting_monitor",
+      "events": [
+        {
+          "id": "craft_monitor",
+          "type": "item_craft",
+          "item": "refinedstorage:crafting_monitor",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Crafting Monitor"
+      },
+      "subtitle": {
+        "text": "Inspect active jobs"
+      },
+      "description": [
+        {
+          "text": "The Crafting Monitor shows current and blocked autocrafting jobs.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:crafting_monitor"
+      },
+      "x": 1480,
+      "y": 80,
+      "shape": "circle",
+      "color": "#3A6EA5",
+      "parents": ["crafter"]
+    },
+    {
+      "id": "upgrades",
+      "events": [
+        {
+          "id": "craft_speed_upgrade",
+          "type": "item_craft",
+          "item": "refinedstorage:speed_upgrade",
+          "count": 1
+        },
+        {
+          "id": "craft_stack_upgrade",
+          "type": "item_craft",
+          "item": "refinedstorage:stack_upgrade",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Upgrades"
+      },
+      "subtitle": {
+        "text": "Speed and stack control"
+      },
+      "description": [
+        {
+          "text": "Use upgrades to tune importers, exporters, constructors, destructors, and crafters.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:speed_upgrade"
+      },
+      "x": 1480,
+      "y": 240,
+      "shape": "square",
+      "color": "#3A6EA5",
+      "parents": ["constructor_destructor"]
+    },
+    {
+      "id": "wireless_grid",
+      "events": [
+        {
+          "id": "craft_wireless_transmitter",
+          "type": "item_craft",
+          "item": "refinedstorage:wireless_transmitter",
+          "count": 1
+        },
+        {
+          "id": "craft_wireless_grid",
+          "type": "item_craft",
+          "item": "refinedstorage:wireless_grid",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Wireless Grid"
+      },
+      "subtitle": {
+        "text": "Access storage remotely"
+      },
+      "description": [
+        {
+          "text": "Craft wireless access once the core network is stable.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "refinedstorage:wireless_grid"
+      },
+      "x": 1620,
+      "y": 160,
+      "shape": "diamond",
+      "color": "#3A6EA5",
+      "parents": ["storage_disks", "crafting_grid"]
+    }
+  ]
+}

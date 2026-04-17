@@ -1,0 +1,726 @@
+{
+  "id": "thermal",
+  "enabled": true,
+  "title": {
+    "text": "Thermal"
+  },
+  "tab_color": "#C96F2D",
+  "nodes": [
+    {
+      "id": "thermal_materials",
+      "events": [
+        {
+          "id": "pickup_tin",
+          "type": "item_pickup",
+          "item": "thermal:tin_ingot",
+          "count": 1
+        },
+        {
+          "id": "pickup_lead",
+          "type": "item_pickup",
+          "item": "thermal:lead_ingot",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Thermal Materials"
+      },
+      "subtitle": {
+        "text": "Foundation metals"
+      },
+      "description": [
+        {
+          "text": "Gather Thermal Foundation materials such as tin and lead before machine crafting.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:tin_ingot"
+      },
+      "x": 80,
+      "y": 120,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": []
+    },
+    {
+      "id": "redstone_servo",
+      "events": [
+        {
+          "id": "craft_servo",
+          "type": "item_craft",
+          "item": "thermal:redstone_servo",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Redstone Servo"
+      },
+      "subtitle": {
+        "text": "Thermal component"
+      },
+      "description": [
+        {
+          "text": "Craft Redstone Servos, a common component for Thermal devices and machines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:redstone_servo"
+      },
+      "x": 220,
+      "y": 120,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": ["thermal_materials"]
+    },
+    {
+      "id": "rf_coil",
+      "events": [
+        {
+          "id": "craft_rf_coil",
+          "type": "item_craft",
+          "item": "thermal:rf_coil",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "RF Coil"
+      },
+      "subtitle": {
+        "text": "Power component"
+      },
+      "description": [
+        {
+          "text": "Craft RF Coils for Thermal machines, cells, and power-adjacent components.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:rf_coil"
+      },
+      "x": 360,
+      "y": 120,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": ["redstone_servo"]
+    },
+    {
+      "id": "machine_frame",
+      "events": [
+        {
+          "id": "craft_machine_frame",
+          "type": "item_craft",
+          "item": "thermal:machine_frame",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Machine Frame"
+      },
+      "subtitle": {
+        "text": "Thermal machine base"
+      },
+      "description": [
+        {
+          "text": "Craft Machine Frames for Thermal Expansion machines.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:machine_frame"
+      },
+      "x": 500,
+      "y": 120,
+      "shape": "square",
+      "color": "#C96F2D",
+      "parents": ["rf_coil"]
+    },
+    {
+      "id": "pulverizer",
+      "events": [
+        {
+          "id": "craft_pulverizer",
+          "type": "item_craft",
+          "item": "thermal:machine_pulverizer",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Pulverizer"
+      },
+      "subtitle": {
+        "text": "Crush ores and materials"
+      },
+      "description": [
+        {
+          "text": "The Pulverizer is a core processing machine for dusts, secondary outputs, and material prep.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:machine_pulverizer"
+      },
+      "x": 640,
+      "y": 80,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": ["machine_frame"]
+    },
+    {
+      "id": "redstone_furnace",
+      "events": [
+        {
+          "id": "craft_furnace",
+          "type": "item_craft",
+          "item": "thermal:machine_furnace",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Redstone Furnace"
+      },
+      "subtitle": {
+        "text": "Powered smelting"
+      },
+      "description": [
+        {
+          "text": "The Redstone Furnace handles powered smelting and pairs naturally with the Pulverizer.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:machine_furnace"
+      },
+      "x": 640,
+      "y": 160,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": ["machine_frame"]
+    },
+    {
+      "id": "sawmill",
+      "events": [
+        {
+          "id": "craft_sawmill",
+          "type": "item_craft",
+          "item": "thermal:machine_sawmill",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Sawmill"
+      },
+      "subtitle": {
+        "text": "Efficient wood processing"
+      },
+      "description": [
+        {
+          "text": "The Sawmill improves wood output and produces useful byproducts.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:machine_sawmill"
+      },
+      "x": 780,
+      "y": 40,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": ["pulverizer"]
+    },
+    {
+      "id": "press",
+      "events": [
+        {
+          "id": "craft_press",
+          "type": "item_craft",
+          "item": "thermal:machine_press",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Multiservo Press"
+      },
+      "subtitle": {
+        "text": "Plates, gears, and packing"
+      },
+      "description": [
+        {
+          "text": "The Press handles plates, gears, coins, and packing operations with the right dies.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:machine_press"
+      },
+      "x": 780,
+      "y": 120,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": ["pulverizer", "redstone_furnace"]
+    },
+    {
+      "id": "press_dies",
+      "events": [
+        {
+          "id": "craft_gear_die",
+          "type": "item_craft",
+          "item": "thermal:press_gear_die",
+          "count": 1
+        },
+        {
+          "id": "craft_packing_die",
+          "type": "item_craft",
+          "item": "thermal:press_packing_2x2_die",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Press Dies"
+      },
+      "subtitle": {
+        "text": "Shape press recipes"
+      },
+      "description": [
+        {
+          "text": "Craft dies to unlock the Press operations used throughout Thermal progression.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:press_gear_die"
+      },
+      "x": 920,
+      "y": 120,
+      "shape": "square",
+      "color": "#C96F2D",
+      "parents": ["press"]
+    },
+    {
+      "id": "alloys",
+      "events": [
+        {
+          "id": "pickup_signalum",
+          "type": "item_pickup",
+          "item": "thermal:signalum_ingot",
+          "count": 1
+        },
+        {
+          "id": "pickup_lumium",
+          "type": "item_pickup",
+          "item": "thermal:lumium_ingot",
+          "count": 1
+        },
+        {
+          "id": "pickup_enderium",
+          "type": "item_pickup",
+          "item": "thermal:enderium_ingot",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Thermal Alloys"
+      },
+      "subtitle": {
+        "text": "Signalum, Lumium, and Enderium"
+      },
+      "description": [
+        {
+          "text": "Progress into Thermal's advanced alloy chain for upgrades, cells, and late components.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:signalum_ingot"
+      },
+      "x": 1060,
+      "y": 120,
+      "shape": "square",
+      "color": "#C96F2D",
+      "parents": ["press_dies"]
+    },
+    {
+      "id": "induction_smelter",
+      "events": [
+        {
+          "id": "craft_smelter",
+          "type": "item_craft",
+          "item": "thermal:machine_smelter",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Induction Smelter"
+      },
+      "subtitle": {
+        "text": "Alloying and special smelting"
+      },
+      "description": [
+        {
+          "text": "Use the Induction Smelter for alloying and specialized smelting recipes.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:machine_smelter"
+      },
+      "x": 1060,
+      "y": 220,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": ["press"]
+    },
+    {
+      "id": "fluid_machines",
+      "events": [
+        {
+          "id": "craft_crucible",
+          "type": "item_craft",
+          "item": "thermal:machine_crucible",
+          "count": 1
+        },
+        {
+          "id": "craft_refinery",
+          "type": "item_craft",
+          "item": "thermal:machine_refinery",
+          "count": 1
+        },
+        {
+          "id": "craft_bottler",
+          "type": "item_craft",
+          "item": "thermal:machine_bottler",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Fluid Machines"
+      },
+      "subtitle": {
+        "text": "Melt, refine, and bottle"
+      },
+      "description": [
+        {
+          "text": "Thermal's fluid machines cover magma, oils, fuels, bottles, and recipe loops.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:machine_crucible"
+      },
+      "x": 920,
+      "y": 220,
+      "shape": "square",
+      "color": "#C96F2D",
+      "parents": ["press"]
+    },
+    {
+      "id": "utility_devices",
+      "events": [
+        {
+          "id": "craft_tree_extractor",
+          "type": "item_craft",
+          "item": "thermal:device_tree_extractor",
+          "count": 1
+        },
+        {
+          "id": "craft_rock_gen",
+          "type": "item_craft",
+          "item": "thermal:device_rock_gen",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Thermal Devices"
+      },
+      "subtitle": {
+        "text": "Passive utility blocks"
+      },
+      "description": [
+        {
+          "text": "Thermal devices provide compact resource and utility automation without becoming a separate chapter.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:device_tree_extractor"
+      },
+      "x": 640,
+      "y": 260,
+      "shape": "square",
+      "color": "#C96F2D",
+      "parents": ["machine_frame"]
+    },
+    {
+      "id": "thermal_cells",
+      "events": [
+        {
+          "id": "craft_energy_cell",
+          "type": "item_craft",
+          "item": "thermal:energy_cell",
+          "count": 1
+        },
+        {
+          "id": "craft_fluid_cell",
+          "type": "item_craft",
+          "item": "thermal:fluid_cell",
+          "count": 1
+        },
+        {
+          "id": "craft_item_cell",
+          "type": "item_craft",
+          "item": "thermal:item_cell",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Cells"
+      },
+      "subtitle": {
+        "text": "Store energy, fluids, and items"
+      },
+      "description": [
+        {
+          "text": "Craft Thermal cells for compact storage. They do not unlock dynamos by themselves.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:energy_cell"
+      },
+      "x": 780,
+      "y": 300,
+      "shape": "square",
+      "color": "#C96F2D",
+      "parents": ["rf_coil"]
+    },
+    {
+      "id": "thermal_dynamics",
+      "events": [
+        {
+          "id": "craft_item_buffer",
+          "type": "item_craft",
+          "item": "thermal:item_buffer",
+          "count": 1
+        },
+        {
+          "id": "craft_fluid_duct",
+          "type": "item_craft",
+          "item": "thermal:fluid_duct",
+          "count": 4
+        },
+        {
+          "id": "craft_servo_attachment",
+          "type": "item_craft",
+          "item": "thermal:servo_attachment",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Thermal Dynamics"
+      },
+      "subtitle": {
+        "text": "Ducts and attachments"
+      },
+      "description": [
+        {
+          "text": "Thermal Dynamics transport is kept in the merged Thermal chapter.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:servo_attachment"
+      },
+      "x": 920,
+      "y": 300,
+      "shape": "square",
+      "color": "#C96F2D",
+      "parents": ["thermal_cells"]
+    },
+    {
+      "id": "machine_augments",
+      "events": [
+        {
+          "id": "craft_speed_augment",
+          "type": "item_craft",
+          "item": "thermal:machine_speed_augment",
+          "count": 1
+        },
+        {
+          "id": "craft_efficiency_augment",
+          "type": "item_craft",
+          "item": "thermal:machine_efficiency_augment",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Machine Augments"
+      },
+      "subtitle": {
+        "text": "Improve Thermal machines"
+      },
+      "description": [
+        {
+          "text": "Use machine augments to tune speed, efficiency, cycles, and outputs.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:machine_speed_augment"
+      },
+      "x": 1200,
+      "y": 120,
+      "shape": "circle",
+      "color": "#C96F2D",
+      "parents": ["alloys"]
+    },
+    {
+      "id": "unlock_thermal_dynamos",
+      "events": [
+        {
+          "id": "craft_unlock_marker",
+          "type": "item_craft",
+          "item": "thermal:rf_coil",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Unlock Thermal Dynamos"
+      },
+      "subtitle": {
+        "text": "Special modpack unlock"
+      },
+      "description": [
+        {
+          "text": "This gate separates Thermal dynamo content from the rest of Thermal. All dynamo quests depend on this node.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:dynamo_stirling"
+      },
+      "x": 1340,
+      "y": 120,
+      "shape": "diamond",
+      "color": "#D9822B",
+      "parents": ["machine_augments"]
+    },
+    {
+      "id": "starter_dynamos",
+      "events": [
+        {
+          "id": "craft_stirling",
+          "type": "item_craft",
+          "item": "thermal:dynamo_stirling",
+          "count": 1
+        },
+        {
+          "id": "craft_magmatic",
+          "type": "item_craft",
+          "item": "thermal:dynamo_magmatic",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Starter Dynamos"
+      },
+      "subtitle": {
+        "text": "Stirling and Magmatic"
+      },
+      "description": [
+        {
+          "text": "After the special unlock, craft the first Thermal dynamos.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:dynamo_stirling"
+      },
+      "x": 1480,
+      "y": 80,
+      "shape": "circle",
+      "color": "#D9822B",
+      "parents": ["unlock_thermal_dynamos"]
+    },
+    {
+      "id": "advanced_dynamos",
+      "events": [
+        {
+          "id": "craft_compression",
+          "type": "item_craft",
+          "item": "thermal:dynamo_compression",
+          "count": 1
+        },
+        {
+          "id": "craft_lapidary",
+          "type": "item_craft",
+          "item": "thermal:dynamo_lapidary",
+          "count": 1
+        },
+        {
+          "id": "craft_numismatic",
+          "type": "item_craft",
+          "item": "thermal:dynamo_numismatic",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Advanced Dynamos"
+      },
+      "subtitle": {
+        "text": "Specialized power"
+      },
+      "description": [
+        {
+          "text": "Specialized dynamos consume different fuels and resources for power production.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:dynamo_compression"
+      },
+      "x": 1620,
+      "y": 80,
+      "shape": "square",
+      "color": "#D9822B",
+      "parents": ["starter_dynamos"]
+    },
+    {
+      "id": "dynamo_augments",
+      "events": [
+        {
+          "id": "craft_output_augment",
+          "type": "item_craft",
+          "item": "thermal:dynamo_output_augment",
+          "count": 1
+        },
+        {
+          "id": "craft_fuel_augment",
+          "type": "item_craft",
+          "item": "thermal:dynamo_fuel_augment",
+          "count": 1
+        }
+      ],
+      "title": {
+        "text": "Dynamo Augments"
+      },
+      "subtitle": {
+        "text": "Improve generator behavior"
+      },
+      "description": [
+        {
+          "text": "Dynamo augments are behind the Thermal Dynamo unlock because they only matter for dynamos.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "thermal:dynamo_output_augment"
+      },
+      "x": 1760,
+      "y": 80,
+      "shape": "square",
+      "color": "#D9822B",
+      "parents": ["advanced_dynamos"]
+    }
+  ]
+}
