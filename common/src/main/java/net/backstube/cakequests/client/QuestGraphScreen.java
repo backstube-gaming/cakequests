@@ -2,19 +2,26 @@ package net.backstube.cakequests.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.backstube.cakequests.CakeQuests;
 import net.backstube.cakequests.data.QuestBookDefinition;
 import net.backstube.cakequests.data.QuestNodeDefinition;
+import net.backstube.cakequests.data.QuestNodeShape;
 import net.backstube.cakequests.data.QuestTabDefinition;
 import net.backstube.cakequests.quest.QuestNodeState;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public class QuestGraphScreen extends Screen {
     private static final int TAB_WIDTH = 112;
-    private static final int NODE_SIZE = 28;
-    private static final int NODE_INSET = 1;
+    private static final int NODE_SIZE = 26;
     private static final int DETAILS_MARGIN = 10;
+    private static final ResourceLocation GOAL_FRAME_OBTAINED = CakeQuests.id("textures/gui/quest_nodes/goal_frame_obtained.png");
+    private static final ResourceLocation GOAL_FRAME_UNOBTAINED = CakeQuests.id("textures/gui/quest_nodes/goal_frame_unobtained.png");
+    private static final ResourceLocation TASK_FRAME_OBTAINED = CakeQuests.id("textures/gui/quest_nodes/task_frame_obtained.png");
+    private static final ResourceLocation TASK_FRAME_UNOBTAINED = CakeQuests.id("textures/gui/quest_nodes/task_frame_unobtained.png");
     private int selectedTab;
     private QuestNodeDefinition selectedNode;
     private double panX = 80;
@@ -111,19 +118,24 @@ public class QuestGraphScreen extends Screen {
 
     private void renderNodeFrame(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
         QuestNodeState state = ClientAdvancementBridge.state(tab, node);
-        int color = stateColor(state, node.color());
         int x = node.x() - NODE_SIZE / 2;
         int y = node.y() - NODE_SIZE / 2;
-        if (node.shape().name().equals("DIAMOND")) {
-            GuiComponent.fill(poseStack, x + 10, y, x + 18, y + 4, color);
-            GuiComponent.fill(poseStack, x + 5, y + 4, x + 23, y + 10, color);
-            GuiComponent.fill(poseStack, x, y + 10, x + 28, y + 18, color);
-            GuiComponent.fill(poseStack, x + 5, y + 18, x + 23, y + 24, color);
-            GuiComponent.fill(poseStack, x + 10, y + 24, x + 18, y + 28, color);
-        } else {
-            GuiComponent.fill(poseStack, x, y, x + NODE_SIZE, y + NODE_SIZE, color);
+        renderNodeFrameTexture(poseStack, x, y, nodeFrameTexture(node, state));
+    }
+
+    private void renderNodeFrameTexture(PoseStack poseStack, int x, int y, ResourceLocation texture) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, texture);
+        GuiComponent.blit(poseStack, x, y, 0.0F, 0.0F, NODE_SIZE, NODE_SIZE, NODE_SIZE, NODE_SIZE);
+    }
+
+    private ResourceLocation nodeFrameTexture(QuestNodeDefinition node, QuestNodeState state) {
+        boolean obtained = state == QuestNodeState.COMPLETE;
+        if (node.shape() == QuestNodeShape.DIAMOND) {
+            return obtained ? GOAL_FRAME_OBTAINED : GOAL_FRAME_UNOBTAINED;
         }
-        GuiComponent.fill(poseStack, x + NODE_INSET, y + NODE_INSET, x + NODE_SIZE - NODE_INSET, y + NODE_SIZE - NODE_INSET, 0xFF20242D);
+        return obtained ? TASK_FRAME_OBTAINED : TASK_FRAME_UNOBTAINED;
     }
 
     private void renderScaledNodeIcons(PoseStack poseStack, QuestTabDefinition tab) {
@@ -191,8 +203,7 @@ public class QuestGraphScreen extends Screen {
         GuiComponent.fill(poseStack, left, top, right, top + 42, 0xF0363B47);
         GuiComponent.fill(poseStack, width - 30, top + 8, width - 18, top + 20, 0xFF3D4350);
         drawCenteredString(poseStack, font, "x", width - 24, top + 10, 0xFFFFFFFF);
-        GuiComponent.fill(poseStack, left + 12, top + 10, left + 34, top + 32, stateColor(state, selectedNode.color()));
-        GuiComponent.fill(poseStack, left + 15, top + 13, left + 31, top + 29, 0xFF20242D);
+        renderNodeFrameTexture(poseStack, left + 10, top + 8, nodeFrameTexture(selectedNode, state));
         minecraft.getItemRenderer().renderAndDecorateItem(selectedNode.icon().stack(), left + 15, top + 13);
         if (state == QuestNodeState.LOCKED) {
             renderLockIcon(poseStack, right - 50, top + 14, 0xFFC3C8D0, 0xFF2A2E38);

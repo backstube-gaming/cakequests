@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/book"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "cakequests:cakequests_book": 1.0
+      },
+      "model": "cakequests:item/quest_book"
+    }
+  ]
+}

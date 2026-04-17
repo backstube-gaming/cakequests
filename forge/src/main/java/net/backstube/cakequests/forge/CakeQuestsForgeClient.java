@@ -1,10 +1,13 @@
 package net.backstube.cakequests.forge;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import net.backstube.cakequests.CakeQuests;
 import net.backstube.cakequests.client.ClientQuestGraphStore;
 import net.backstube.cakequests.client.QuestGraphScreen;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.client.ClientRegistry;
@@ -16,6 +19,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class CakeQuestsForgeClient {
+    private static final String QUEST_BOOK_NAME = "CakeQuests";
+    private static final ResourceLocation QUEST_BOOK_PROPERTY = CakeQuests.id("cakequests_book");
     private static KeyMapping openKey;
 
     public static void registerModBus(IEventBus modBus) {
@@ -26,6 +31,7 @@ public class CakeQuestsForgeClient {
         event.enqueueWork(() -> {
             openKey = new KeyMapping("key.cakequests.open", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, "key.categories.cakequests");
             ClientRegistry.registerKeyBinding(openKey);
+            ItemProperties.register(Items.BOOK, QUEST_BOOK_PROPERTY, (stack, level, entity, seed) -> isNamedQuestBook(stack) ? 1.0F : 0.0F);
         });
     }
 
@@ -54,13 +60,17 @@ public class CakeQuestsForgeClient {
         ClientQuestGraphStore.clearToFallback();
     }
 
+    private static boolean isNamedQuestBook(ItemStack stack) {
+        return stack.is(Items.BOOK) && stack.hasCustomHoverName() && QUEST_BOOK_NAME.equals(stack.getHoverName().getString());
+    }
+
     @SubscribeEvent
     public void clickInput(InputEvent.ClickInputEvent event) {
         if (!event.isUseItem() || Minecraft.getInstance().player == null) {
             return;
         }
         ItemStack stack = Minecraft.getInstance().player.getItemInHand(event.getHand());
-        if (stack.is(Items.BOOK) && stack.hasCustomHoverName() && "CakeQuests".equals(stack.getHoverName().getString())) {
+        if (isNamedQuestBook(stack)) {
             openScreen();
             event.setSwingHand(false);
             event.setCanceled(true);
