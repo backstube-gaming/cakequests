@@ -87,7 +87,7 @@
       "icon": {
         "item": "minecraft:oak_planks"
       },
-      "x": 200,
+      "x": 152,
       "y": 35,
       "shape": "square",
       "color": "#B78248",
@@ -120,7 +120,7 @@
       "icon": {
         "item": "minecraft:crafting_table"
       },
-      "x": 320,
+      "x": 224,
       "y": 5,
       "shape": "square",
       "color": "#A96F42",
@@ -153,7 +153,7 @@
       "icon": {
         "item": "minecraft:stick"
       },
-      "x": 440,
+      "x": 296,
       "y": 5,
       "shape": "circle",
       "color": "#C79A5A",
@@ -194,7 +194,7 @@
       "icon": {
         "item": "minecraft:wooden_pickaxe"
       },
-      "x": 560,
+      "x": 368,
       "y": 35,
       "shape": "diamond",
       "color": "#D2A05D",
@@ -243,7 +243,7 @@
       "icon": {
         "item": "minecraft:cobblestone"
       },
-      "x": 680,
+      "x": 440,
       "y": 80,
       "shape": "square",
       "color": "#A9ADB5",
@@ -284,7 +284,7 @@
       "icon": {
         "item": "minecraft:stone_pickaxe"
       },
-      "x": 800,
+      "x": 512,
       "y": 35,
       "shape": "diamond",
       "color": "#8F98A3",
@@ -333,7 +333,7 @@
       "icon": {
         "item": "minecraft:furnace"
       },
-      "x": 800,
+      "x": 512,
       "y": 125,
       "shape": "square",
       "color": "#777F8B",
@@ -382,7 +382,7 @@
       "icon": {
         "item": "minecraft:raw_iron"
       },
-      "x": 920,
+      "x": 584,
       "y": 35,
       "shape": "circle",
       "color": "#B28A73",
@@ -435,7 +435,7 @@
       "icon": {
         "item": "minecraft:iron_ingot"
       },
-      "x": 1040,
+      "x": 656,
       "y": 80,
       "shape": "diamond",
       "color": "#D4D7DD",
@@ -504,7 +504,7 @@
       "icon": {
         "item": "minecraft:iron_pickaxe"
       },
-      "x": 1160,
+      "x": 728,
       "y": 80,
       "shape": "diamond",
       "color": "#C9D0D7",

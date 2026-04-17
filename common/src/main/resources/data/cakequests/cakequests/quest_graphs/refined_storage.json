@@ -74,7 +74,7 @@
       "icon": {
         "item": "refinedstorage:advanced_processor"
       },
-      "x": 220,
+      "x": 152,
       "y": 120,
       "shape": "square",
       "color": "#3A6EA5",
@@ -105,7 +105,7 @@
       "icon": {
         "item": "refinedstorage:machine_casing"
       },
-      "x": 360,
+      "x": 224,
       "y": 120,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -136,7 +136,7 @@
       "icon": {
         "item": "refinedstorage:controller"
       },
-      "x": 500,
+      "x": 296,
       "y": 120,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -167,7 +167,7 @@
       "icon": {
         "item": "refinedstorage:cable"
       },
-      "x": 640,
+      "x": 368,
       "y": 120,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -198,7 +198,7 @@
       "icon": {
         "item": "refinedstorage:grid"
       },
-      "x": 780,
+      "x": 440,
       "y": 80,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -229,7 +229,7 @@
       "icon": {
         "item": "refinedstorage:crafting_grid"
       },
-      "x": 920,
+      "x": 512,
       "y": 80,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -260,7 +260,7 @@
       "icon": {
         "item": "refinedstorage:disk_drive"
       },
-      "x": 780,
+      "x": 440,
       "y": 160,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -303,7 +303,7 @@
       "icon": {
         "item": "refinedstorage:4k_storage_part"
       },
-      "x": 920,
+      "x": 512,
       "y": 160,
       "shape": "square",
       "color": "#3A6EA5",
@@ -340,7 +340,7 @@
       "icon": {
         "item": "refinedstorage:1k_storage_disk"
       },
-      "x": 1060,
+      "x": 584,
       "y": 160,
       "shape": "square",
       "color": "#3A6EA5",
@@ -371,7 +371,7 @@
       "icon": {
         "item": "refinedstorage:external_storage"
       },
-      "x": 1060,
+      "x": 440,
       "y": 240,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -408,7 +408,7 @@
       "icon": {
         "item": "refinedstorage:importer"
       },
-      "x": 1200,
+      "x": 512,
       "y": 240,
       "shape": "square",
       "color": "#3A6EA5",
@@ -445,7 +445,7 @@
       "icon": {
         "item": "refinedstorage:constructor"
       },
-      "x": 1340,
+      "x": 584,
       "y": 240,
       "shape": "square",
       "color": "#3A6EA5",
@@ -476,7 +476,7 @@
       "icon": {
         "item": "refinedstorage:pattern_grid"
       },
-      "x": 1060,
+      "x": 584,
       "y": 80,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -507,7 +507,7 @@
       "icon": {
         "item": "refinedstorage:pattern"
       },
-      "x": 1200,
+      "x": 656,
       "y": 80,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -538,7 +538,7 @@
       "icon": {
         "item": "refinedstorage:crafter"
       },
-      "x": 1340,
+      "x": 728,
       "y": 80,
       "shape": "square",
       "color": "#3A6EA5",
@@ -569,7 +569,7 @@
       "icon": {
         "item": "refinedstorage:crafting_monitor"
       },
-      "x": 1480,
+      "x": 800,
       "y": 80,
       "shape": "circle",
       "color": "#3A6EA5",
@@ -606,7 +606,7 @@
       "icon": {
         "item": "refinedstorage:speed_upgrade"
       },
-      "x": 1480,
+      "x": 656,
       "y": 240,
       "shape": "square",
       "color": "#3A6EA5",
@@ -643,7 +643,7 @@
       "icon": {
         "item": "refinedstorage:wireless_grid"
       },
-      "x": 1620,
+      "x": 656,
       "y": 160,
       "shape": "diamond",
       "color": "#3A6EA5",

@@ -8,14 +8,24 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public record QuestBookDefinition(List<QuestTabDefinition> tabs, String hash) {
     public static final QuestBookDefinition EMPTY = new QuestBookDefinition(List.of(), "empty");
 
     public static QuestBookDefinition of(List<QuestTabDefinition> tabs) {
-        QuestBookDefinition temp = new QuestBookDefinition(tabs.stream().filter(QuestTabDefinition::enabled).toList(), "");
+        QuestBookDefinition temp = new QuestBookDefinition(tabs.stream()
+                .filter(QuestTabDefinition::enabled)
+                .sorted(Comparator.comparing(QuestBookDefinition::tabSortTitle, String.CASE_INSENSITIVE_ORDER)
+                        .thenComparing(QuestTabDefinition::id))
+                .toList(), "");
         return new QuestBookDefinition(temp.tabs, hash(temp.toJson().toString()));
+    }
+
+    private static String tabSortTitle(QuestTabDefinition tab) {
+        String title = tab.title().component().getString();
+        return title.isBlank() ? tab.id() : title;
     }
 
     public static QuestBookDefinition fromJson(JsonObject json) {

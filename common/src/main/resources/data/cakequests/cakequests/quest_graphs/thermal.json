@@ -68,7 +68,7 @@
       "icon": {
         "item": "thermal:redstone_servo"
       },
-      "x": 220,
+      "x": 152,
       "y": 120,
       "shape": "circle",
       "color": "#C96F2D",
@@ -99,7 +99,7 @@
       "icon": {
         "item": "thermal:rf_coil"
       },
-      "x": 360,
+      "x": 224,
       "y": 120,
       "shape": "circle",
       "color": "#C96F2D",
@@ -130,7 +130,7 @@
       "icon": {
         "item": "thermal:machine_frame"
       },
-      "x": 500,
+      "x": 296,
       "y": 120,
       "shape": "square",
       "color": "#C96F2D",
@@ -161,7 +161,7 @@
       "icon": {
         "item": "thermal:machine_pulverizer"
       },
-      "x": 640,
+      "x": 368,
       "y": 80,
       "shape": "circle",
       "color": "#C96F2D",
@@ -192,7 +192,7 @@
       "icon": {
         "item": "thermal:machine_furnace"
       },
-      "x": 640,
+      "x": 368,
       "y": 160,
       "shape": "circle",
       "color": "#C96F2D",
@@ -223,7 +223,7 @@
       "icon": {
         "item": "thermal:machine_sawmill"
       },
-      "x": 780,
+      "x": 440,
       "y": 40,
       "shape": "circle",
       "color": "#C96F2D",
@@ -254,7 +254,7 @@
       "icon": {
         "item": "thermal:machine_press"
       },
-      "x": 780,
+      "x": 440,
       "y": 120,
       "shape": "circle",
       "color": "#C96F2D",
@@ -291,7 +291,7 @@
       "icon": {
         "item": "thermal:press_gear_die"
       },
-      "x": 920,
+      "x": 512,
       "y": 120,
       "shape": "square",
       "color": "#C96F2D",
@@ -334,7 +334,7 @@
       "icon": {
         "item": "thermal:signalum_ingot"
       },
-      "x": 1060,
+      "x": 584,
       "y": 120,
       "shape": "square",
       "color": "#C96F2D",
@@ -365,7 +365,7 @@
       "icon": {
         "item": "thermal:machine_smelter"
       },
-      "x": 1060,
+      "x": 512,
       "y": 220,
       "shape": "circle",
       "color": "#C96F2D",
@@ -408,7 +408,7 @@
       "icon": {
         "item": "thermal:machine_crucible"
       },
-      "x": 920,
+      "x": 512,
       "y": 220,
       "shape": "square",
       "color": "#C96F2D",
@@ -445,7 +445,7 @@
       "icon": {
         "item": "thermal:device_tree_extractor"
       },
-      "x": 640,
+      "x": 368,
       "y": 260,
       "shape": "square",
       "color": "#C96F2D",
@@ -488,7 +488,7 @@
       "icon": {
         "item": "thermal:energy_cell"
       },
-      "x": 780,
+      "x": 296,
       "y": 300,
       "shape": "square",
       "color": "#C96F2D",
@@ -531,7 +531,7 @@
       "icon": {
         "item": "thermal:servo_attachment"
       },
-      "x": 920,
+      "x": 368,
       "y": 300,
       "shape": "square",
       "color": "#C96F2D",
@@ -568,7 +568,7 @@
       "icon": {
         "item": "thermal:machine_speed_augment"
       },
-      "x": 1200,
+      "x": 656,
       "y": 120,
       "shape": "circle",
       "color": "#C96F2D",
@@ -599,7 +599,7 @@
       "icon": {
         "item": "thermal:dynamo_stirling"
       },
-      "x": 1340,
+      "x": 728,
       "y": 120,
       "shape": "diamond",
       "color": "#D9822B",
@@ -636,7 +636,7 @@
       "icon": {
         "item": "thermal:dynamo_stirling"
       },
-      "x": 1480,
+      "x": 800,
       "y": 80,
       "shape": "circle",
       "color": "#D9822B",
@@ -679,7 +679,7 @@
       "icon": {
         "item": "thermal:dynamo_compression"
       },
-      "x": 1620,
+      "x": 872,
       "y": 80,
       "shape": "square",
       "color": "#D9822B",
@@ -716,7 +716,7 @@
       "icon": {
         "item": "thermal:dynamo_output_augment"
       },
-      "x": 1760,
+      "x": 944,
       "y": 80,
       "shape": "square",
       "color": "#D9822B",

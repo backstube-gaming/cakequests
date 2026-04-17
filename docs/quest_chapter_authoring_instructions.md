@@ -54,7 +54,7 @@ Descriptions may contain text components and images:
 
 Layout guidance:
 
-- Use a regular grid with 120 to 160 pixels horizontal spacing and 80 to 120 pixels vertical spacing.
+- Use a regular grid with 72 to 96 pixels horizontal spacing and 80 to 120 pixels vertical spacing.
 - Avoid one ultra-long straight line.
 - Prefer branches from milestone nodes.
 - Snake longer chains into a second row or column after about 6 to 8 nodes.

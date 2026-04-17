@@ -32,7 +32,7 @@
         "item": "modularrouters:modular_router"
       },
       "x": 80,
-      "y": 120,
+      "y": 200,
       "shape": "circle",
       "color": "#D99032",
       "parents": []
@@ -62,8 +62,8 @@
       "icon": {
         "item": "modularrouters:blank_module"
       },
-      "x": 220,
-      "y": 120,
+      "x": 152,
+      "y": 200,
       "shape": "circle",
       "color": "#D99032",
       "parents": ["modular_router"]
@@ -93,8 +93,8 @@
       "icon": {
         "item": "modularrouters:sender_module_1"
       },
-      "x": 360,
-      "y": 60,
+      "x": 224,
+      "y": 120,
       "shape": "circle",
       "color": "#D99032",
       "parents": ["blank_module"]
@@ -124,8 +124,8 @@
       "icon": {
         "item": "modularrouters:puller_module_1"
       },
-      "x": 360,
-      "y": 120,
+      "x": 224,
+      "y": 280,
       "shape": "circle",
       "color": "#D99032",
       "parents": ["blank_module"]
@@ -155,8 +155,8 @@
       "icon": {
         "item": "modularrouters:distributor_module"
       },
-      "x": 500,
-      "y": 60,
+      "x": 296,
+      "y": 120,
       "shape": "circle",
       "color": "#D99032",
       "parents": ["sender_module"]
@@ -192,8 +192,8 @@
       "icon": {
         "item": "modularrouters:bulk_item_filter"
       },
-      "x": 500,
-      "y": 120,
+      "x": 296,
+      "y": 280,
       "shape": "square",
       "color": "#D99032",
       "parents": ["puller_module"]
@@ -223,7 +223,7 @@
       "icon": {
         "item": "modularrouters:placer_module"
       },
-      "x": 640,
+      "x": 224,
       "y": 40,
       "shape": "circle",
       "color": "#D99032",
@@ -254,8 +254,8 @@
       "icon": {
         "item": "modularrouters:breaker_module"
       },
-      "x": 640,
-      "y": 100,
+      "x": 224,
+      "y": 200,
       "shape": "circle",
       "color": "#D99032",
       "parents": ["blank_module"]
@@ -285,8 +285,8 @@
       "icon": {
         "item": "modularrouters:activator_module"
       },
-      "x": 640,
-      "y": 160,
+      "x": 224,
+      "y": 360,
       "shape": "circle",
       "color": "#D99032",
       "parents": ["blank_module"]
@@ -316,8 +316,8 @@
       "icon": {
         "item": "modularrouters:vacuum_module"
       },
-      "x": 780,
-      "y": 60,
+      "x": 368,
+      "y": 200,
       "shape": "circle",
       "color": "#D99032",
       "parents": ["filtering"]
@@ -353,8 +353,8 @@
       "icon": {
         "item": "modularrouters:fluid_module"
       },
-      "x": 780,
-      "y": 120,
+      "x": 368,
+      "y": 280,
       "shape": "square",
       "color": "#D99032",
       "parents": ["filtering"]
@@ -390,8 +390,8 @@
       "icon": {
         "item": "modularrouters:energy_distributor_module"
       },
-      "x": 780,
-      "y": 180,
+      "x": 368,
+      "y": 360,
       "shape": "square",
       "color": "#D99032",
       "parents": ["filtering"]
@@ -427,7 +427,7 @@
       "icon": {
         "item": "modularrouters:speed_upgrade"
       },
-      "x": 920,
+      "x": 368,
       "y": 120,
       "shape": "square",
       "color": "#D99032",
@@ -464,7 +464,7 @@
       "icon": {
         "item": "modularrouters:range_upgrade"
       },
-      "x": 1060,
+      "x": 440,
       "y": 120,
       "shape": "circle",
       "color": "#D99032",
@@ -501,7 +501,7 @@
       "icon": {
         "item": "modularrouters:security_upgrade"
       },
-      "x": 1200,
+      "x": 512,
       "y": 120,
       "shape": "circle",
       "color": "#D99032",

@@ -62,7 +62,7 @@
       "icon": {
         "item": "pipez:item_pipe"
       },
-      "x": 220,
+      "x": 152,
       "y": 40,
       "shape": "circle",
       "color": "#6F7680",
@@ -93,7 +93,7 @@
       "icon": {
         "item": "pipez:fluid_pipe"
       },
-      "x": 220,
+      "x": 152,
       "y": 100,
       "shape": "circle",
       "color": "#6F7680",
@@ -124,7 +124,7 @@
       "icon": {
         "item": "pipez:energy_pipe"
       },
-      "x": 220,
+      "x": 152,
       "y": 160,
       "shape": "circle",
       "color": "#6F7680",
@@ -155,7 +155,7 @@
       "icon": {
         "item": "pipez:gas_pipe"
       },
-      "x": 360,
+      "x": 224,
       "y": 160,
       "shape": "circle",
       "color": "#6F7680",
@@ -186,7 +186,7 @@
       "icon": {
         "item": "pipez:basic_upgrade"
       },
-      "x": 360,
+      "x": 224,
       "y": 40,
       "shape": "square",
       "color": "#6F7680",
@@ -217,7 +217,7 @@
       "icon": {
         "item": "pipez:improved_upgrade"
       },
-      "x": 500,
+      "x": 296,
       "y": 40,
       "shape": "square",
       "color": "#6F7680",
@@ -248,7 +248,7 @@
       "icon": {
         "item": "pipez:advanced_upgrade"
       },
-      "x": 640,
+      "x": 368,
       "y": 40,
       "shape": "square",
       "color": "#6F7680",
@@ -279,7 +279,7 @@
       "icon": {
         "item": "pipez:ultimate_upgrade"
       },
-      "x": 780,
+      "x": 440,
       "y": 40,
       "shape": "square",
       "color": "#6F7680",
@@ -310,7 +310,7 @@
       "icon": {
         "item": "pipez:universal_pipe"
       },
-      "x": 500,
+      "x": 224,
       "y": 120,
       "shape": "diamond",
       "color": "#6F7680",
@@ -341,7 +341,7 @@
       "icon": {
         "item": "pipez:filter_destination_tool"
       },
-      "x": 920,
+      "x": 512,
       "y": 40,
       "shape": "circle",
       "color": "#6F7680",
