@@ -30,6 +30,9 @@ public class QuestGraphScreen extends Screen {
     private static final int DETAILS_MARGIN = 10;
     private static final int DETAILS_IMAGE_MAX_HEIGHT = 140;
     private static final int DETAILS_SCROLL_STEP = 18;
+    private static final int EDGE_OUTLINE_COLOR = 0xFF000000;
+    private static final int EDGE_AVAILABLE_COLOR = 0xFFFFF1A8;
+    private static final int EDGE_LOCKED_COLOR = 0xFF555B66;
     private static final double DEFAULT_PAN_X = 80.0D;
     private static final double DEFAULT_PAN_Y = 80.0D;
     private static final double DEFAULT_ZOOM = 1.0D;
@@ -109,7 +112,7 @@ public class QuestGraphScreen extends Screen {
             for (String parentId : node.parents()) {
                 QuestNodeDefinition parent = tab.nodes().stream().filter(candidate -> candidate.id().equals(parentId)).findFirst().orElse(null);
                 if (parent != null) {
-                    drawEdge(poseStack, parent.x(), parent.y(), node.x(), node.y(), stateColor(ClientQuestProgressStore.state(tab, node), 0xFF687080));
+                    drawEdge(poseStack, parent.x(), parent.y(), node.x(), node.y(), edgeColor(ClientQuestProgressStore.state(tab, node)));
                 }
             }
         }
@@ -126,13 +129,29 @@ public class QuestGraphScreen extends Screen {
     }
 
     private void drawEdge(PoseStack poseStack, int x1, int y1, int x2, int y2, int color) {
-        int steps = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)) / 6 + 1;
-        for (int i = 0; i <= steps; i++) {
-            double t = steps == 0 ? 0.0D : (double) i / (double) steps;
-            int x = (int) (x1 + (x2 - x1) * t);
-            int y = (int) (y1 + (y2 - y1) * t);
-            GuiComponent.fill(poseStack, x - 1, y - 1, x + 2, y + 2, color);
-        }
+        int midX = x1 + (x2 - x1) / 2;
+        drawEdgeSegments(poseStack, x1, y1, midX, y2, x2, EDGE_OUTLINE_COLOR, 3);
+        drawEdgeSegments(poseStack, x1, y1, midX, y2, x2, color, 1);
+    }
+
+    private void drawEdgeSegments(PoseStack poseStack, int x1, int y1, int midX, int y2, int x2, int color, int thickness) {
+        drawHorizontalEdgeSegment(poseStack, x1, midX, y1, color, thickness);
+        drawVerticalEdgeSegment(poseStack, midX, y1, y2, color, thickness);
+        drawHorizontalEdgeSegment(poseStack, midX, x2, y2, color, thickness);
+    }
+
+    private void drawHorizontalEdgeSegment(PoseStack poseStack, int x1, int x2, int y, int color, int thickness) {
+        int left = Math.min(x1, x2);
+        int right = Math.max(x1, x2);
+        int halfThickness = thickness / 2;
+        GuiComponent.fill(poseStack, left, y - halfThickness, right + 1, y + halfThickness + 1, color);
+    }
+
+    private void drawVerticalEdgeSegment(PoseStack poseStack, int x, int y1, int y2, int color, int thickness) {
+        int top = Math.min(y1, y2);
+        int bottom = Math.max(y1, y2);
+        int halfThickness = thickness / 2;
+        GuiComponent.fill(poseStack, x - halfThickness, top, x + halfThickness + 1, bottom + 1, color);
     }
 
     private void renderNodeFrame(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
@@ -197,11 +216,10 @@ public class QuestGraphScreen extends Screen {
         }
     }
 
-    private int stateColor(QuestNodeState state, int base) {
+    private int edgeColor(QuestNodeState state) {
         return switch (state) {
-            case COMPLETE -> 0xFF4FB870;
-            case LOCKED -> 0xFF555B66;
-            case AVAILABLE -> base;
+            case LOCKED -> EDGE_LOCKED_COLOR;
+            case COMPLETE, AVAILABLE -> EDGE_AVAILABLE_COLOR;
         };
     }
 
