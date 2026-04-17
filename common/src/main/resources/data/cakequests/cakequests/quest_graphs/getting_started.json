@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "getting_started",
   "title": {
     "text": "Getting Started",
@@ -38,7 +38,8 @@
       "y": 80,
       "shape": "circle",
       "color": "#8ABF55",
-      "parents": []
+      "parents": [
+      ]
     },
     {
       "id": "get_wood",
@@ -113,7 +114,7 @@
         "item": "minecraft:oak_planks"
       },
       "x": 220,
-      "y": 80,
+      "y": 35,
       "shape": "square",
       "color": "#B78248",
       "parents": [
@@ -139,7 +140,7 @@
         "item": "minecraft:crafting_table"
       },
       "x": 310,
-      "y": 80,
+      "y": 5,
       "shape": "square",
       "color": "#A96F42",
       "parents": [
@@ -165,7 +166,7 @@
         "item": "minecraft:stick"
       },
       "x": 400,
-      "y": 80,
+      "y": 5,
       "shape": "circle",
       "color": "#C79A5A",
       "parents": [
@@ -201,7 +202,7 @@
         "item": "minecraft:wooden_pickaxe"
       },
       "x": 490,
-      "y": 80,
+      "y": 35,
       "shape": "diamond",
       "color": "#D2A05D",
       "parents": [

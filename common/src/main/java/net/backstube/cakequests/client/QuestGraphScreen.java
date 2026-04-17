@@ -1,5 +1,6 @@
 package net.backstube.cakequests.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.backstube.cakequests.data.QuestBookDefinition;
 import net.backstube.cakequests.data.QuestNodeDefinition;
@@ -12,6 +13,7 @@ import net.minecraft.network.chat.TextComponent;
 public class QuestGraphScreen extends Screen {
     private static final int TAB_WIDTH = 112;
     private static final int NODE_SIZE = 28;
+    private static final int NODE_INSET = 1;
     private static final int DETAILS_MARGIN = 10;
     private int selectedTab;
     private QuestNodeDefinition selectedNode;
@@ -54,9 +56,13 @@ public class QuestGraphScreen extends Screen {
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.0D, 250.0D);
         GuiComponent.fill(poseStack, 0, 0, TAB_WIDTH, height, 0xF0262932);
-        font.draw(poseStack, title, 12, 12, 0xFFFFFFFF);
-        font.draw(poseStack, ClientQuestGraphStore.fallbackMode() ? "Fallback" : "Server", 12, 25, 0xFF9CA3AF);
+        font.draw(poseStack, ClientQuestGraphStore.titleLabel(), 12, 12, 0xFFFFFFFF);
+        font.draw(poseStack, ClientQuestGraphStore.subtitle(), 12, 25, 0xFF9CA3AF);
         int y = 48;
+        if (ClientQuestGraphStore.fallbackMode()) {
+            font.draw(poseStack, "(client only)", 12, 37, 0xFF8B92A1);
+            y = 60;
+        }
         for (int i = 0; i < book.tabs().size(); i++) {
             QuestTabDefinition tab = book.tabs().get(i);
             int color = i == selectedTab ? tab.tabColor() : 0xFF343844;
@@ -89,9 +95,7 @@ public class QuestGraphScreen extends Screen {
             }
         }
         poseStack.popPose();
-        for (QuestNodeDefinition node : tab.nodes()) {
-            renderNodeIcon(poseStack, tab, node);
-        }
+        renderScaledNodeIcons(poseStack, tab);
         return hover;
     }
 
@@ -119,21 +123,46 @@ public class QuestGraphScreen extends Screen {
         } else {
             GuiComponent.fill(poseStack, x, y, x + NODE_SIZE, y + NODE_SIZE, color);
         }
-        GuiComponent.fill(poseStack, x + 3, y + 3, x + NODE_SIZE - 3, y + NODE_SIZE - 3, 0xFF20242D);
-        if (state == QuestNodeState.COMPLETE) {
-            GuiComponent.fill(poseStack, x + 20, y + 20, x + 27, y + 27, 0xFF62D26F);
-        } else if (state == QuestNodeState.LOCKED) {
-            GuiComponent.fill(poseStack, x + 20, y + 20, x + 27, y + 27, 0xFF6B7280);
-        }
+        GuiComponent.fill(poseStack, x + NODE_INSET, y + NODE_INSET, x + NODE_SIZE - NODE_INSET, y + NODE_SIZE - NODE_INSET, 0xFF20242D);
     }
 
-    private void renderNodeIcon(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
-        QuestNodeState state = ClientAdvancementBridge.state(tab, node);
-        int x = screenX(node.x()) - 8;
-        int y = screenY(node.y()) - 8;
+    private void renderScaledNodeIcons(PoseStack poseStack, QuestTabDefinition tab) {
+        int left = TAB_WIDTH;
+        PoseStack modelView = RenderSystem.getModelViewStack();
+        modelView.pushPose();
+        modelView.translate(left + panX, panY, 0.0D);
+        modelView.scale((float) zoom, (float) zoom, 1.0F);
+        RenderSystem.applyModelViewMatrix();
+        for (QuestNodeDefinition node : tab.nodes()) {
+            renderNodeItem(node);
+        }
+        modelView.popPose();
+        RenderSystem.applyModelViewMatrix();
+
+        poseStack.pushPose();
+        poseStack.translate(left + panX, panY, 250.0D);
+        poseStack.scale((float) zoom, (float) zoom, 1.0F);
+        for (QuestNodeDefinition node : tab.nodes()) {
+            renderNodeStatus(poseStack, tab, node);
+        }
+        poseStack.popPose();
+    }
+
+    private void renderNodeItem(QuestNodeDefinition node) {
+        int x = node.x() - 8;
+        int y = node.y() - 8;
         minecraft.getItemRenderer().renderAndDecorateItem(node.icon().stack(), x, y);
-        if (state == QuestNodeState.LOCKED) {
+    }
+
+    private void renderNodeStatus(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
+        QuestNodeState state = ClientAdvancementBridge.state(tab, node);
+        int x = node.x() - 8;
+        int y = node.y() - 8;
+        if (state == QuestNodeState.COMPLETE) {
+            renderCheckIcon(poseStack, x + 13, y + 13);
+        } else if (state == QuestNodeState.LOCKED) {
             GuiComponent.fill(poseStack, x, y, x + 16, y + 16, 0x88000000);
+            renderSmallLockIcon(poseStack, x + 13, y + 13);
         }
     }
 
@@ -165,7 +194,9 @@ public class QuestGraphScreen extends Screen {
         GuiComponent.fill(poseStack, left + 12, top + 10, left + 34, top + 32, stateColor(state, selectedNode.color()));
         GuiComponent.fill(poseStack, left + 15, top + 13, left + 31, top + 29, 0xFF20242D);
         minecraft.getItemRenderer().renderAndDecorateItem(selectedNode.icon().stack(), left + 15, top + 13);
-        renderStateIcon(poseStack, state, right - 50, top + 14);
+        if (state == QuestNodeState.LOCKED) {
+            renderLockIcon(poseStack, right - 50, top + 14, 0xFFC3C8D0, 0xFF2A2E38);
+        }
         font.draw(poseStack, selectedNode.title().component(), textLeft, top + 10, 0xFFFFFFFF);
         font.draw(poseStack, selectedNode.subtitle().component(), textLeft, top + 24, 0xFFB6BCC8);
         GuiComponent.fill(poseStack, left + 12, top + 50, right - 12, top + 51, 0xFF454B58);
@@ -183,21 +214,33 @@ public class QuestGraphScreen extends Screen {
         poseStack.popPose();
     }
 
-    private void renderStateIcon(PoseStack poseStack, QuestNodeState state, int x, int y) {
-        if (state == QuestNodeState.COMPLETE) {
-            GuiComponent.fill(poseStack, x + 1, y + 7, x + 5, y + 11, 0xFF62D26F);
-            GuiComponent.fill(poseStack, x + 5, y + 9, x + 8, y + 12, 0xFF62D26F);
-            GuiComponent.fill(poseStack, x + 8, y + 4, x + 13, y + 8, 0xFF62D26F);
-        } else if (state == QuestNodeState.LOCKED) {
-            GuiComponent.fill(poseStack, x + 3, y + 7, x + 13, y + 15, 0xFFC3C8D0);
-            GuiComponent.fill(poseStack, x + 5, y + 3, x + 11, y + 5, 0xFFC3C8D0);
-            GuiComponent.fill(poseStack, x + 4, y + 5, x + 6, y + 8, 0xFFC3C8D0);
-            GuiComponent.fill(poseStack, x + 10, y + 5, x + 12, y + 8, 0xFFC3C8D0);
-            GuiComponent.fill(poseStack, x + 7, y + 10, x + 9, y + 13, 0xFF2A2E38);
-        } else {
-            GuiComponent.fill(poseStack, x + 4, y + 4, x + 12, y + 12, 0xFFE9C46A);
-            GuiComponent.fill(poseStack, x + 6, y + 6, x + 10, y + 10, 0xFF2A2E38);
-        }
+    private void renderLockIcon(PoseStack poseStack, int x, int y, int color, int keyholeColor) {
+        GuiComponent.fill(poseStack, x + 3, y + 7, x + 13, y + 15, color);
+        GuiComponent.fill(poseStack, x + 5, y + 3, x + 11, y + 5, color);
+        GuiComponent.fill(poseStack, x + 4, y + 5, x + 6, y + 8, color);
+        GuiComponent.fill(poseStack, x + 10, y + 5, x + 12, y + 8, color);
+        GuiComponent.fill(poseStack, x + 7, y + 10, x + 9, y + 13, keyholeColor);
+    }
+
+    private void renderSmallLockIcon(PoseStack poseStack, int x, int y) {
+        GuiComponent.fill(poseStack, x, y, x + 10, y + 10, 0xFF223040);
+        GuiComponent.fill(poseStack, x + 1, y + 5, x + 9, y + 10, 0xFFE5E7EB);
+        GuiComponent.fill(poseStack, x + 3, y + 2, x + 7, y + 4, 0xFFE5E7EB);
+        GuiComponent.fill(poseStack, x + 2, y + 4, x + 4, y + 6, 0xFFE5E7EB);
+        GuiComponent.fill(poseStack, x + 6, y + 4, x + 8, y + 6, 0xFFE5E7EB);
+        GuiComponent.fill(poseStack, x + 4, y + 7, x + 6, y + 9, 0xFF20242D);
+    }
+
+    private void renderCheckIcon(PoseStack poseStack, int x, int y) {
+        GuiComponent.fill(poseStack, x, y, x + 10, y + 10, 0xFF22382B);
+        GuiComponent.fill(poseStack, x + 1, y + 5, x + 3, y + 7, 0xFF62D26F);
+        GuiComponent.fill(poseStack, x + 2, y + 6, x + 4, y + 8, 0xFF62D26F);
+        GuiComponent.fill(poseStack, x + 3, y + 7, x + 5, y + 9, 0xFF62D26F);
+        GuiComponent.fill(poseStack, x + 4, y + 6, x + 6, y + 8, 0xFF62D26F);
+        GuiComponent.fill(poseStack, x + 5, y + 5, x + 7, y + 7, 0xFF62D26F);
+        GuiComponent.fill(poseStack, x + 6, y + 4, x + 8, y + 6, 0xFF62D26F);
+        GuiComponent.fill(poseStack, x + 7, y + 3, x + 9, y + 5, 0xFF62D26F);
+        GuiComponent.fill(poseStack, x + 8, y + 2, x + 10, y + 4, 0xFF62D26F);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class CakeQuestsForgeEvents {
     @SubscribeEvent
     public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
-            CakeQuestsForgeNetwork.sendTo(player, QuestGraphReloadListener.activeBook());
+            CakeQuestsForgeNetwork.sendTo(player, QuestGraphReloadListener.activeBook(), QuestGraphReloadListener.activeConfig());
         }
     }
 }

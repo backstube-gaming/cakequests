@@ -23,6 +23,11 @@ public final class QuestGraphParser {
         return book;
     }
 
+    public static QuestMainConfig parseMainConfig(String json) {
+        JsonObject object = GSON.fromJson(json, JsonObject.class);
+        return QuestMainConfig.fromJson(object == null ? new JsonObject() : object);
+    }
+
     public static QuestTabDefinition parseTab(ResourceLocation id, Reader reader) {
         JsonObject object = GSON.fromJson(reader, JsonObject.class);
         QuestTabDefinition tab = QuestTabDefinition.fromJson(id.getPath().replace('/', '_'), object == null ? new JsonObject() : object);
