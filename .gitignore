@@ -14,13 +14,13 @@ out
 .idea
 
 # gradle
-build
-.gradle
+**/build
+**/.gradle
 
 # other
 eclipse
-run
-run-data
+**/run
+**/run-data
 
 # Files from Forge MDK
 forge*changelog.txt
