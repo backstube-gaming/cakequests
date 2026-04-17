@@ -1,0 +1,73 @@
+{
+  "id": "getting_started",
+  "title": {
+    "text": "Getting Started",
+    "color": "gold"
+  },
+  "tab_color": "#D49A35",
+  "nodes": [
+    {
+      "id": "root",
+      "advancement": "minecraft:story/root",
+      "title": {
+        "text": "Minecraft"
+      },
+      "description": [
+        {
+          "text": "Open your inventory and begin the vanilla progression path.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "minecraft:grass_block"
+      },
+      "x": 40,
+      "y": 40,
+      "shape": "circle",
+      "color": "#8ABF55",
+      "parents": []
+    },
+    {
+      "id": "stone_age",
+      "advancement": "minecraft:story/mine_stone",
+      "title": {
+        "text": "Stone Age"
+      },
+      "description": [
+        {
+          "text": "Mine stone with your first pickaxe.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "minecraft:cobblestone"
+      },
+      "x": 140,
+      "y": 40,
+      "shape": "square",
+      "color": "#A9ADB5",
+      "parents": ["root"]
+    },
+    {
+      "id": "iron",
+      "advancement": "minecraft:story/smelt_iron",
+      "title": {
+        "text": "Acquire Hardware"
+      },
+      "description": [
+        {
+          "text": "Smelt an iron ingot.",
+          "color": "gray"
+        }
+      ],
+      "icon": {
+        "item": "minecraft:iron_ingot"
+      },
+      "x": 240,
+      "y": 40,
+      "shape": "diamond",
+      "color": "#D4D7DD",
+      "parents": ["stone_age"]
+    }
+  ]
+}

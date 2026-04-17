@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "MIT"
+
+[[mods]]
+modId = "cakequests"
+version = "${version}"
+displayName = "Cake Quests"
+authors = "TheLyingCake"
+description = '''
+As easy as cake -- to setup and to use. A more lightweight mod based on FTB Quests, without dependencies and much simpler implementation.
+'''
+
+[[dependencies.cakequests]]
+modId = "forge"
+mandatory = true
+versionRange = "[40,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.cakequests]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.cakequests]]
+modId = "architectury"
+mandatory = true
+versionRange = "[4.12.94,)"
+ordering = "AFTER"
+side = "BOTH"

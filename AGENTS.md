@@ -11,7 +11,11 @@
 
 This is a Minecraft Forge 1.18.2 mod project built with Gradle. Main Java sources live in `src/main/java`; resources and Forge metadata live in `src/main/resources`, especially `META-INF/mods.toml` and `pack.mcmeta`. Generated data resources are expected under `src/generated/resources` and are included by `build.gradle`.
 
-Project metadata is centralized in `gradle.properties`: `mod_id=cakequests`, `mod_group_id=net.backstube.cakequests`, Forge version, Minecraft version, and mappings. Keep Java package names, `@Mod(...)`, and resource namespaces aligned with `mod_id`. The `examples/` directory is an offline reference cache for FTB Quests, Architectury, and quest data examples; do not treat it as production source.
+Project metadata is centralized in `gradle.properties`: `mod_id=cakequests`, `mod_group_id=net.backstube.cakequests`,
+Forge version, Minecraft version, and mappings. Keep Java package names, `@Mod(...)`, and resource namespaces aligned
+with `mod_id`. The `examples/` directory is an offline reference cache for FTB Quests, Architectury, and quest data
+examples; do not treat it as production source. The `decompiled-sources/` directory contains mapped Minecraft and Forge
+sources for offline code reference only; use it to inspect APIs and behavior, but never edit it as part of this mod.
 
 ## Build, Test, and Development Commands
 
@@ -39,3 +43,13 @@ Do not add tests for code that cannot be tested outside of Minecraft.
 ## Commands
 
 Do not run build or git commands on your own.
+
+## Project-Local Skills
+
+Project-specific Codex skills live under `skills/`. Do not load them automatically for every prompt. Use them only when
+their `SKILL.md` frontmatter matches the task:
+
+- `skills/mc-forge-1182-api-guard/` for exact Minecraft 1.18.2 / Forge 40.3.12 API validation against
+  `decompiled-sources/`.
+- `skills/ftb-quests-1182-reference/` for FTB Quests 1.18 source and SNBT quest data reference work under `examples/`.
+- `skills/architectury-forge-1182-patterns/` for Architectury API 4.12.94 usage in this Forge-only project.
