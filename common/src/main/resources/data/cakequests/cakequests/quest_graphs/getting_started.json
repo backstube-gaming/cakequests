@@ -3,52 +3,20 @@
   "enabled": true,
   "title": {
     "text": "Getting Started",
-    "color": "gold"
+    "color": "purple"
   },
   "tab_color": "#D49A35",
   "nodes": [
     {
-      "id": "root",
-      "advancement": "minecraft:story/root",
-      "title": {
-        "text": "Begin"
-      },
-      "subtitle": {
-        "text": "Open your inventory"
-      },
-      "description": [
+      "id": "get_wood",
+      "events": [
         {
-          "text": "Start a new world and ",
-          "color": "gray"
-        },
-        {
-          "text": "open your inventory",
-          "color": "yellow"
-        },
-        {
-          "text": " to begin vanilla progression.",
-          "color": "gray"
-        },
-        {
-          "image": "cakequests:textures/item/cakequests_book.png"
-        },
-        {
-          "text": "The image above is loaded as a description element and spans the detail pane width.",
-          "color": "dark_gray"
+          "id": "pickup_logs",
+          "type": "item_pickup",
+          "item": "#minecraft:logs",
+          "count": 1
         }
       ],
-      "icon": {
-        "item": "minecraft:grass_block"
-      },
-      "x": 40,
-      "y": 80,
-      "shape": "circle",
-      "color": "#8ABF55",
-      "parents": []
-    },
-    {
-      "id": "get_wood",
-      "advancement": "minecraft:story/root",
       "title": {
         "text": "Get Wood"
       },
@@ -57,7 +25,7 @@
       },
       "description": [
         {
-          "text": "Break a ",
+          "text": "Pick up a ",
           "color": "gray"
         },
         {
@@ -72,17 +40,22 @@
       "icon": {
         "item": "minecraft:oak_log"
       },
-      "x": 130,
+      "x": 80,
       "y": 80,
       "shape": "circle",
       "color": "#9B6A3A",
-      "parents": [
-        "root"
-      ]
+      "parents": []
     },
     {
       "id": "planks",
-      "advancement": "minecraft:story/root",
+      "events": [
+        {
+          "id": "craft_planks",
+          "type": "item_craft",
+          "item": "#minecraft:planks",
+          "count": 4
+        }
+      ],
       "title": {
         "text": "Craft Planks"
       },
@@ -114,7 +87,7 @@
       "icon": {
         "item": "minecraft:oak_planks"
       },
-      "x": 220,
+      "x": 200,
       "y": 35,
       "shape": "square",
       "color": "#B78248",
@@ -124,7 +97,14 @@
     },
     {
       "id": "crafting_table",
-      "advancement": "minecraft:story/root",
+      "events": [
+        {
+          "id": "craft_table",
+          "type": "item_craft",
+          "item": "minecraft:crafting_table",
+          "count": 1
+        }
+      ],
       "title": {
         "text": "Crafting Table"
       },
@@ -133,14 +113,14 @@
       },
       "description": [
         {
-          "text": "Craft and place a crafting table for tool recipes.",
+          "text": "Craft a crafting table for tool recipes.",
           "color": "gray"
         }
       ],
       "icon": {
         "item": "minecraft:crafting_table"
       },
-      "x": 310,
+      "x": 320,
       "y": 5,
       "shape": "square",
       "color": "#A96F42",
@@ -150,7 +130,14 @@
     },
     {
       "id": "sticks",
-      "advancement": "minecraft:story/root",
+      "events": [
+        {
+          "id": "craft_sticks",
+          "type": "item_craft",
+          "item": "minecraft:stick",
+          "count": 4
+        }
+      ],
       "title": {
         "text": "Make Sticks"
       },
@@ -166,7 +153,7 @@
       "icon": {
         "item": "minecraft:stick"
       },
-      "x": 400,
+      "x": 440,
       "y": 5,
       "shape": "circle",
       "color": "#C79A5A",
@@ -176,7 +163,14 @@
     },
     {
       "id": "wooden_tools",
-      "advancement": "minecraft:story/root",
+      "events": [
+        {
+          "id": "craft_wooden_pickaxe",
+          "type": "item_craft",
+          "item": "minecraft:wooden_pickaxe",
+          "count": 1
+        }
+      ],
       "title": {
         "text": "Wooden Tools"
       },
@@ -200,7 +194,7 @@
       "icon": {
         "item": "minecraft:wooden_pickaxe"
       },
-      "x": 490,
+      "x": 560,
       "y": 35,
       "shape": "diamond",
       "color": "#D2A05D",
@@ -210,7 +204,14 @@
     },
     {
       "id": "get_cobble",
-      "advancement": "minecraft:story/mine_stone",
+      "events": [
+        {
+          "id": "pickup_cobblestone",
+          "type": "item_pickup",
+          "item": "minecraft:cobblestone",
+          "count": 16
+        }
+      ],
       "title": {
         "text": "Get Cobble"
       },
@@ -242,7 +243,7 @@
       "icon": {
         "item": "minecraft:cobblestone"
       },
-      "x": 580,
+      "x": 680,
       "y": 80,
       "shape": "square",
       "color": "#A9ADB5",
@@ -252,7 +253,14 @@
     },
     {
       "id": "cobble_tools",
-      "advancement": "minecraft:story/upgrade_tools",
+      "events": [
+        {
+          "id": "craft_stone_pickaxe",
+          "type": "item_craft",
+          "item": "minecraft:stone_pickaxe",
+          "count": 1
+        }
+      ],
       "title": {
         "text": "Cobble Tools"
       },
@@ -276,7 +284,7 @@
       "icon": {
         "item": "minecraft:stone_pickaxe"
       },
-      "x": 700,
+      "x": 800,
       "y": 35,
       "shape": "diamond",
       "color": "#8F98A3",
@@ -286,7 +294,14 @@
     },
     {
       "id": "craft_furnace",
-      "advancement": "minecraft:story/mine_stone",
+      "events": [
+        {
+          "id": "craft_furnace",
+          "type": "item_craft",
+          "item": "minecraft:furnace",
+          "count": 1
+        }
+      ],
       "title": {
         "text": "Craft Furnace"
       },
@@ -318,7 +333,7 @@
       "icon": {
         "item": "minecraft:furnace"
       },
-      "x": 700,
+      "x": 800,
       "y": 125,
       "shape": "square",
       "color": "#777F8B",
@@ -328,7 +343,14 @@
     },
     {
       "id": "mine_iron",
-      "advancement": "minecraft:story/upgrade_tools",
+      "events": [
+        {
+          "id": "pickup_raw_iron",
+          "type": "item_pickup",
+          "item": "minecraft:raw_iron",
+          "count": 3
+        }
+      ],
       "title": {
         "text": "Mine Iron Ore"
       },
@@ -360,7 +382,7 @@
       "icon": {
         "item": "minecraft:raw_iron"
       },
-      "x": 820,
+      "x": 920,
       "y": 35,
       "shape": "circle",
       "color": "#B28A73",
@@ -370,24 +392,23 @@
     },
     {
       "id": "smelt_iron",
-      "advancement": "minecraft:story/smelt_iron",
+      "events": [
+        {
+          "id": "pickup_iron_ingot",
+          "type": "item_pickup",
+          "item": "minecraft:iron_ingot",
+          "count": 3
+        }
+      ],
       "title": {
-        "text": "Smelt Iron"
+        "text": "Get Iron Ingots"
       },
       "subtitle": {
         "text": "Acquire hardware"
       },
       "description": [
         {
-          "text": "Use the ",
-          "color": "gray"
-        },
-        {
-          "text": "furnace",
-          "color": "yellow"
-        },
-        {
-          "text": " and fuel to smelt ",
+          "text": "Smelt ",
           "color": "gray"
         },
         {
@@ -395,45 +416,26 @@
           "color": "red"
         },
         {
-          "text": " into an ",
+          "text": " into ",
           "color": "gray"
         },
         {
-          "text": "iron ingot",
+          "text": "iron ingots",
           "color": "white"
         },
         {
-          "text": ".",
+          "text": " and pick them up.",
           "color": "gray"
         },
         {
-          "text": "\n\n"
-        },
-        {
-          "text": "This node requires both the ",
-          "color": "dark_gray"
-        },
-        {
-          "text": "furnace branch",
-          "color": "green"
-        },
-        {
-          "text": " and the ",
-          "color": "dark_gray"
-        },
-        {
-          "text": "iron-mining branch",
-          "color": "red"
-        },
-        {
-          "text": ".",
+          "text": "\n\nThis node visually joins the furnace and iron-mining branches, but parent links are only guidance.",
           "color": "dark_gray"
         }
       ],
       "icon": {
         "item": "minecraft:iron_ingot"
       },
-      "x": 940,
+      "x": 1040,
       "y": 80,
       "shape": "diamond",
       "color": "#D4D7DD",
@@ -444,7 +446,14 @@
     },
     {
       "id": "iron_pickaxe",
-      "advancement": "minecraft:story/iron_tools",
+      "events": [
+        {
+          "id": "craft_iron_pickaxe",
+          "type": "item_craft",
+          "item": "minecraft:iron_pickaxe",
+          "count": 1
+        }
+      ],
       "title": {
         "text": "Iron Pickaxe"
       },
@@ -495,7 +504,7 @@
       "icon": {
         "item": "minecraft:iron_pickaxe"
       },
-      "x": 1060,
+      "x": 1160,
       "y": 80,
       "shape": "diamond",
       "color": "#C9D0D7",

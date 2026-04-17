@@ -6,7 +6,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.TagParser;
-import net.minecraft.resources.ResourceLocation;
 
 public final class FtbSnbtQuestImporter {
     private static final int COMPOUND = 10;
@@ -20,6 +19,7 @@ public final class FtbSnbtQuestImporter {
         String tabId = safeId(chapter.contains("id", STRING) ? chapter.getString("id") : fallbackId);
         JsonObject tab = new JsonObject();
         tab.addProperty("id", tabId);
+        tab.addProperty("enabled", true);
         tab.add("title", text(chapter.contains("title", STRING) ? chapter.getString("title") : fallbackId));
         tab.addProperty("tab_color", "#4D83B5");
         JsonArray nodes = new JsonArray();
@@ -36,7 +36,6 @@ public final class FtbSnbtQuestImporter {
         String id = safeId(quest.contains("id", STRING) ? quest.getString("id") : "quest");
         JsonObject node = new JsonObject();
         node.addProperty("id", id);
-        node.addProperty("advancement", new ResourceLocation(namespace, "imported/" + tabId + "/" + id).toString());
         node.add("title", text(quest.contains("title", STRING) ? quest.getString("title") : id));
         node.add("description", description(quest));
         node.add("icon", icon(quest));

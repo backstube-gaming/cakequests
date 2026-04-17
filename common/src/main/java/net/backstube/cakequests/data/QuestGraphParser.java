@@ -81,6 +81,21 @@ public final class QuestGraphParser {
                 CakeQuests.LOGGER.warn("Duplicate quest node id '{}' in {}", node.id(), source);
                 ok = false;
             }
+            Set<String> eventIds = new HashSet<>();
+            for (QuestEventRequirement event : node.events()) {
+                if (event.id().isBlank()) {
+                    CakeQuests.LOGGER.warn("Quest node '{}'/{} has a blank event requirement id", tab.id(), node.id());
+                    ok = false;
+                }
+                if (!eventIds.add(event.id())) {
+                    CakeQuests.LOGGER.warn("Quest node '{}'/{} has duplicate event requirement id '{}'", tab.id(), node.id(), event.id());
+                    ok = false;
+                }
+                if (event.count() < 1L) {
+                    CakeQuests.LOGGER.warn("Quest node '{}'/{} event '{}' has invalid count {}", tab.id(), node.id(), event.id(), event.count());
+                    ok = false;
+                }
+            }
         }
         for (QuestNodeDefinition node : tab.nodes()) {
             for (String parent : node.parents()) {

@@ -55,6 +55,7 @@ public class QuestGraphReloadListener extends SimpleJsonResourceReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> elements, ResourceManager resourceManager, ProfilerFiller profiler) {
         activeConfig = loadMainConfig(resourceManager);
         activeBook = QuestGraphParser.parseTabs(elements);
+        CakeQuestsProgressManager.rebuild(activeBook);
         CakeQuests.LOGGER.info("Loaded quest graph {} with {} tabs from datapacks", activeBook.hash(), activeBook.tabs().size());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             CakeQuestsForgeNetwork.sendToAll(activeBook, activeConfig);

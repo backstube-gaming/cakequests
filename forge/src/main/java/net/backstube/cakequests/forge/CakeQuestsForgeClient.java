@@ -48,20 +48,13 @@ public class CakeQuestsForgeClient {
         }
     }
 
-    @SubscribeEvent
-    public void clientLoggedIn(ClientPlayerNetworkEvent.LoggedInEvent event) {
-        if (ClientQuestGraphStore.fallbackMode()) {
-            ClientQuestGraphStore.loadFallbackGraphs();
-        }
+    private static boolean isNamedQuestBook(ItemStack stack) {
+        return stack.is(Items.BOOK) && stack.hasCustomHoverName() && QUEST_BOOK_NAME.equals(stack.getHoverName().getString());
     }
 
     @SubscribeEvent
     public void clientLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
-        ClientQuestGraphStore.clearToFallback();
-    }
-
-    private static boolean isNamedQuestBook(ItemStack stack) {
-        return stack.is(Items.BOOK) && stack.hasCustomHoverName() && QUEST_BOOK_NAME.equals(stack.getHoverName().getString());
+        ClientQuestGraphStore.clear();
     }
 
     @SubscribeEvent

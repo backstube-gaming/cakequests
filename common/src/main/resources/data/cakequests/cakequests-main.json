@@ -1,4 +1,14 @@
 {
   "title_label": "Cake Quests",
-  "subtitle": "Example quests"
+  "subtitle": "Example quests",
+  "tag_names": {
+    "minecraft:logs": {
+      "translate": "tag.item.minecraft.logs",
+      "fallback": "Any Logs"
+    },
+    "minecraft:planks": {
+      "translate": "tag.item.minecraft.planks",
+      "fallback": "Any Planks"
+    }
+  }
 }

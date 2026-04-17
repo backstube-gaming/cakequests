@@ -7,13 +7,14 @@ import net.backstube.cakequests.CakeQuests;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 public record QuestBookDefinition(List<QuestTabDefinition> tabs, String hash) {
     public static final QuestBookDefinition EMPTY = new QuestBookDefinition(List.of(), "empty");
 
     public static QuestBookDefinition of(List<QuestTabDefinition> tabs) {
-        QuestBookDefinition temp = new QuestBookDefinition(List.copyOf(tabs), "");
+        QuestBookDefinition temp = new QuestBookDefinition(tabs.stream().filter(QuestTabDefinition::enabled).toList(), "");
         return new QuestBookDefinition(temp.tabs, hash(temp.toJson().toString()));
     }
 
@@ -21,7 +22,7 @@ public record QuestBookDefinition(List<QuestTabDefinition> tabs, String hash) {
         if (!json.has("tabs") || !json.get("tabs").isJsonArray()) {
             return of(List.of(QuestTabDefinition.fromJson("main", json)));
         }
-        List<QuestTabDefinition> tabs = new java.util.ArrayList<>();
+        List<QuestTabDefinition> tabs = new ArrayList<>();
         for (var element : json.getAsJsonArray("tabs")) {
             if (element.isJsonObject()) {
                 tabs.add(QuestTabDefinition.fromJson("tab_" + tabs.size(), element.getAsJsonObject()));

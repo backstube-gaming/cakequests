@@ -45,7 +45,7 @@ public record QuestDescriptionElement(Kind kind, QuestText text, ResourceLocatio
                         return result;
                     }
                 } catch (RuntimeException ignored) {
-                    // Fall back to the legacy extra array below.
+                    // If the full component cannot be parsed, read each extra component separately.
                 }
                 object.getAsJsonArray("extra").forEach(extra -> result.add(text(QuestText.fromJson(extra))));
                 return result;

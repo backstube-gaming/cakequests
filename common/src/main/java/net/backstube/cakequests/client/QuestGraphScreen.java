@@ -9,10 +9,15 @@ import net.backstube.cakequests.quest.QuestNodeState;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.world.item.ItemStack;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,22 +30,29 @@ public class QuestGraphScreen extends Screen {
     private static final int DETAILS_MARGIN = 10;
     private static final int DETAILS_IMAGE_MAX_HEIGHT = 140;
     private static final int DETAILS_SCROLL_STEP = 18;
+    private static final double DEFAULT_PAN_X = 80.0D;
+    private static final double DEFAULT_PAN_Y = 80.0D;
+    private static final double DEFAULT_ZOOM = 1.0D;
+    private static final double MIN_ZOOM = 0.5D;
+    private static final double MAX_ZOOM = 2.0D;
     private static final ResourceLocation GOAL_FRAME_OBTAINED = CakeQuests.id("textures/gui/quest_nodes/goal_frame_obtained.png");
     private static final ResourceLocation GOAL_FRAME_UNOBTAINED = CakeQuests.id("textures/gui/quest_nodes/goal_frame_unobtained.png");
     private static final ResourceLocation TASK_FRAME_OBTAINED = CakeQuests.id("textures/gui/quest_nodes/task_frame_obtained.png");
     private static final ResourceLocation TASK_FRAME_UNOBTAINED = CakeQuests.id("textures/gui/quest_nodes/task_frame_unobtained.png");
     private int selectedTab;
     private QuestNodeDefinition selectedNode;
-    private double panX = 80;
-    private double panY = 80;
-    private double zoom = 1.0D;
+    private double panX = DEFAULT_PAN_X;
+    private double panY = DEFAULT_PAN_Y;
+    private double zoom = DEFAULT_ZOOM;
     private final Map<ResourceLocation, ImageDimensions> imageDimensions = new HashMap<>();
     private double detailsScroll;
     private boolean draggingGraph;
     private int detailsContentHeight;
+    private String viewGraphHash = "";
 
     public QuestGraphScreen() {
         super(new TextComponent("Cake Quests"));
+        syncViewMemory();
     }
 
     @Override
@@ -59,6 +71,7 @@ public class QuestGraphScreen extends Screen {
             super.render(poseStack, mouseX, mouseY, partialTick);
             return;
         }
+        syncViewMemory();
         QuestTabDefinition tab = book.tabs().get(Math.max(0, Math.min(selectedTab, book.tabs().size() - 1)));
         QuestNodeDefinition hover = renderGraph(poseStack, tab, mouseX, mouseY);
         renderTabs(poseStack, book);
@@ -76,10 +89,6 @@ public class QuestGraphScreen extends Screen {
         font.draw(poseStack, ClientQuestGraphStore.titleLabel(), 12, 12, 0xFFFFFFFF);
         font.draw(poseStack, ClientQuestGraphStore.subtitle(), 12, 25, 0xFF9CA3AF);
         int y = 48;
-        if (ClientQuestGraphStore.fallbackMode()) {
-            font.draw(poseStack, "(client only)", 12, 37, 0xFF8B92A1);
-            y = 60;
-        }
         for (int i = 0; i < book.tabs().size(); i++) {
             QuestTabDefinition tab = book.tabs().get(i);
             int color = i == selectedTab ? tab.tabColor() : 0xFF343844;
@@ -100,7 +109,7 @@ public class QuestGraphScreen extends Screen {
             for (String parentId : node.parents()) {
                 QuestNodeDefinition parent = tab.nodes().stream().filter(candidate -> candidate.id().equals(parentId)).findFirst().orElse(null);
                 if (parent != null) {
-                    drawEdge(poseStack, parent.x(), parent.y(), node.x(), node.y(), stateColor(ClientAdvancementBridge.state(tab, node), 0xFF687080));
+                    drawEdge(poseStack, parent.x(), parent.y(), node.x(), node.y(), stateColor(ClientQuestProgressStore.state(tab, node), 0xFF687080));
                 }
             }
         }
@@ -127,7 +136,7 @@ public class QuestGraphScreen extends Screen {
     }
 
     private void renderNodeFrame(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
-        QuestNodeState state = ClientAdvancementBridge.state(tab, node);
+        QuestNodeState state = ClientQuestProgressStore.state(tab, node);
         int x = node.x() - NODE_SIZE / 2;
         int y = node.y() - NODE_SIZE / 2;
         renderNodeFrameTexture(poseStack, x, y, nodeFrameTexture(node, state));
@@ -177,7 +186,7 @@ public class QuestGraphScreen extends Screen {
     }
 
     private void renderNodeStatus(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node) {
-        QuestNodeState state = ClientAdvancementBridge.state(tab, node);
+        QuestNodeState state = ClientQuestProgressStore.state(tab, node);
         int x = node.x() - 8;
         int y = node.y() - 8;
         if (state == QuestNodeState.COMPLETE) {
@@ -211,8 +220,8 @@ public class QuestGraphScreen extends Screen {
         int contentBottom = bottom - 12;
         int contentWidth = right - left - 28;
         int viewportHeight = Math.max(0, contentBottom - contentTop);
-        QuestNodeState state = ClientAdvancementBridge.state(tab, selectedNode);
-        detailsContentHeight = measureDescriptionHeight(selectedNode, contentWidth);
+        QuestNodeState state = ClientQuestProgressStore.state(tab, selectedNode);
+        detailsContentHeight = measureProgressHeight(selectedNode) + measureDescriptionHeight(selectedNode, contentWidth);
         detailsScroll = clampDetailsScroll(detailsScroll, viewportHeight);
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.0D, 300.0D);
@@ -231,7 +240,8 @@ public class QuestGraphScreen extends Screen {
         enableScissor(contentLeft, contentTop, contentWidth, viewportHeight);
         poseStack.pushPose();
         poseStack.translate(0.0D, -detailsScroll, 0.0D);
-        renderDescription(poseStack, selectedNode, contentLeft, contentTop, contentWidth);
+        int descriptionTop = renderProgress(poseStack, tab, selectedNode, contentLeft, contentTop);
+        renderDescription(poseStack, selectedNode, contentLeft, descriptionTop, contentWidth);
         poseStack.popPose();
         RenderSystem.disableScissor();
         renderDetailsScrollBar(poseStack, right, contentTop, viewportHeight);
@@ -254,6 +264,62 @@ public class QuestGraphScreen extends Screen {
             }
         }
         return appendMeasuredParagraph(height, paragraph, hasText, contentWidth);
+    }
+
+    private int measureProgressHeight(QuestNodeDefinition node) {
+        return node.events().isEmpty() ? 0 : node.events().size() * 12 + 4;
+    }
+
+    private int renderProgress(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node, int x, int y) {
+        if (node.events().isEmpty()) {
+            return y;
+        }
+        int cursorY = y;
+        for (QuestEventRequirement event : node.events()) {
+            long count = ClientQuestProgressStore.count(tab.id(), node.id(), event.id());
+            MutableComponent label = targetDisplayName(event.target()).copy()
+                    .append(" " + Math.min(count, event.count()) + "/" + event.count());
+            font.draw(poseStack, label, x, cursorY, count >= event.count() ? 0xFF7DDA8A : 0xFFE5E7EB);
+            cursorY += 12;
+        }
+        return cursorY + 4;
+    }
+
+    private Component targetDisplayName(QuestItemTarget target) {
+        if (target.tag()) {
+            TagDisplayName configured = ClientQuestGraphStore.tagName(target.id());
+            if (configured != null) {
+                if (!configured.translate().isBlank() && I18n.exists(configured.translate())) {
+                    return new TranslatableComponent(configured.translate());
+                }
+                if (!configured.fallback().isBlank()) {
+                    return new TextComponent(configured.fallback());
+                }
+            }
+            String translationKey = tagTranslationKey(target.id());
+            if (translationKey != null) {
+                return new TranslatableComponent(translationKey);
+            }
+            return new TextComponent("Any #" + target.id());
+        }
+        return Registry.ITEM.getOptional(target.id())
+                .map(ItemStack::new)
+                .map(ItemStack::getHoverName)
+                .orElseGet(() -> new TextComponent(target.id().toString()));
+    }
+
+    private String tagTranslationKey(ResourceLocation tag) {
+        String path = tag.getPath().replace('/', '.');
+        String[] keys = {
+                "tag.item." + tag.getNamespace() + "." + path,
+                "tag." + tag.getNamespace() + "." + path
+        };
+        for (String key : keys) {
+            if (I18n.exists(key)) {
+                return key;
+            }
+        }
+        return null;
     }
 
     private int appendMeasuredParagraph(int height, MutableComponent paragraph, boolean hasText, int contentWidth) {
@@ -383,6 +449,7 @@ public class QuestGraphScreen extends Screen {
                 selectedTab = tab;
                 selectedNode = null;
                 detailsScroll = 0.0D;
+                rememberView();
                 return true;
             }
         } else if (!book.tabs().isEmpty()) {
@@ -414,6 +481,7 @@ public class QuestGraphScreen extends Screen {
             draggingGraph = true;
             panX += dragX;
             panY += dragY;
+            rememberView();
             return true;
         }
         return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
@@ -437,10 +505,17 @@ public class QuestGraphScreen extends Screen {
             }
         }
         if (mouseX > TAB_WIDTH && !isInsideDetails(mouseX, mouseY)) {
-            zoom = Math.max(0.5D, Math.min(2.0D, zoom + delta * 0.1D));
+            zoom = clampZoom(zoom + delta * 0.1D);
+            rememberView();
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, delta);
+    }
+
+    @Override
+    public void removed() {
+        rememberView();
+        super.removed();
     }
 
     @Override
@@ -457,6 +532,51 @@ public class QuestGraphScreen extends Screen {
         double graphY = (mouseY - panY) / zoom;
         return graphX >= node.x() - NODE_SIZE / 2.0D && graphX <= node.x() + NODE_SIZE / 2.0D
                 && graphY >= node.y() - NODE_SIZE / 2.0D && graphY <= node.y() + NODE_SIZE / 2.0D;
+    }
+
+    private void syncViewMemory() {
+        QuestBookDefinition book = ClientQuestGraphStore.activeBook();
+        if (viewGraphHash.equals(book.hash())) {
+            selectedTab = Math.max(0, Math.min(selectedTab, Math.max(0, book.tabs().size() - 1)));
+            return;
+        }
+        viewGraphHash = book.hash();
+        selectedTab = 0;
+        selectedNode = null;
+        detailsScroll = 0.0D;
+        panX = DEFAULT_PAN_X;
+        panY = DEFAULT_PAN_Y;
+        zoom = DEFAULT_ZOOM;
+        ClientQuestViewMemory.Snapshot snapshot = ClientQuestViewMemory.snapshotFor(book);
+        if (snapshot == null) {
+            return;
+        }
+        selectedTab = tabIndex(book, snapshot.tabId());
+        panX = snapshot.panX();
+        panY = snapshot.panY();
+        zoom = clampZoom(snapshot.zoom());
+    }
+
+    private void rememberView() {
+        QuestBookDefinition book = ClientQuestGraphStore.activeBook();
+        if (book.tabs().isEmpty()) {
+            return;
+        }
+        selectedTab = Math.max(0, Math.min(selectedTab, book.tabs().size() - 1));
+        ClientQuestViewMemory.remember(book, book.tabs().get(selectedTab).id(), panX, panY, zoom);
+    }
+
+    private int tabIndex(QuestBookDefinition book, String tabId) {
+        for (int i = 0; i < book.tabs().size(); i++) {
+            if (book.tabs().get(i).id().equals(tabId)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private double clampZoom(double value) {
+        return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, value));
     }
 
     private int screenX(int graphX) {
