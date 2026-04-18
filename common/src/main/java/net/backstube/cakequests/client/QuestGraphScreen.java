@@ -11,17 +11,18 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QuestGraphScreen extends Screen {
@@ -30,6 +31,12 @@ public class QuestGraphScreen extends Screen {
     private static final int DETAILS_MARGIN = 10;
     private static final int DETAILS_IMAGE_MAX_HEIGHT = 140;
     private static final int DETAILS_SCROLL_STEP = 18;
+    private static final int TAB_SCROLL_STEP = 28;
+    private static final int TAB_TOP = 48;
+    private static final int TAB_HEIGHT = 24;
+    private static final int TAB_GAP = 4;
+    private static final int CHECK_BUTTON_SIZE = 22;
+    private static final int CHECK_BUTTON_MARGIN = 10;
     private static final int EDGE_OUTLINE_COLOR = 0xFF000000;
     private static final int EDGE_AVAILABLE_COLOR = 0xFFFFF1A8;
     private static final int EDGE_LOCKED_COLOR = 0xFF555B66;
@@ -42,6 +49,8 @@ public class QuestGraphScreen extends Screen {
     private static final ResourceLocation GOAL_FRAME_UNOBTAINED = CakeQuests.id("textures/gui/quest_nodes/goal_frame_unobtained.png");
     private static final ResourceLocation TASK_FRAME_OBTAINED = CakeQuests.id("textures/gui/quest_nodes/task_frame_obtained.png");
     private static final ResourceLocation TASK_FRAME_UNOBTAINED = CakeQuests.id("textures/gui/quest_nodes/task_frame_unobtained.png");
+    private static final ResourceLocation CHALLENGE_FRAME_OBTAINED = CakeQuests.id("textures/gui/quest_nodes/challenge_frame_obtained.png");
+    private static final ResourceLocation CHALLENGE_FRAME_UNOBTAINED = CakeQuests.id("textures/gui/quest_nodes/challenge_frame_unobtained.png");
     private int selectedTab;
     private QuestNodeDefinition selectedNode;
     private double panX = DEFAULT_PAN_X;
@@ -51,6 +60,10 @@ public class QuestGraphScreen extends Screen {
     private double detailsScroll;
     private boolean draggingGraph;
     private int detailsContentHeight;
+    private final List<DescriptionLine> descriptionLines = new ArrayList<>();
+    private double tabScroll;
+    private int checkButtonLeft = -1;
+    private int checkButtonTop = -1;
     private String viewGraphHash = "";
 
     public QuestGraphScreen() {
@@ -91,14 +104,18 @@ public class QuestGraphScreen extends Screen {
         GuiComponent.fill(poseStack, 0, 0, TAB_WIDTH, height, 0xF0262932);
         font.draw(poseStack, ClientQuestGraphStore.titleLabel(), 12, 12, 0xFFFFFFFF);
         font.draw(poseStack, ClientQuestGraphStore.subtitle(), 12, 25, 0xFF9CA3AF);
-        int y = 48;
+        tabScroll = clampTabScroll(tabScroll, book);
+        enableScissor(0, TAB_TOP, TAB_WIDTH, Math.max(0, height - TAB_TOP));
+        int y = TAB_TOP - (int) Math.round(tabScroll);
         for (int i = 0; i < book.tabs().size(); i++) {
             QuestTabDefinition tab = book.tabs().get(i);
             int color = i == selectedTab ? tab.tabColor() : 0xFF343844;
-            GuiComponent.fill(poseStack, 8, y, TAB_WIDTH - 8, y + 24, color);
+            GuiComponent.fill(poseStack, 8, y, TAB_WIDTH - 8, y + TAB_HEIGHT, color);
             font.draw(poseStack, tab.title().component(), 16, y + 8, 0xFFFFFFFF);
-            y += 28;
+            y += TAB_HEIGHT + TAB_GAP;
         }
+        RenderSystem.disableScissor();
+        renderTabScrollBar(poseStack, book);
         poseStack.popPose();
     }
 
@@ -173,6 +190,9 @@ public class QuestGraphScreen extends Screen {
         if (node.shape() == QuestNodeShape.DIAMOND) {
             return obtained ? GOAL_FRAME_OBTAINED : GOAL_FRAME_UNOBTAINED;
         }
+        if (node.shape() == QuestNodeShape.CHALLENGE) {
+            return obtained ? CHALLENGE_FRAME_OBTAINED : CHALLENGE_FRAME_UNOBTAINED;
+        }
         return obtained ? TASK_FRAME_OBTAINED : TASK_FRAME_UNOBTAINED;
     }
 
@@ -239,8 +259,11 @@ public class QuestGraphScreen extends Screen {
         int contentWidth = right - left - 28;
         int viewportHeight = Math.max(0, contentBottom - contentTop);
         QuestNodeState state = ClientQuestProgressStore.state(tab, selectedNode);
-        detailsContentHeight = measureProgressHeight(selectedNode) + measureDescriptionHeight(selectedNode, contentWidth);
+        detailsContentHeight = measureProgressHeight(selectedNode) + measureDescriptionHeight(selectedNode, contentWidth) + measureCheckButtonHeight(selectedNode);
         detailsScroll = clampDetailsScroll(detailsScroll, viewportHeight);
+        descriptionLines.clear();
+        checkButtonLeft = -1;
+        checkButtonTop = -1;
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.0D, 300.0D);
         GuiComponent.fill(poseStack, left, top, right, bottom, 0xF02A2E38);
@@ -259,7 +282,8 @@ public class QuestGraphScreen extends Screen {
         poseStack.pushPose();
         poseStack.translate(0.0D, -detailsScroll, 0.0D);
         int descriptionTop = renderProgress(poseStack, tab, selectedNode, contentLeft, contentTop);
-        renderDescription(poseStack, selectedNode, contentLeft, descriptionTop, contentWidth);
+        int checkTop = renderDescription(poseStack, selectedNode, contentLeft, descriptionTop, contentWidth);
+        renderCheckButton(poseStack, tab, selectedNode, state, contentLeft, checkTop, contentWidth);
         poseStack.popPose();
         RenderSystem.disableScissor();
         renderDetailsScrollBar(poseStack, right, contentTop, viewportHeight);
@@ -285,15 +309,28 @@ public class QuestGraphScreen extends Screen {
     }
 
     private int measureProgressHeight(QuestNodeDefinition node) {
-        return node.events().isEmpty() ? 0 : node.events().size() * 12 + 4;
+        int rows = 0;
+        for (QuestEventRequirement event : node.events()) {
+            if (event.type() != QuestEventType.CHECK) {
+                rows++;
+            }
+        }
+        return rows == 0 ? 0 : rows * 12 + 4;
+    }
+
+    private int measureCheckButtonHeight(QuestNodeDefinition node) {
+        return hasCheckRequirement(node) ? CHECK_BUTTON_SIZE + CHECK_BUTTON_MARGIN : 0;
     }
 
     private int renderProgress(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node, int x, int y) {
-        if (node.events().isEmpty()) {
+        if (!hasVisibleProgress(node)) {
             return y;
         }
         int cursorY = y;
         for (QuestEventRequirement event : node.events()) {
+            if (event.type() == QuestEventType.CHECK) {
+                continue;
+            }
             long count = ClientQuestProgressStore.count(tab.id(), node.id(), event.id());
             MutableComponent label = targetDisplayName(event.target()).copy()
                     .append(" " + Math.min(count, event.count()) + "/" + event.count());
@@ -301,6 +338,15 @@ public class QuestGraphScreen extends Screen {
             cursorY += 12;
         }
         return cursorY + 4;
+    }
+
+    private boolean hasVisibleProgress(QuestNodeDefinition node) {
+        for (QuestEventRequirement event : node.events()) {
+            if (event.type() != QuestEventType.CHECK) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Component targetDisplayName(QuestItemTarget target) {
@@ -373,6 +419,7 @@ public class QuestGraphScreen extends Screen {
         }
         for (var wrapped : font.split(paragraph, contentWidth)) {
             font.draw(poseStack, wrapped, x, y, 0xFFE5E7EB);
+            descriptionLines.add(new DescriptionLine(x, y - (int) Math.round(detailsScroll), contentWidth, wrapped));
             y += 11;
         }
         return y + 5;
@@ -384,6 +431,31 @@ public class QuestGraphScreen extends Screen {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, image);
         GuiComponent.blit(poseStack, x, y, contentWidth, imageHeight, 0.0F, 0.0F, dimensions.width(), dimensions.height(), dimensions.width(), dimensions.height());
+    }
+
+    private void renderCheckButton(PoseStack poseStack, QuestTabDefinition tab, QuestNodeDefinition node, QuestNodeState state, int x, int y, int contentWidth) {
+        if (!hasCheckRequirement(node)) {
+            return;
+        }
+        int left = x + (contentWidth - CHECK_BUTTON_SIZE) / 2;
+        int top = y + CHECK_BUTTON_MARGIN;
+        boolean enabled = state == QuestNodeState.AVAILABLE;
+        int background = state == QuestNodeState.COMPLETE ? 0xFF22382B : enabled ? 0xFF3D4350 : 0xFF252932;
+        int border = enabled ? 0xFF9CA3AF : 0xFF4B5563;
+        GuiComponent.fill(poseStack, left, top, left + CHECK_BUTTON_SIZE, top + CHECK_BUTTON_SIZE, border);
+        GuiComponent.fill(poseStack, left + 1, top + 1, left + CHECK_BUTTON_SIZE - 1, top + CHECK_BUTTON_SIZE - 1, background);
+        renderCheckIcon(poseStack, left + 6, top + 6);
+        checkButtonLeft = left;
+        checkButtonTop = top - (int) Math.round(detailsScroll);
+    }
+
+    private boolean hasCheckRequirement(QuestNodeDefinition node) {
+        for (QuestEventRequirement event : node.events()) {
+            if (event.type() == QuestEventType.CHECK) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int imageHeight(ResourceLocation image, int contentWidth) {
@@ -418,6 +490,20 @@ public class QuestGraphScreen extends Screen {
         int maxThumbTravel = viewportHeight - thumbHeight;
         int thumbY = top + (int) Math.round(maxThumbTravel * (detailsScroll / maxDetailsScroll(viewportHeight)));
         GuiComponent.fill(poseStack, trackX, thumbY, trackX + 4, thumbY + thumbHeight, 0xFF9CA3AF);
+    }
+
+    private void renderTabScrollBar(PoseStack poseStack, QuestBookDefinition book) {
+        int viewportHeight = Math.max(0, height - TAB_TOP);
+        int contentHeight = tabContentHeight(book);
+        if (contentHeight <= viewportHeight || viewportHeight <= 0) {
+            return;
+        }
+        int trackX = TAB_WIDTH - 6;
+        GuiComponent.fill(poseStack, trackX, TAB_TOP, trackX + 3, height, 0x803D4350);
+        int thumbHeight = Math.max(18, viewportHeight * viewportHeight / contentHeight);
+        int maxThumbTravel = viewportHeight - thumbHeight;
+        int thumbY = TAB_TOP + (int) Math.round(maxThumbTravel * (tabScroll / maxTabScroll(book)));
+        GuiComponent.fill(poseStack, trackX, thumbY, trackX + 3, thumbY + thumbHeight, 0xFF9CA3AF);
     }
 
     private void enableScissor(int x, int y, int width, int height) {
@@ -462,7 +548,7 @@ public class QuestGraphScreen extends Screen {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         QuestBookDefinition book = ClientQuestGraphStore.activeBook();
         if (mouseX < TAB_WIDTH) {
-            int tab = ((int) mouseY - 48) / 28;
+            int tab = (int) Math.floor((mouseY - TAB_TOP + tabScroll) / (TAB_HEIGHT + TAB_GAP));
             if (tab >= 0 && tab < book.tabs().size()) {
                 selectedTab = tab;
                 selectedNode = null;
@@ -477,6 +563,13 @@ public class QuestGraphScreen extends Screen {
                 return true;
             }
             if (isInsideDetails(mouseX, mouseY)) {
+                QuestTabDefinition tab = book.tabs().get(selectedTab);
+                if (button == 0 && handleCheckButtonClick(tab, mouseX, mouseY)) {
+                    return true;
+                }
+                if (button == 0 && handleDescriptionLinkClick(mouseX, mouseY)) {
+                    return true;
+                }
                 return true;
             }
             QuestTabDefinition tab = book.tabs().get(selectedTab);
@@ -515,6 +608,12 @@ public class QuestGraphScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (mouseX < TAB_WIDTH) {
+            QuestBookDefinition book = ClientQuestGraphStore.activeBook();
+            double oldScroll = tabScroll;
+            tabScroll = clampTabScroll(tabScroll - delta * TAB_SCROLL_STEP, book);
+            return oldScroll != tabScroll;
+        }
         if (isInsideDetails(mouseX, mouseY)) {
             int viewportHeight = Math.max(0, height - DETAILS_MARGIN * 2 - 74);
             if (detailsContentHeight > viewportHeight) {
@@ -562,6 +661,7 @@ public class QuestGraphScreen extends Screen {
         selectedTab = 0;
         selectedNode = null;
         detailsScroll = 0.0D;
+        tabScroll = 0.0D;
         panX = DEFAULT_PAN_X;
         panY = DEFAULT_PAN_Y;
         zoom = DEFAULT_ZOOM;
@@ -617,6 +717,18 @@ public class QuestGraphScreen extends Screen {
         return Math.max(0.0D, detailsContentHeight - viewportHeight);
     }
 
+    private double clampTabScroll(double value, QuestBookDefinition book) {
+        return Math.max(0.0D, Math.min(maxTabScroll(book), value));
+    }
+
+    private double maxTabScroll(QuestBookDefinition book) {
+        return Math.max(0.0D, tabContentHeight(book) - Math.max(0, height - TAB_TOP));
+    }
+
+    private int tabContentHeight(QuestBookDefinition book) {
+        return book.tabs().isEmpty() ? 0 : book.tabs().size() * (TAB_HEIGHT + TAB_GAP) - TAB_GAP;
+    }
+
     private int detailsLeft(int panelWidth) {
         return width - panelWidth - DETAILS_MARGIN;
     }
@@ -635,6 +747,59 @@ public class QuestGraphScreen extends Screen {
                 && mouseY >= DETAILS_MARGIN + 8 && mouseY <= DETAILS_MARGIN + 20;
     }
 
+    private boolean handleCheckButtonClick(QuestTabDefinition tab, double mouseX, double mouseY) {
+        if (selectedNode == null || checkButtonLeft < 0 || checkButtonTop < 0 || ClientQuestProgressStore.state(tab, selectedNode) != QuestNodeState.AVAILABLE) {
+            return false;
+        }
+        if (mouseX < checkButtonLeft || mouseX > checkButtonLeft + CHECK_BUTTON_SIZE
+                || mouseY < checkButtonTop || mouseY > checkButtonTop + CHECK_BUTTON_SIZE) {
+            return false;
+        }
+        sendCheckCompletion(tab.id(), selectedNode.id());
+        return true;
+    }
+
+    private boolean handleDescriptionLinkClick(double mouseX, double mouseY) {
+        for (DescriptionLine line : descriptionLines) {
+            if (mouseY < line.y() || mouseY > line.y() + 10 || mouseX < line.x() || mouseX > line.x() + line.width()) {
+                continue;
+            }
+            Style style = font.getSplitter().componentStyleAtWidth(line.text(), (int) Math.round(mouseX - line.x()));
+            if (style != null && style.getClickEvent() != null && openJeiLink(style.getClickEvent())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean openJeiLink(ClickEvent event) {
+        if (event.getAction() != ClickEvent.Action.CHANGE_PAGE || !event.getValue().startsWith("cakequests:jei:")) {
+            return false;
+        }
+        String itemId = event.getValue().substring("cakequests:jei:".length());
+        try {
+            Class<?> helper = Class.forName("net.backstube.cakequests.forge.jei.CakeQuestsJeiHelper");
+            Method method = helper.getMethod("showItemRecipes", String.class);
+            method.invoke(null, itemId);
+            return true;
+        } catch (ReflectiveOperationException | RuntimeException | LinkageError ex) {
+            return false;
+        }
+    }
+
+    private void sendCheckCompletion(String tabId, String nodeId) {
+        try {
+            Class<?> network = Class.forName("net.backstube.cakequests.forge.CakeQuestsForgeNetwork");
+            Method method = network.getMethod("sendCheckCompletion", String.class, String.class, String.class);
+            method.invoke(null, ClientQuestProgressStore.graphHash(), tabId, nodeId);
+        } catch (ReflectiveOperationException | RuntimeException ignored) {
+            // The common screen can run without the Forge networking hook in non-Forge test contexts.
+        }
+    }
+
     private record ImageDimensions(int width, int height) {
+    }
+
+    private record DescriptionLine(int x, int y, int width, FormattedCharSequence text) {
     }
 }

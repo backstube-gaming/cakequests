@@ -5,7 +5,8 @@ import java.util.Locale;
 public enum QuestNodeShape {
     CIRCLE,
     SQUARE,
-    DIAMOND;
+    DIAMOND,
+    CHALLENGE;
 
     public static QuestNodeShape parse(String value) {
         if (value == null || value.isBlank()) {

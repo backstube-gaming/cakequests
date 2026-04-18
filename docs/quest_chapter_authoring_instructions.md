@@ -27,8 +27,10 @@ Node field order:
 11. `color`
 12. `parents`
 
-Event requirements use only `id`, `type`, `item`, and `count`. Use `item_pickup` or `item_craft`. Write item tags as
-`"#namespace:tag"`. Use full `namespace:path` IDs for Minecraft and modded items.
+Event requirements use only `id`, `type`, `item`, and `count`. Use `item_pickup`, `item_craft`, or `check`.
+For `check` requirements, use `"item": "minecraft:air"` and `"count": 1`; the details panel renders a manual checkmark
+button that completes the quest when clicked. Write item tags as `"#namespace:tag"`. Use full `namespace:path` IDs for
+Minecraft and modded items.
 
 If a chapter uses item tags, add readable tag names to `data/<namespace>/cakequests-main.json` under `tag_names` when
 the
@@ -48,9 +50,20 @@ Descriptions may contain text components and images:
 ```json
 [
   { "text": "Craft a starter machine.", "color": "gray" },
+  {
+    "text": "Open the recipe in JEI",
+    "color": "aqua",
+    "jei": "minecraft:furnace"
+  },
   { "image": "cakequests:textures/gui/examples/starter_machine.png" }
 ]
 ```
+
+JEI links are underlined in the details panel and open the linked item in Just Enough Items when JEI is installed on the
+client. If JEI is absent, clicking the link does nothing.
+
+Use `"shape": "challenge"` for manual unlock or challenge-style nodes. It uses the
+`challenge_frame_obtained/unobtained` node textures.
 
 Layout guidance:
 

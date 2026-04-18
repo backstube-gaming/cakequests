@@ -4,7 +4,8 @@ import java.util.Locale;
 
 public enum QuestEventType {
     ITEM_PICKUP("item_pickup"),
-    ITEM_CRAFT("item_craft");
+    ITEM_CRAFT("item_craft"),
+    CHECK("check");
 
     private final String id;
 

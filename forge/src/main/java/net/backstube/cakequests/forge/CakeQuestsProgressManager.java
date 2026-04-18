@@ -32,6 +32,9 @@ public final class CakeQuestsProgressManager {
         for (QuestTabDefinition tab : book.tabs()) {
             for (QuestNodeDefinition node : tab.nodes()) {
                 for (QuestEventRequirement requirement : node.events()) {
+                    if (requirement.type() == QuestEventType.CHECK) {
+                        continue;
+                    }
                     RequirementBinding binding = new RequirementBinding(tab.id(), node.id(), requirement.id(), requirement.type(), requirement.target(), requirement.count());
                     Map<Item, List<RequirementBinding>> targetIndex = requirement.type() == QuestEventType.ITEM_CRAFT ? craftByItem : pickupByItem;
                     indexRequirement(targetIndex, binding);
@@ -83,6 +86,23 @@ public final class CakeQuestsProgressManager {
             changed |= addProgress(player, binding, stack.getCount());
         }
         if (changed) {
+            CakeQuestsForgeNetwork.sendProgressTo(player);
+        }
+    }
+
+    public static void completeCheck(ServerPlayer player, String graphHash, String tabId, String nodeId) {
+        if (!activeBook.hash().equals(graphHash)) {
+            return;
+        }
+        Target target = resolve(tabId + "/" + nodeId);
+        if (target == null || !hasCheckRequirement(target.node()) || !parentsComplete(player, target.tab(), target.node())) {
+            return;
+        }
+        CompoundTag root = root(player);
+        CompoundTag completed = completed(root);
+        String key = nodeKey(tabId, nodeId);
+        if (!completed.getBoolean(key)) {
+            completed.putBoolean(key, true);
             CakeQuestsForgeNetwork.sendProgressTo(player);
         }
     }
@@ -214,6 +234,29 @@ public final class CakeQuestsProgressManager {
             anyComplete |= requirementComplete;
         }
         return !node.or() || anyComplete;
+    }
+
+    private static boolean hasCheckRequirement(QuestNodeDefinition node) {
+        for (QuestEventRequirement requirement : node.events()) {
+            if (requirement.type() == QuestEventType.CHECK) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean parentsComplete(ServerPlayer player, QuestTabDefinition tab, QuestNodeDefinition node) {
+        CompoundTag root = root(player);
+        for (String parentId : node.parents()) {
+            QuestNodeDefinition parent = tab.nodes().stream()
+                    .filter(candidate -> candidate.id().equals(parentId))
+                    .findFirst()
+                    .orElse(null);
+            if (parent == null || !isNodeComplete(root, tab, parent)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static Target resolve(String id) {
